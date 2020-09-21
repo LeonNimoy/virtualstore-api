@@ -1,0 +1,8 @@
+{
+  "name": "virtualstore-api",
+  "version": "1.0.0",
+  "main": "index.js",
+  "repository": "git@github.com:cesarcross/virtualstore-api.git",
+  "author": "LeonNimoy <leonardo.msc42@gmail.com>",
+  "license": "MIT"
+}
