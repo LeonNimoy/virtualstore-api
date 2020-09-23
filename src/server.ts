@@ -5,7 +5,7 @@ dotenv.config();
 
 const app = express();
 
-app.use(json());
+app.use(express.json());
 
 app.get('/', (req, resp) => {
   return resp.json({ message: 'Hello World' });
