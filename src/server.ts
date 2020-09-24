@@ -1,9 +1,11 @@
+import 'dotenv';
 import express, { Application } from 'express';
 // import * as dotenv from 'dotenv';
 import { Server } from '@overnightjs/core';
 
 import './paths/module-alias';
-import 'dotenv';
+import * as database from '@src/database';
+import ListController from './controllers/list';
 import ProductsController from './controllers/products';
 
 // dotenv.config();
@@ -18,6 +20,7 @@ export default class SetupServer extends Server {
   public async init(): Promise<void> {
     this.setupExpress();
     this.setupControllers();
+    await this.databaseSetup();
   }
 
   private setupExpress(): void {
@@ -26,8 +29,17 @@ export default class SetupServer extends Server {
   }
 
   private setupControllers(): void {
+    const listController = new ListController();
     const productsController = new ProductsController();
-    this.addControllers([productsController]);
+    this.addControllers([listController, productsController]);
+  }
+
+  private async databaseSetup(): Promise<void> {
+    await database.connect();
+  }
+
+  public async close(): Promise<void> {
+    await database.close();
   }
 
   public getApp(): Application {
