@@ -42,5 +42,34 @@ describe('Product functional tests', () => {
     it.skip('should return 500 when there is any error other than validation error', async () => {
       // TODO think in a way to throw a 500
     });
+
+    it.skip('should return the products with just a few times', async () => {
+      beforeEach(async () => {
+        await Product.deleteMany({});
+        const defaultProduct = {
+          name: 'Fantasia Homem-Aranha',
+          tag: ['aranha', 'fatasia'],
+          description: 'Um grande fatasia',
+          value: 65.87,
+          quantity: 6,
+        };
+        const product = new Product(defaultProduct);
+        await product.save();
+      });
+
+      const { body, status } = await global.testRequest.get('/products');
+      expect(status).toBe(200);
+      expect(body).toEqual(
+        expect.objectContaining([
+          {
+            name: 'Fantasia Homem-Aranha',
+            tag: ['aranha', 'fatasia'],
+            description: 'Um grande fatasia',
+            value: 65.87,
+            quantity: 6,
+          },
+        ]),
+      );
+    });
   });
 });
