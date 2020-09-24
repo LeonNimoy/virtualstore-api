@@ -1,10 +1,20 @@
-import { Controller, Post } from '@overnightjs/core';
+import { Controller, Post, Get } from '@overnightjs/core';
 import { Product } from '@src/models/Product';
 import { Request, Response } from 'express';
 import mongoose from 'mongoose';
 
 @Controller('products')
 export default class ProductsController {
+  @Get('')
+  public async getProducts(_: Request, resp: Response): Promise<void> {
+    try {
+      const products = await Product.find({});
+      resp.status(200).send(products);
+    } catch (error) {
+      resp.status(500).send({ error: 'Something went wrong' });
+    }
+  }
+
   @Post('')
   public async create(req: Request, resp: Response): Promise<void> {
     try {
