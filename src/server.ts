@@ -1,18 +1,42 @@
-import express, { json } from 'express';
-import * as dotenv from 'dotenv';
+import express, { Application } from 'express';
+// import * as dotenv from 'dotenv';
+import { Server } from '@overnightjs/core';
 
-dotenv.config();
+import './paths/module-alias';
+import 'dotenv';
+import ProductsController from './controllers/products';
 
-const app = express();
+// dotenv.config();
 
-app.use(express.json());
+// app.use(express.json());
 
-app.get('/', (req, resp) => {
-  return resp.json({ message: 'Hello World' });
-});
+export default class SetupServer extends Server {
+  constructor(private port = 3000) {
+    super();
+  }
 
-const port = process.env.PORT || 3000;
+  public async init(): Promise<void> {
+    this.setupExpress();
+    this.setupControllers();
+  }
 
-app.listen(port, () => {
-  console.log('Server Started');
-});
+  private setupExpress(): void {
+    this.app.use(express.json());
+    this.setupControllers();
+  }
+
+  private setupControllers(): void {
+    const productsController = new ProductsController();
+    this.addControllers([productsController]);
+  }
+
+  public getApp(): Application {
+    return this.app;
+  }
+}
+
+// const port = process.env.PORT || 3000;
+
+// app.listen(port, () => {
+//   console.log('Server Started');
+// });
