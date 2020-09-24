@@ -1,34 +1,21 @@
 import { Controller, Get } from '@overnightjs/core';
+import { Product } from '@src/models/Product';
 import { Request, Response } from 'express';
+
+// const productModel = new Product();
 
 @Controller('list')
 export default class ListController {
   @Get('')
-  public getProductsForLoggedUser(_: Request, resp: Response): void {
-    resp.send([
-      {
-        product: [
-          {
-            name: 'Mesa',
-            tag: ['mesa', 'madeira'],
-            description: 'mesa de jantar para quatro pessoas',
-            value: 225.99,
-            quantity: 46,
-          },
-        ],
-      },
-
-      {
-        product: [
-          {
-            name: 'cadeira',
-            tag: ['festa', 'cadeira'],
-            description: 'cadeira de festa ultra resistente',
-            value: 56.99,
-            quantity: 16,
-          },
-        ],
-      },
-    ]);
+  public async getProductsForLoggedUser(
+    _: Request,
+    resp: Response,
+  ): Promise<void> {
+    try {
+      const products = await Product.find({});
+      resp.status(200).send(products);
+    } catch (error) {
+      resp.status(500).send({ error: 'Something went wrong' });
+    }
   }
 }
