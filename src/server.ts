@@ -1,10 +1,8 @@
-import 'dotenv';
 import express, { Application } from 'express';
 import { Server } from '@overnightjs/core';
 
 import './paths/module-alias';
 import * as database from '@src/database';
-import ListController from './controllers/list';
 import ProductsController from './controllers/products';
 import UsersController from './controllers/users';
 
@@ -25,10 +23,9 @@ export default class SetupServer extends Server {
   }
 
   private setupControllers(): void {
-    const listController = new ListController();
     const productsController = new ProductsController();
     const usersController = new UsersController();
-    this.addControllers([listController, productsController, usersController]);
+    this.addControllers([productsController, usersController]);
   }
 
   private async databaseSetup(): Promise<void> {
