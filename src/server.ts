@@ -1,19 +1,15 @@
 import 'dotenv';
 import express, { Application } from 'express';
-// import * as dotenv from 'dotenv';
 import { Server } from '@overnightjs/core';
 
 import './paths/module-alias';
 import * as database from '@src/database';
 import ListController from './controllers/list';
 import ProductsController from './controllers/products';
-
-// dotenv.config();
-
-// app.use(express.json());
+import UsersController from './controllers/users';
 
 export default class SetupServer extends Server {
-  constructor(private port = 3000) {
+  constructor(private port = 3333) {
     super();
   }
 
@@ -31,7 +27,8 @@ export default class SetupServer extends Server {
   private setupControllers(): void {
     const listController = new ListController();
     const productsController = new ProductsController();
-    this.addControllers([listController, productsController]);
+    const usersController = new UsersController();
+    this.addControllers([listController, productsController, usersController]);
   }
 
   private async databaseSetup(): Promise<void> {
@@ -42,13 +39,13 @@ export default class SetupServer extends Server {
     await database.close();
   }
 
+  public start(): void {
+    this.app.listen(this.port, () => {
+      console.info('Server listening on port:', this.port);
+    });
+  }
+
   public getApp(): Application {
     return this.app;
   }
 }
-
-// const port = process.env.PORT || 3000;
-
-// app.listen(port, () => {
-//   console.log('Server Started');
-// });
