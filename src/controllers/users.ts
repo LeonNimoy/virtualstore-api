@@ -3,7 +3,7 @@ import { Response, Request } from 'express';
 import { User } from '@src/models/User';
 import AuthService from '@src/services/authService';
 // import { hash } from 'bcrypt';
-import BaseController from '.';
+import BaseController from './base';
 
 @Controller('users')
 export default class UsersController extends BaseController {
