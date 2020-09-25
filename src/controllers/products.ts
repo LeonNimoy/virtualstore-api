@@ -12,7 +12,7 @@ export default class ProductsController {
       const products = await Product.find({});
       resp.status(200).json(products);
     } catch (error) {
-      resp.status(500).send({ error: 'Something went wrong' });
+      resp.status(500).json({ error: 'Something went wrong' });
     }
   }
 
@@ -27,7 +27,7 @@ export default class ProductsController {
         }
       });
     } catch (error) {
-      resp.status(500).send({ error: 'Something went wrong' });
+      resp.status(500).json({ error: 'Something went wrong' });
     }
   }
 
@@ -39,9 +39,9 @@ export default class ProductsController {
       resp.status(201).json(result);
     } catch (error) {
       if (error instanceof mongoose.Error.ValidationError) {
-        resp.status(422).send({ error: error.message });
+        resp.status(422).json({ error: error.message });
       } else {
-        resp.status(500).send({ error: 'Internal Server Error' });
+        resp.status(500).json({ error: 'Internal Server Error' });
       }
     }
   }
@@ -60,7 +60,7 @@ export default class ProductsController {
         }
       });
     } catch (err) {
-      resp.status(400).send({ error: err.message });
+      resp.status(400).json({ error: err.message });
     }
   }
 
@@ -75,9 +75,9 @@ export default class ProductsController {
         throw new Error('Product not found!');
       }
 
-      resp.status(200).send();
+      resp.status(200).json({ message: 'Product deleted!' });
     } catch (err) {
-      resp.status(400).send({ error: err.message });
+      resp.status(400).json({ error: err.message });
     }
   }
 }
