@@ -7,6 +7,7 @@ export interface Product {
   name: string;
   tags: [string];
   description: number;
+  image: string;
   price: number;
   quantity: number;
 }
@@ -21,6 +22,9 @@ const schema = new mongoose.Schema(
       type: [String],
     },
     description: {
+      type: String,
+    },
+    image: {
       type: String,
     },
     price: {
