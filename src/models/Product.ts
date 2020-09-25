@@ -5,9 +5,10 @@ import mongoose, { Document, Model } from 'mongoose';
 export interface Product {
   _id?: string;
   name: string;
-  tag: [string];
+  tags: [string];
   description: number;
-  value: number;
+  image: string;
+  price: number;
   quantity: number;
 }
 const schema = new mongoose.Schema(
@@ -17,13 +18,16 @@ const schema = new mongoose.Schema(
       unique: true,
       required: true,
     },
-    tag: {
+    tags: {
       type: [String],
     },
     description: {
       type: String,
     },
-    value: {
+    image: {
+      type: String,
+    },
+    price: {
       type: Number,
       required: true,
     },

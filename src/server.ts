@@ -5,6 +5,7 @@ import './paths/module-alias';
 import * as database from '@src/database';
 import ProductsController from './controllers/products';
 import UsersController from './controllers/users';
+import IndexController from './controllers/index';
 
 export default class SetupServer extends Server {
   constructor(private port = 3333) {
@@ -25,7 +26,8 @@ export default class SetupServer extends Server {
   private setupControllers(): void {
     const productsController = new ProductsController();
     const usersController = new UsersController();
-    this.addControllers([productsController, usersController]);
+    const indexController = new IndexController();
+    this.addControllers([productsController, usersController, indexController]);
   }
 
   private async databaseSetup(): Promise<void> {
