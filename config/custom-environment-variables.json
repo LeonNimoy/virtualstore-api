@@ -1,0 +1,13 @@
+{
+  "App": {
+    "port": "APP_PORT",
+    "database": {
+      "mongoUrl": "MONGODB_URL"
+    },
+    "resources": {
+    },
+    "auth": {
+      "key": "JWT_SECRET_KEY"
+    }
+  }
+}
