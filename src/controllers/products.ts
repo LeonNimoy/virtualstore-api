@@ -1,8 +1,8 @@
 /* eslint-disable no-shadow */
 import { Controller, Post, Get, Put, Delete } from '@overnightjs/core';
-import { Product } from '@src/models/Product';
 import { Request, Response } from 'express';
 import mongoose from 'mongoose';
+import { Product } from '../models/Product';
 
 @Controller('products')
 export default class ProductsController {
