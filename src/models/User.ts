@@ -1,7 +1,7 @@
 /* eslint-disable no-underscore-dangle */
 /* eslint-disable no-param-reassign */
 import mongoose, { Document, Model } from 'mongoose';
-import AuthService from '@src/services/authService';
+import AuthService from '../services/authService';
 
 export interface User {
   _id?: string;

@@ -1,7 +1,7 @@
 import { Controller, Get, Post, Put } from '@overnightjs/core';
 import { Response, Request } from 'express';
-import { User } from '@src/models/User';
-import AuthService from '@src/services/authService';
+import { User } from '../models/User';
+import AuthService from '../services/authService';
 // import { hash } from 'bcrypt';
 import BaseController from './base';
 

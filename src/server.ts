@@ -2,7 +2,7 @@ import express, { Application } from 'express';
 import { Server } from '@overnightjs/core';
 
 import './paths/module-alias';
-import * as database from '@src/database';
+import * as database from './database';
 import ProductsController from './controllers/products';
 import UsersController from './controllers/users';
 import IndexController from './controllers/index';

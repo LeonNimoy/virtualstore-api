@@ -1,6 +1,5 @@
 /* eslint-disable @typescript-eslint/ban-types */
 import bcrypt from 'bcrypt';
-import config from 'config';
 import jwt from 'jsonwebtoken';
 
 export default class AuthService {
@@ -19,8 +18,8 @@ export default class AuthService {
   }
 
   public static generateToken(payload: object): string {
-    return jwt.sign(payload, config.get('App.auth.key'), {
-      expiresIn: config.get('App.auth.tokenExpiresIn'),
+    return jwt.sign(payload, process.env.JWT_SECRET!, {
+      expiresIn: process.env.TOKEN_EXPIRE_TIME,
     });
   }
 }
