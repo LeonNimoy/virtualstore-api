@@ -47,10 +47,9 @@ productsRouter.post('/', async (req, res) => {
     return res.status(201).json(product);
   } catch (error) {
     if (error instanceof mongoose.Error.ValidationError) {
-      res.status(422).json({ error: error.message });
-    } else {
-      res.status(500).json({ error: 'Internal Server Error' });
+      return res.status(422).json({ error: error.message });
     }
+    return res.status(500).json({ error: 'Internal Server Error' });
   }
 });
 
