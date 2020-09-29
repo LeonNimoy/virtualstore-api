@@ -22,13 +22,11 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-const express_1 = __importDefault(require("express"));
 const core_1 = require("@overnightjs/core");
+const express_1 = __importDefault(require("express"));
+const index_routes_1 = __importDefault(require("./routes/index.routes"));
 require("./paths/module-alias");
 const database = __importStar(require("./database"));
-const products_1 = __importDefault(require("./controllers/products"));
-const users_1 = __importDefault(require("./controllers/users"));
-const index_1 = __importDefault(require("./controllers/index"));
 class SetupServer extends core_1.Server {
     constructor(port = 3333) {
         super();
@@ -36,18 +34,11 @@ class SetupServer extends core_1.Server {
     }
     async init() {
         this.setupExpress();
-        this.setupControllers();
         await this.databaseSetup();
     }
     setupExpress() {
         this.app.use(express_1.default.json());
-        this.setupControllers();
-    }
-    setupControllers() {
-        const productsController = new products_1.default();
-        const usersController = new users_1.default();
-        const indexController = new index_1.default();
-        this.addControllers([productsController, usersController, indexController]);
+        this.app.use(index_routes_1.default);
     }
     async databaseSetup() {
         await database.connect();

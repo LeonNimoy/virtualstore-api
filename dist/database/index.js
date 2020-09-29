@@ -9,6 +9,7 @@ exports.connect = async () => mongoose_1.default.connect(process.env.MONGODB_URL
     useCreateIndex: true,
     useNewUrlParser: true,
     useUnifiedTopology: true,
+    useFindAndModify: false,
 });
 exports.close = () => mongoose_1.default.connection.close();
 //# sourceMappingURL=index.js.map
