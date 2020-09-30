@@ -1,12 +1,16 @@
 import { Router } from 'express';
 import mongoose from 'mongoose';
+import multer from 'multer';
+import uploadConfig from '../config/upload';
 
 import CreateProductService from '../services/CreateProductService';
 import UpdateProductService from '../services/UpdateProductService';
+import UpdateProductImageService from '../services/UpdateProductImageService';
 import DeleteProductService from '../services/DeleteProductService';
 import { Product } from '../models/Product';
 
 const productsRouter = Router();
+const upload = multer(uploadConfig.multer);
 
 productsRouter.get('/', async (req, res) => {
   try {
@@ -93,6 +97,23 @@ productsRouter.delete('/:id', async (req, res) => {
     } else {
       res.status(500).json({ err: 'Internal Server Error' });
     }
+  }
+});
+
+productsRouter.patch('/image/:id', upload.single('image'), async (req, res) => {
+  try {
+    const { id } = req.params;
+    const updateProductImage = new UpdateProductImageService();
+    const product = await updateProductImage.execute({
+      id,
+      imageFilename: req.file.filename,
+    });
+    return res.json(product);
+  } catch (err) {
+    if (err instanceof mongoose.Error.ValidationError) {
+      return res.status(422).json({ err: err.message });
+    }
+    return res.status(500).json({ err: 'Internal Server Error' });
   }
 });
 
