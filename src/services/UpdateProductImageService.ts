@@ -1,5 +1,6 @@
 import { Product } from '../models/Product';
 import DiskStorageProvider from '../container/implementations/S3StorageProvider';
+import uploadConfig from '../config/upload';
 
 interface IRequest {
   id: string;
@@ -17,25 +18,11 @@ class UpdateProductImageService {
 
     await uploadAws.saveFile(imageFilename);
 
-    product.image = imageFilename;
+    product.image = `https://${uploadConfig.config.disk.bucket}.s3.amazonaws.com/${imageFilename}`;
 
     product.save();
 
     return product;
-
-    // if (product.image) {
-    //   const productImageFilePath = path.join(
-    //     uploadConfig.tmpFolder,
-    //     product.image,
-    //   );
-    //   const productImageFileExists = await fs.promises.stat(
-    //     productImageFilePath,
-    //   );
-
-    //   if (productImageFileExists) {
-    //     await fs.promises.unlink(productImageFilePath);
-    //   }
-    // }
   }
 }
 
