@@ -1,8 +1,8 @@
 import { Router } from 'express';
 import mongoose from 'mongoose';
 import multer from 'multer';
-import uploadConfig from '../config/upload';
 
+import uploadConfig from '../config/upload';
 import CreateProductService from '../services/CreateProductService';
 import UpdateProductService from '../services/UpdateProductService';
 import UpdateProductImageService from '../services/UpdateProductImageService';
