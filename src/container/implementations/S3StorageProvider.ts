@@ -1,8 +1,8 @@
 import fs from 'fs';
 import path from 'path';
 import mime from 'mime';
-
 import aws, { S3 } from 'aws-sdk';
+
 import uploadConfig from '../../config/upload';
 
 class DiskStorageProvider {
@@ -10,7 +10,7 @@ class DiskStorageProvider {
 
   constructor() {
     this.client = new aws.S3({
-      accessKeyId: process.env.AWS_ACCES_KEY_ID,
+      accessKeyId: process.env.AWS_ACCESS_KEY_ID,
       secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY,
       region: 'us-east-1',
     });
@@ -29,7 +29,7 @@ class DiskStorageProvider {
 
     await this.client
       .putObject({
-        Bucket: 'images-test-nimoy',
+        Bucket: uploadConfig.config.disk.bucket,
         Key: file,
         ACL: 'public-read',
         Body: fileContent,
@@ -45,7 +45,7 @@ class DiskStorageProvider {
   public async deleteFile(file: string): Promise<void> {
     await this.client
       .deleteObject({
-        Bucket: 'images-test-nimoy',
+        Bucket: uploadConfig.config.disk.bucket,
         Key: file,
       })
       .promise();
