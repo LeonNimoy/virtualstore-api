@@ -1,14 +1,15 @@
 import multer, { StorageEngine } from 'multer';
-import crypto from 'crypto';
 import path from 'path';
 
+import { Product } from '../models/Product';
+
 const tmpFolder = path.resolve(__dirname, '..', '..', 'tmp');
+const productId = new Product();
 
 interface IUploadConfig {
   driver: 's3' | 'disk';
 
   tmpFolder: string;
-  uploadsFolder: string;
 
   multer: {
     storage: StorageEngine;
@@ -24,14 +25,13 @@ interface IUploadConfig {
 export default {
   driver: process.env.STORAGE_DRIVER,
   tmpFolder,
-  uploadsFolder: path.resolve(tmpFolder, 'uploads'),
 
   multer: {
     storage: multer.diskStorage({
       destination: tmpFolder,
       filename(request, file, callback) {
-        const fileHash = crypto.randomBytes(10).toString('hex');
-        const filename = `${fileHash}-${file.originalname}`;
+        const fileId = productId.id;
+        const filename = `${fileId}-${file.originalname}`;
         return callback(null, filename);
       },
     }),
@@ -39,7 +39,7 @@ export default {
 
   config: {
     disk: {
-      bucket: 'images-test-nimoy',
+      bucket: process.env.AWS_BUCKET_PRODUCT_IMAGE,
     },
   },
 } as IUploadConfig;
