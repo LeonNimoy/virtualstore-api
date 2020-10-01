@@ -1,51 +1,37 @@
-/* eslint-disable no-underscore-dangle */
-/* eslint-disable no-param-reassign */
 import mongoose, { Document, Model } from 'mongoose';
 
-export interface Product {
-  _id?: string;
+export interface IProduct {
   name: string;
   tags: [string];
   description: string;
-  image: string;
+  image: string | null;
   price: number;
   quantity: number;
 }
-const schema = new mongoose.Schema(
-  {
-    name: {
-      type: String,
-      unique: true,
-      required: true,
-    },
-    tags: {
-      type: [String],
-    },
-    description: {
-      type: String,
-    },
-    image: {
-      type: String,
-    },
-    price: {
-      type: Number,
-      required: true,
-    },
-    quantity: {
-      type: Number,
-      required: true,
-    },
+const schema = new mongoose.Schema({
+  name: {
+    type: String,
+    unique: true,
+    required: true,
   },
-  {
-    toJSON: {
-      transform: (_, ret): void => {
-        ret.id = ret._id;
-        delete ret._id;
-        delete ret.__v;
-      },
-    },
+  tags: {
+    type: [String],
   },
-);
+  description: {
+    type: String,
+  },
+  image: {
+    type: String,
+  },
+  price: {
+    type: Number,
+    required: true,
+  },
+  quantity: {
+    type: Number,
+    required: true,
+  },
+});
 
-interface ProductModel extends Omit<Product, '_id'>, Document {}
-export const Product: Model<ProductModel> = mongoose.model('Product', schema);
+interface IProductModel extends IProduct, Document {}
+export const Product: Model<IProductModel> = mongoose.model('Product', schema);
