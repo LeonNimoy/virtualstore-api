@@ -4,8 +4,9 @@ import mime from 'mime';
 import aws, { S3 } from 'aws-sdk';
 
 import uploadConfig from '../../config/upload';
+import DiskStorageEntity from '../entities/DiskStorageEntity';
 
-class DiskStorageProvider {
+class DiskStorageProvider implements DiskStorageEntity {
   private client: S3;
 
   constructor() {
