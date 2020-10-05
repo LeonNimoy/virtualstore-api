@@ -29,6 +29,7 @@ class DiskStorageProvider implements DiskStorageEntity {
     const ContentType = mime.getType(originalPath);
 
     if (!ContentType || !filesChecker) {
+      await fs.promises.unlink(originalPath);
       throw new Error('Type file not valid');
     }
 
