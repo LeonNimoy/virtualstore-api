@@ -21,10 +21,14 @@ class DiskStorageProvider {
 
     const fileContent = await fs.promises.readFile(originalPath);
 
+    const fileTypes = /jpg|jpeg|png/;
+
+    const filesChecker = fileTypes.test(path.extname(file));
+
     const ContentType = mime.getType(originalPath);
 
-    if (!ContentType) {
-      throw new Error('File not Found');
+    if (!ContentType || !filesChecker) {
+      throw new Error('Type file not valid');
     }
 
     await this.client
