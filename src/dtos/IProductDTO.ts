@@ -1,7 +1,7 @@
-export default interface IProduct {
+export default interface IProductDTO {
   id?: string;
   name: string;
-  tags: [string];
+  tags: Array<string>;
   description: string;
   image: string;
   price: number;

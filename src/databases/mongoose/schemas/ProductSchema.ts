@@ -1,13 +1,6 @@
 import mongoose, { Document, Model } from 'mongoose';
+import IProductEntity from '../../../entities/IProductEntity';
 
-export interface IProduct {
-  name: string;
-  tags: [string];
-  description: string;
-  image: string | null;
-  price: number;
-  quantity: number;
-}
 const schema = new mongoose.Schema({
   name: {
     type: String,
@@ -33,5 +26,8 @@ const schema = new mongoose.Schema({
   },
 });
 
-interface IProductModel extends IProduct, Document {}
-export const Product: Model<IProductModel> = mongoose.model('Product', schema);
+interface IProductModel extends IProductEntity, Document {}
+export const ProductSchema: Model<IProductModel> = mongoose.model(
+  'Product',
+  schema,
+);

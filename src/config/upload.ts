@@ -1,10 +1,10 @@
 import multer, { StorageEngine } from 'multer';
 import path from 'path';
 
-import { Product } from '../models/Product';
+import { ProductSchema } from '../databases/mongoose/schemas/ProductSchema';
 
 const tmpFolder = path.resolve(__dirname, '..', '..', 'tmp');
-const productId = new Product();
+const productId = new ProductSchema();
 
 interface IUploadConfig {
   driver: 's3' | 'disk';

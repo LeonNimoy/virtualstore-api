@@ -1,44 +1,51 @@
-import { Product } from '../models/Product';
-import IProductDTO from './dtos/IProductDTO';
+import 'reflect-metadata';
+import { inject, injectable } from 'tsyringe';
+import IProductDTO from '../dtos/IProductDTO';
+import IProductEntity from '../entities/IProductEntity';
+import IProductsProvider from '../providers/IProductsProvider';
 
-class CreateProductService {
-  public async execute({
-    id,
-    name,
-    tags,
-    description,
-    image,
-    price,
-    quantity,
-  }: IProductDTO): Promise<Product> {
-    const product = await Product.findById(id);
+@injectable()
+class UpdateProductService {
+  constructor(
+    @inject('ProductsRepository')
+    private productRepository: IProductsProvider,
+  ) {}
+
+  public async execute(productNewData: IProductDTO): Promise<IProductEntity> {
+    const product = await this.productRepository.find(productNewData.id);
 
     if (!product) {
       throw new Error('Product not Found');
     }
 
-    if (name) {
-      product.name = name;
-    }
-    if (tags) {
-      product.tags = tags;
-    }
-    if (description) {
-      product.description = description;
-    }
-    if (image) {
-      product.image = image;
-    }
-    if (price) {
-      product.price = price;
-    }
-    if (quantity) {
-      product.quantity = quantity;
+    if (productNewData.name) {
+      product.name = productNewData.name;
     }
 
-    await product.save();
-    return product;
+    if (productNewData.tags) {
+      product.tags = productNewData.tags;
+    }
+
+    if (productNewData.description) {
+      product.description = productNewData.description;
+    }
+
+    if (productNewData.image) {
+      product.image = productNewData.image;
+    }
+
+    if (productNewData.price) {
+      product.price = productNewData.price;
+    }
+
+    if (productNewData.quantity) {
+      product.quantity = productNewData.quantity;
+    }
+
+    const productUpdated = await this.productRepository.update(product);
+
+    return productUpdated;
   }
 }
 
-export default CreateProductService;
+export default UpdateProductService;
