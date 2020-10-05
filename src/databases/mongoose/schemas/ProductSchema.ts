@@ -1,4 +1,5 @@
 import mongoose, { Document, Model } from 'mongoose';
+
 import IProductEntity from '../../../entities/IProductEntity';
 
 const schema = new mongoose.Schema({

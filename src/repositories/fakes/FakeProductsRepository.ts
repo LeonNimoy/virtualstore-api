@@ -26,14 +26,13 @@ class FakeProductsRepository implements IProductProvider {
   }
 
   public async update(newProductData: IProductDTO): Promise<IProductEntity> {
+    // if()
 
-    if()
+    // if (productUpdated === null) {
+    //   throw new Error('Product not found');
+    // }
 
-    if (productUpdated === null) {
-      throw new Error('Product not found');
-    }
-
-    return productUpdated;
+    return newProductData;
   }
 
   public async delete(product: IProductDTO): Promise<void> {

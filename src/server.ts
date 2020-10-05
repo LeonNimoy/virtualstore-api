@@ -19,7 +19,6 @@ export default class SetupServer extends Server {
     this.app.use(express.json());
     this.app.use(routes);
     this.app.use(urlencoded({ extended: true }));
-    // this.app.use(upload.any());
   }
 
   private async databaseSetup(): Promise<void> {

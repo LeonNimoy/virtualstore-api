@@ -1,5 +1,6 @@
 import 'reflect-metadata';
 import 'dotenv/config';
+
 import SetupServer from './server';
 
 (async (): Promise<void> => {

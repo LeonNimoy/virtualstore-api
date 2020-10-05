@@ -1,8 +1,8 @@
 import { container } from 'tsyringe';
 import { Request, Response } from 'express';
 import mongoose from 'mongoose';
-import { ProductSchema } from '../databases/mongoose/schemas/ProductSchema';
 
+import { ProductSchema } from '../databases/mongoose/schemas/ProductSchema';
 import DeleteProductService from '../services/DeleteProductService';
 import CreateProductService from '../services/CreateProductService';
 import UpdateProductService from '../services/UpdateProductService';

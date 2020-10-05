@@ -1,5 +1,5 @@
 import { inject, injectable } from 'tsyringe';
-import { ProductSchema } from '../databases/mongoose/schemas/ProductSchema';
+
 import DiskStorageProvider from '../container/implementations/S3StorageProvider';
 import uploadConfig from '../config/upload';
 import IProductEntity from '../entities/IProductEntity';
@@ -25,9 +25,9 @@ class UpdateProductImageService {
       throw new Error('Product not Found');
     }
 
-    const uploadAws = new DiskStorageProvider();
+    const fileUploaded = new DiskStorageProvider();
 
-    await uploadAws.saveFile(imageFilename);
+    await fileUploaded.saveFile(imageFilename);
 
     product.image = `https://${uploadConfig.config.disk.bucket}.s3.amazonaws.com/${imageFilename}`;
 

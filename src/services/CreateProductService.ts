@@ -1,5 +1,6 @@
 import 'reflect-metadata';
 import { inject, injectable } from 'tsyringe';
+
 import IProductDTO from '../dtos/IProductDTO';
 import IProductEntity from '../entities/IProductEntity';
 import IProductsProvider from '../providers/IProductsProvider';

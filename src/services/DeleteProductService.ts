@@ -1,4 +1,5 @@
 import { injectable, inject } from 'tsyringe';
+
 import IProductsProvider from '../providers/IProductsProvider';
 
 interface Request {

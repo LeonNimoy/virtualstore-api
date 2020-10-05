@@ -15,9 +15,9 @@ export default class ProductsRepository implements IProductsProvider {
   }
 
   public async save(productData: IProductDTO): Promise<IProductEntity> {
-    const productRepository = new ProductSchema(productData);
-    await productRepository.save();
-    return productRepository;
+    const productCreated = new ProductSchema(productData);
+    await productCreated.save();
+    return productCreated;
   }
 
   public async update(newProductData: IProductDTO): Promise<IProductEntity> {
