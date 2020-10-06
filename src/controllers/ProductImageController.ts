@@ -1,18 +1,17 @@
 import { Request, Response } from 'express';
 import mongoose from 'mongoose';
 import { container } from 'tsyringe';
+
 import UpdateProductImageService from '../services/UpdateProductImageService';
 
 export default class ProductImageController {
   public async update(req: Request, res: Response): Promise<Response> {
     try {
-      const { id } = req.params;
       const updateProductImage = container.resolve(UpdateProductImageService);
-      const product = await updateProductImage.execute({
-        id,
+      const productImage = await updateProductImage.execute({
         imageFilename: req.file.filename,
       });
-      return res.json(product);
+      return res.status(201).json(productImage);
     } catch (err) {
       if (err instanceof mongoose.Error.ValidationError) {
         return res.status(422).json({ err: err.message });

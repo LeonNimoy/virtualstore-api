@@ -18,8 +18,8 @@ productsRouter.put('/:id', productsController.update);
 
 productsRouter.delete('/:id', productsController.delete);
 
-productsRouter.patch(
-  '/image/:id',
+productsRouter.post(
+  '/image',
   upload.single('image'),
   productImageController.update,
 );

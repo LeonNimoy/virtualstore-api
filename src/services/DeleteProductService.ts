@@ -1,6 +1,7 @@
 import { injectable, inject } from 'tsyringe';
 
 import IProductsProvider from '../providers/IProductsProvider';
+import DiskStorageProvider from '../container/implementations/S3StorageProvider';
 
 interface Request {
   id: string;
@@ -19,6 +20,8 @@ class DeleteProductService {
       throw new Error('Product not Found');
     }
 
+    const fileUploaded = new DiskStorageProvider();
+    await fileUploaded.deleteFile(product.image);
     await this.productRepository.delete(product);
   }
 }
