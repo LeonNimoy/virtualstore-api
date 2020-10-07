@@ -34,11 +34,11 @@ export default class UsersRepository implements IUsersProvider {
     return userUpdated;
   }
 
-  // public async delete(user: userDTO): Promise<void> {
-  //   const userDeleted = await UserSchema.findByIdAndDelete(user.id);
+  public async delete(user: IUserDTO): Promise<void> {
+    const userDeleted = await UserSchema.findByIdAndDelete(user.id);
 
-  //   if (userDeleted === null) {
-  //     throw new Error('user not found');
-  //   }
-  // }
+    if (userDeleted === null) {
+      throw new Error('user not found');
+    }
+  }
 }

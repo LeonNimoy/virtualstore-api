@@ -5,6 +5,7 @@ import mongoose from 'mongoose';
 import { UserSchema } from '../databases/mongoose/schemas/UserSchema';
 import CreateUserService from '../services/CreateUserService';
 import UpdateUserService from '../services/UpdateUserService';
+import DeleteUserService from '../services/DeleteUserService';
 
 export default class UsersController {
   public async list(req: Request, res: Response): Promise<Response> {
@@ -59,6 +60,22 @@ export default class UsersController {
       });
 
       return res.status(200).json(user);
+    } catch (err) {
+      if (err instanceof mongoose.Error.ValidationError) {
+        return res.status(422).json({ err: err.message });
+      }
+      return res.status(500).json({ err: 'Internal Server Error' });
+    }
+  }
+
+  public async delete(req: Request, res: Response): Promise<Response> {
+    try {
+      const { id } = req.params;
+
+      const userDeleted = container.resolve(DeleteUserService);
+      await userDeleted.execute({ id });
+
+      return res.status(200).json({ message: 'user deleted!' });
     } catch (err) {
       if (err instanceof mongoose.Error.ValidationError) {
         return res.status(422).json({ err: err.message });
