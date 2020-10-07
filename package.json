@@ -8,9 +8,7 @@
   "scripts": {
     "build": "tsc",
     "dev:server": "ts-node-dev --inspect --transpile-only --ignore-watch node_modules src/index.ts",
-    "test": "yarn test:unit && yarn test:functional",
-    "test:functional": "jest --projects ./test --runInBand",
-    "test:unit": "jest"
+    "test": "jest"
   },
   "devDependencies": {
     "@types/bcrypt": "^3.0.0",
@@ -21,6 +19,7 @@
     "@types/jsonwebtoken": "^8.5.0",
     "@types/module-alias": "^2.0.0",
     "@types/mongoose": "^5.7.36",
+    "@types/multer": "^1.4.4",
     "@types/node": "^14.11.2",
     "@types/supertest": "^2.0.10",
     "@typescript-eslint/eslint-plugin": "^4.2.0",
@@ -40,13 +39,18 @@
   },
   "dependencies": {
     "@overnightjs/core": "^1.7.5",
+    "aws-sdk": "^2.763.0",
     "bcrypt": "^5.0.0",
     "config": "^3.3.1",
     "cors": "^2.8.5",
     "dotenv": "^8.2.0",
     "express": "^4.17.1",
     "jsonwebtoken": "^8.5.1",
+    "mime": "^2.4.6",
     "module-alias": "^2.2.2",
-    "mongoose": "^5.10.6"
+    "mongoose": "^5.10.6",
+    "multer": "^1.4.2",
+    "reflect-metadata": "^0.1.13",
+    "tsyringe": "^4.3.0"
   }
 }

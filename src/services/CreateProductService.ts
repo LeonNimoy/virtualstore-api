@@ -1,7 +1,17 @@
-import IProductDTO from './dtos/IProductDTO';
-import { Product } from '../models/Product';
+import 'reflect-metadata';
+import { inject, injectable } from 'tsyringe';
 
+import IProductDTO from '../dtos/IProductDTO';
+import IProductEntity from '../entities/IProductEntity';
+import IProductsProvider from '../providers/IProductsProvider';
+
+@injectable()
 class CreateProductService {
+  constructor(
+    @inject('ProductsRepository')
+    private productRepository: IProductsProvider,
+  ) {}
+
   public async execute({
     name,
     tags,
@@ -9,8 +19,8 @@ class CreateProductService {
     image,
     price,
     quantity,
-  }: IProductDTO): Promise<Product> {
-    const product = new Product({
+  }: IProductDTO): Promise<IProductEntity> {
+    const product = this.productRepository.save({
       name,
       tags,
       description,
@@ -18,7 +28,7 @@ class CreateProductService {
       price,
       quantity,
     });
-    await product.save();
+    await product;
     return product;
   }
 }

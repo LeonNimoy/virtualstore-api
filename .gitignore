@@ -117,3 +117,5 @@ out
 default.json
 
 .vercel
+tmp/*
+!tmp/.gitkeep

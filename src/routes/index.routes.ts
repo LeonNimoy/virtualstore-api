@@ -1,9 +1,11 @@
 import { Router } from 'express';
+
 import productsRouter from './products.routes';
 
 const routes = Router();
 
 routes.use('/products', productsRouter);
+
 routes.use('/', async (req, res) => {
   try {
     res.status(200).send('API is working!!');

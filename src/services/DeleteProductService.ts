@@ -1,19 +1,28 @@
-import { Product } from '../models/Product';
+import { injectable, inject } from 'tsyringe';
 
-interface IRequest {
+import IProductsProvider from '../providers/IProductsProvider';
+import DiskStorageProvider from '../container/implementations/S3StorageProvider';
+
+interface Request {
   id: string;
 }
-
+@injectable()
 class DeleteProductService {
-  public async execute({ id }: IRequest): Promise<Product> {
-    const product = await Product.findById(id);
+  constructor(
+    @inject('ProductsRepository')
+    private productRepository: IProductsProvider,
+  ) {}
+
+  public async execute({ id }: Request): Promise<void> {
+    const product = await this.productRepository.find(id);
 
     if (!product) {
       throw new Error('Product not Found');
     }
 
-    await product.remove();
-    return product;
+    const fileUploaded = new DiskStorageProvider();
+    await fileUploaded.deleteFile(product.image);
+    await this.productRepository.delete(product);
   }
 }
 

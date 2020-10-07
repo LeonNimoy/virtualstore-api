@@ -2,8 +2,8 @@ import { Server } from '@overnightjs/core';
 import express, { Application } from 'express';
 
 import routes from './routes/index.routes';
-import './paths/module-alias';
-import * as database from './database';
+import * as database from './databases/mongoose';
+import './container';
 
 export default class SetupServer extends Server {
   constructor(private port = 3333) {
