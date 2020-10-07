@@ -1,8 +1,8 @@
 export default interface IUserEntity {
   name: string;
-  password: string;
   email: string;
-  tel: number;
+  password: string;
+  phone: number;
   cpf: number;
   address: string;
 }
