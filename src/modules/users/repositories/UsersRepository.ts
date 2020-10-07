@@ -3,7 +3,7 @@ import IUserEntity from '../entities/IUserEntity';
 import IUserDTO from '../dtos/IUserDTO';
 import IUsersProvider from '../providers/IUsersProvider';
 
-export default class usersRepository implements IUsersProvider {
+export default class UsersRepository implements IUsersProvider {
   public async find(id: string): Promise<IUserEntity> {
     const userId = await UserSchema.findById(id);
 
@@ -20,19 +20,19 @@ export default class usersRepository implements IUsersProvider {
     return userCreated;
   }
 
-  // public async update(userData: userDTO): Promise<IUserEntity> {
-  //   const userUpdated = await UserSchema.findByIdAndUpdate(
-  //     userData.id,
-  //     userData,
-  //     { new: true },
-  //   );
+  public async update(userData: IUserDTO): Promise<IUserEntity> {
+    const userUpdated = await UserSchema.findByIdAndUpdate(
+      userData.id,
+      userData,
+      { new: true },
+    );
 
-  //   if (userUpdated === null) {
-  //     throw new Error('user not found');
-  //   }
+    if (userUpdated === null) {
+      throw new Error('user not found');
+    }
 
-  //   return userUpdated;
-  // }
+    return userUpdated;
+  }
 
   // public async delete(user: userDTO): Promise<void> {
   //   const userDeleted = await UserSchema.findByIdAndDelete(user.id);

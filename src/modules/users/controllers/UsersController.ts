@@ -4,6 +4,7 @@ import mongoose from 'mongoose';
 
 import { UserSchema } from '../databases/mongoose/schemas/UserSchema';
 import CreateUserService from '../services/CreateUserService';
+import UpdateUserService from '../services/UpdateUserService';
 
 export default class UsersController {
   public async list(req: Request, res: Response): Promise<Response> {
@@ -39,6 +40,30 @@ export default class UsersController {
         return res.status(422).json({ error: error.message });
       }
       return res.status(500).json({ error: 'Internal Server Error' });
+    }
+  }
+
+  public async update(req: Request, res: Response): Promise<Response> {
+    try {
+      const { id } = req.params;
+      const { name, email, password, phone, cpf, address } = req.body;
+      const updateUser = container.resolve(UpdateUserService);
+      const user = await updateUser.execute({
+        id,
+        name,
+        email,
+        password,
+        phone,
+        cpf,
+        address,
+      });
+
+      return res.status(200).json(user);
+    } catch (err) {
+      if (err instanceof mongoose.Error.ValidationError) {
+        return res.status(422).json({ err: err.message });
+      }
+      return res.status(500).json({ err: 'Internal Server Error' });
     }
   }
 }
