@@ -1,6 +1,6 @@
 import mongoose, { Document, Model } from 'mongoose';
 
-import IUserEntity from '../../entities/IUserEntity';
+import IUserEntity from '../../../entities/IUserEntity';
 
 const schema = new mongoose.Schema(
   {
@@ -26,7 +26,7 @@ const schema = new mongoose.Schema(
       required: true,
     },
     address: {
-      type: Number,
+      type: String,
       required: true,
     },
   },
