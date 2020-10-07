@@ -73,6 +73,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 var core_1 = require("@overnightjs/core");
 var express_1 = __importDefault(require("express"));
+var cors_1 = __importDefault(require("cors"));
 var index_routes_1 = __importDefault(require("./routes/index.routes"));
 var database = __importStar(require("./databases/mongoose"));
 require("./container");
@@ -101,6 +102,7 @@ var SetupServer = /** @class */ (function (_super) {
     SetupServer.prototype.setupExpress = function () {
         this.app.use(express_1.default.json());
         this.app.use(index_routes_1.default);
+        this.app.use(cors_1.default());
     };
     SetupServer.prototype.databaseSetup = function () {
         return __awaiter(this, void 0, void 0, function () {
