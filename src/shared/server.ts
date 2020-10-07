@@ -3,7 +3,7 @@ import express, { Application } from 'express';
 
 import routes from './routes/index.routes';
 import * as database from './database';
-import '../container';
+import './container';
 
 export default class SetupServer extends Server {
   constructor(private port = 3333) {
