@@ -1,5 +1,6 @@
 import { Server } from '@overnightjs/core';
 import express, { Application } from 'express';
+import cors from 'cors';
 
 import routes from './routes/index.routes';
 import * as database from './database';
@@ -18,6 +19,7 @@ export default class SetupServer extends Server {
   private setupExpress(): void {
     this.app.use(express.json());
     this.app.use(routes);
+    this.app.use(cors());
   }
 
   private async databaseSetup(): Promise<void> {
