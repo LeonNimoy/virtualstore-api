@@ -1,10 +1,7 @@
 import multer, { StorageEngine } from 'multer';
 import path from 'path';
 
-import { ProductSchema } from '../databases/mongoose/schemas/ProductSchema';
-
-const tmpFolder = path.resolve(__dirname, '..', '..', 'tmp');
-const productId = new ProductSchema();
+const tmpFolder = path.join(process.cwd(), '..', '..', 'tmp');
 
 interface IUploadConfig {
   driver: 's3' | 'disk';
@@ -30,8 +27,7 @@ export default {
     storage: multer.diskStorage({
       destination: tmpFolder,
       filename(request, file, callback) {
-        const fileId = productId.id;
-        const filename = `${fileId}-${file.originalname}`;
+        const filename = file.originalname;
         return callback(null, filename);
       },
     }),
