@@ -1,5 +1,5 @@
 import { Server } from '@overnightjs/core';
-import express, { Application, urlencoded } from 'express';
+import express, { Application } from 'express';
 
 import routes from './routes/index.routes';
 import * as database from './databases/mongoose';
@@ -18,7 +18,6 @@ export default class SetupServer extends Server {
   private setupExpress(): void {
     this.app.use(express.json());
     this.app.use(routes);
-    this.app.use(urlencoded({ extended: true }));
   }
 
   private async databaseSetup(): Promise<void> {
