@@ -1,5 +1,6 @@
 import 'reflect-metadata';
 import { inject, injectable } from 'tsyringe';
+import { hash } from 'bcryptjs';
 
 import IUserDTO from '../dtos/IUserDTO';
 import IUserEntity from '../entities/IUserEntity';
@@ -20,15 +21,22 @@ class CreateUserService {
     cpf,
     address,
   }: IUserDTO): Promise<IUserEntity> {
-    const user = this.userRepository.save({
+    const checkNewUserEmail = await this.userRepository.findEmail(email);
+    if (!checkNewUserEmail) {
+      throw new Error('Email already used!');
+    }
+
+    const hashedPassword = await hash(password, 8);
+
+    const user = await this.userRepository.save({
       name,
       email,
-      password,
+      password: hashedPassword,
       phone,
       cpf,
       address,
     });
-    await user;
+
     return user;
   }
 }

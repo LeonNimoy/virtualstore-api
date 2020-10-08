@@ -14,6 +14,18 @@ export default class UsersRepository implements IUsersProvider {
     return userId;
   }
 
+  public async findEmail(newUserEmail: string): Promise<boolean> {
+    const notAvailableEmail = await UserSchema.findOne({
+      email: newUserEmail,
+    });
+
+    if (!notAvailableEmail) {
+      return true;
+    }
+
+    return false;
+  }
+
   public async save(userData: IUserDTO): Promise<IUserEntity> {
     const userCreated = new UserSchema(userData);
     await userCreated.save();

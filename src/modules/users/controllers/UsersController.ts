@@ -27,7 +27,7 @@ export default class UsersController {
 
     try {
       const createUser = container.resolve(CreateUserService);
-      const user = await createUser.execute({
+      await createUser.execute({
         name,
         email,
         password,
@@ -35,12 +35,13 @@ export default class UsersController {
         cpf,
         address,
       });
-      return res.status(201).json(user);
-    } catch (error) {
-      if (error instanceof mongoose.Error.ValidationError) {
-        return res.status(422).json({ error: error.message });
+
+      return res.status(201).json({ name, email, phone, cpf, address });
+    } catch (err) {
+      if (err.name === 'MongoError' && err.code === 11000) {
+        return res.status(500).json('Something Wrong');
       }
-      return res.status(500).json({ error: 'Internal Server Error' });
+      return res.status(409).json({ error: err.message });
     }
   }
 
