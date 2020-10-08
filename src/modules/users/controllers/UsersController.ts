@@ -1,6 +1,5 @@
 import { Request, Response } from 'express';
 import { container } from 'tsyringe';
-import mongoose from 'mongoose';
 
 import { UserSchema } from '../databases/mongoose/schemas/UserSchema';
 import CreateUserService from '../services/CreateUserService';
@@ -17,8 +16,11 @@ export default class UsersController {
       const users = await UserSchema.find({});
 
       return res.status(200).json(users);
-    } catch (error) {
-      return res.status(500).json({ error: 'Something went wrong' });
+    } catch (err) {
+      if (err.name === 'MongoError' && err.code === 11000) {
+        return res.status(500).json('Something Wrong');
+      }
+      return res.status(404).json({ error: err.message });
     }
   }
 
@@ -62,10 +64,10 @@ export default class UsersController {
 
       return res.status(200).json(user);
     } catch (err) {
-      if (err instanceof mongoose.Error.ValidationError) {
-        return res.status(422).json({ err: err.message });
+      if (err.name === 'MongoError' && err.code === 11000) {
+        return res.status(500).json('Something Wrong');
       }
-      return res.status(500).json({ err: 'Internal Server Error' });
+      return res.status(404).json({ error: err.message });
     }
   }
 
@@ -78,10 +80,10 @@ export default class UsersController {
 
       return res.status(200).json({ message: 'user deleted!' });
     } catch (err) {
-      if (err instanceof mongoose.Error.ValidationError) {
-        return res.status(422).json({ err: err.message });
+      if (err.name === 'MongoError' && err.code === 11000) {
+        return res.status(500).json('Something Wrong');
       }
-      return res.status(500).json({ err: 'Internal Server Error' });
+      return res.status(404).json({ error: err.message });
     }
   }
 }
