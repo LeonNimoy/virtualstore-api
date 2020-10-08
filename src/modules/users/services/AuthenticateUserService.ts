@@ -1,3 +1,4 @@
+/* eslint-disable no-underscore-dangle */
 import 'reflect-metadata';
 import { sign } from 'jsonwebtoken';
 import { injectable, inject } from 'tsyringe';
@@ -43,7 +44,7 @@ class AuthenticateUserService {
     const { secret, expiresIn } = authConfig.jwt;
 
     const token = sign({}, secret, {
-      subject: user.id,
+      subject: user._id,
       expiresIn,
     });
     return { user, token };

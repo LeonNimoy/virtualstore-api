@@ -1,6 +1,5 @@
 import 'reflect-metadata';
 import { inject, injectable } from 'tsyringe';
-import { hash } from 'bcryptjs';
 
 import IUserDTO from '../dtos/IUserDTO';
 import IUserEntity from '../entities/IUserEntity';
