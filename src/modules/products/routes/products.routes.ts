@@ -3,7 +3,7 @@ import multer from 'multer';
 
 import ProductsController from '../controllers/ProductsController';
 import ProductImageController from '../controllers/ProductImageController';
-import uploadConfig from '../config/upload';
+import uploadConfig from '../../../config/upload';
 
 const productsRouter = Router();
 const upload = multer(uploadConfig.multer);

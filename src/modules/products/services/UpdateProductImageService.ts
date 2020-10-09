@@ -1,5 +1,5 @@
-import DiskStorageProvider from '../container/implementations/S3StorageProvider';
-import uploadConfig from '../config/upload';
+import DiskStorageProvider from '../../../shared/container/implementations/S3StorageProvider';
+import uploadConfig from '../../../config/upload';
 
 interface IRequest {
   imageFilename: string;

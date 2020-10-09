@@ -1,7 +1,7 @@
 import { injectable, inject } from 'tsyringe';
 
 import IProductsProvider from '../providers/IProductsProvider';
-import DiskStorageProvider from '../container/implementations/S3StorageProvider';
+import DiskStorageProvider from '../../../shared/container/implementations/S3StorageProvider';
 
 interface Request {
   id: string;

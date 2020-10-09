@@ -3,7 +3,7 @@ import express, { Application } from 'express';
 import cors from 'cors';
 
 import routes from './routes/index.routes';
-import * as database from './databases/mongoose';
+import * as database from './database';
 import './container';
 
 export default class SetupServer extends Server {
