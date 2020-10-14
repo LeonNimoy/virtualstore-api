@@ -17,11 +17,7 @@ class UpdateUserService {
   ) {}
 
   public async execute(userNewData: IUserDTO): Promise<IUserEntity> {
-    const user = await this.userRepository.find(userNewData.id);
-
-    if (!user) {
-      throw new Error('user not Found');
-    }
+    const user = await this.userRepository.findById(userNewData.id);
 
     if (userNewData.name) {
       user.name = userNewData.name;

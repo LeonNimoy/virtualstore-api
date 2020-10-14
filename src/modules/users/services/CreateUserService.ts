@@ -5,6 +5,7 @@ import IUserDTO from '../dtos/IUserDTO';
 import IUserEntity from '../entities/IUserEntity';
 import IUsersProvider from '../providers/IUsersProvider';
 import IHashUser from '../providers/HashUser/models/IHashUser';
+import AppError from '../../../shared/errors/AppError';
 
 @injectable()
 class CreateUserService {
@@ -41,7 +42,7 @@ class CreateUserService {
       return user;
     }
 
-    throw new Error('Email already used!');
+    throw new AppError('Email already used!', 409);
   }
 }
 

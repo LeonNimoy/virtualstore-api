@@ -1,4 +1,3 @@
-/* eslint-disable no-underscore-dangle */
 import 'reflect-metadata';
 import { sign } from 'jsonwebtoken';
 import { injectable, inject } from 'tsyringe';
@@ -7,6 +6,7 @@ import authConfig from '../../../config/auth';
 import IHashUser from '../providers/HashUser/models/IHashUser';
 import IUserEntity from '../entities/IUserEntity';
 import UserRepository from '../repositories/UsersRepository';
+import AppError from '../../../shared/errors/AppError';
 
 interface IRequest {
   email: string;
@@ -39,7 +39,7 @@ class AuthenticateUserService {
     );
 
     if (!passwordMatched) {
-      throw new Error('Incorrect email/password combination');
+      throw new AppError('Incorrect email/password combination', 401);
     }
     const { secret, expiresIn } = authConfig.jwt;
 
