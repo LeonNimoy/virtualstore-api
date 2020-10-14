@@ -52,7 +52,7 @@ export default class UsersController {
       const { id } = req.params;
       const { name, email, password, phone, cpf, address } = req.body;
       const updateUser = container.resolve(UpdateUserService);
-      await updateUser.execute({
+      const user = await updateUser.execute({
         id,
         name,
         email,
@@ -62,7 +62,7 @@ export default class UsersController {
         address,
       });
 
-      return res.status(200).json({ name, email, phone, cpf, address });
+      return res.status(200).json(user);
     } catch (err) {
       if (err.name === 'MongoError' && err.code === 11000) {
         return res.status(500).json('Something Wrong');
