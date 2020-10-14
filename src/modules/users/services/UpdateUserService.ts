@@ -4,12 +4,16 @@ import { inject, injectable } from 'tsyringe';
 import IUserDTO from '../dtos/IUserDTO';
 import IUserEntity from '../entities/IUserEntity';
 import IUsersProvider from '../providers/IUsersProvider';
+import IHashUser from '../providers/HashUser/models/IHashUser';
 
 @injectable()
 class UpdateUserService {
   constructor(
     @inject('UsersRepository')
     private userRepository: IUsersProvider,
+
+    @inject('HashUser')
+    private hashUser: IHashUser,
   ) {}
 
   public async execute(userNewData: IUserDTO): Promise<IUserEntity> {
@@ -28,7 +32,10 @@ class UpdateUserService {
     }
 
     if (userNewData.password) {
-      user.password = userNewData.password;
+      const hashedPassword = await this.hashUser.generateHash(
+        userNewData.password,
+      );
+      user.password = hashedPassword;
     }
 
     if (userNewData.phone) {
