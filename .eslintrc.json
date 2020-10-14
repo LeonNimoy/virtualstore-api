@@ -25,6 +25,8 @@
     "rules": {
     "no-useless-constructor":"off",
     "import/prefer-default-export":"off",
+    "no-param-reassign":"off",
+    "no-underscore-dangle":"off",
       "class-methods-use-this":"off",
       "prettier/prettier": "error",
       "import/extensions": [

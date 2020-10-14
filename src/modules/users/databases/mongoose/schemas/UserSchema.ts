@@ -1,5 +1,3 @@
-/* eslint-disable no-param-reassign */
-/* eslint-disable no-underscore-dangle */
 import mongoose, { Document, Model } from 'mongoose';
 
 import IUserEntity from '../../../entities/IUserEntity';
@@ -18,6 +16,7 @@ const schema = new mongoose.Schema(
     password: {
       type: String,
       required: true,
+      select: false,
     },
     phone: {
       type: Number,
@@ -45,5 +44,5 @@ const schema = new mongoose.Schema(
   },
 );
 
-interface IUserModel extends Omit<IUserEntity, '_id'>, Document {}
+interface IUserModel extends Omit<IUserEntity, 'id'>, Document {}
 export const UserSchema: Model<IUserModel> = mongoose.model('User', schema);
