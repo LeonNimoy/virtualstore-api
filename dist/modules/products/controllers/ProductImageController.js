@@ -39,7 +39,6 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-var mongoose_1 = __importDefault(require("mongoose"));
 var tsyringe_1 = require("tsyringe");
 var UpdateProductImageService_1 = __importDefault(require("../services/UpdateProductImageService"));
 var ProductImageController = /** @class */ (function () {
@@ -47,11 +46,10 @@ var ProductImageController = /** @class */ (function () {
     }
     ProductImageController.prototype.update = function (req, res) {
         return __awaiter(this, void 0, void 0, function () {
-            var updateProductImage, productImage, err_1;
+            var updateProductImage, productImage;
             return __generator(this, function (_a) {
                 switch (_a.label) {
                     case 0:
-                        _a.trys.push([0, 2, , 3]);
                         updateProductImage = tsyringe_1.container.resolve(UpdateProductImageService_1.default);
                         return [4 /*yield*/, updateProductImage.execute({
                                 imageFilename: req.file.filename,
@@ -59,13 +57,6 @@ var ProductImageController = /** @class */ (function () {
                     case 1:
                         productImage = _a.sent();
                         return [2 /*return*/, res.status(201).json(productImage)];
-                    case 2:
-                        err_1 = _a.sent();
-                        if (err_1 instanceof mongoose_1.default.Error.ValidationError) {
-                            return [2 /*return*/, res.status(422).json({ err: err_1.message })];
-                        }
-                        return [2 /*return*/, res.status(500).json({ err: 'Internal Server Error' })];
-                    case 3: return [2 /*return*/];
                 }
             });
         });

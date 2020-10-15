@@ -5,6 +5,7 @@ import aws, { S3 } from 'aws-sdk';
 
 import uploadConfig from '../../../config/upload';
 import DiskStorageEntity from '../entities/DiskStorageEntity';
+import AppError from '../../errors/AppError';
 
 class DiskStorageProvider implements DiskStorageEntity {
   private client: S3;
@@ -30,7 +31,7 @@ class DiskStorageProvider implements DiskStorageEntity {
 
     if (!ContentType || !filesChecker) {
       await fs.promises.unlink(originalPath);
-      throw new Error('Type file not valid');
+      throw new AppError('Type file not valid', 403);
     }
 
     await this.client

@@ -59,12 +59,9 @@ var UpdateProductService = /** @class */ (function () {
             var product, productUpdated;
             return __generator(this, function (_a) {
                 switch (_a.label) {
-                    case 0: return [4 /*yield*/, this.productRepository.find(productNewData.id)];
+                    case 0: return [4 /*yield*/, this.productRepository.findById(productNewData.id)];
                     case 1:
                         product = _a.sent();
-                        if (!product) {
-                            throw new Error('Product not Found');
-                        }
                         if (productNewData.name) {
                             product.name = productNewData.name;
                         }

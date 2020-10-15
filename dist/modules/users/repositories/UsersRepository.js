@@ -35,12 +35,32 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
         if (op[0] & 5) throw op[1]; return { value: op[0] ? op[1] : void 0, done: true };
     }
 };
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
 Object.defineProperty(exports, "__esModule", { value: true });
 var UserSchema_1 = require("../databases/mongoose/schemas/UserSchema");
+var AppError_1 = __importDefault(require("../../../shared/errors/AppError"));
 var UsersRepository = /** @class */ (function () {
     function UsersRepository() {
     }
-    UsersRepository.prototype.find = function (id) {
+    UsersRepository.prototype.find = function () {
+        return __awaiter(this, void 0, void 0, function () {
+            var users;
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0: return [4 /*yield*/, UserSchema_1.UserSchema.find()];
+                    case 1:
+                        users = _a.sent();
+                        if (users === null) {
+                            throw new AppError_1.default('Users not found!', 404);
+                        }
+                        return [2 /*return*/, users];
+                }
+            });
+        });
+    };
+    UsersRepository.prototype.findById = function (id) {
         return __awaiter(this, void 0, void 0, function () {
             var userId;
             return __generator(this, function (_a) {
@@ -49,7 +69,7 @@ var UsersRepository = /** @class */ (function () {
                     case 1:
                         userId = _a.sent();
                         if (userId === null) {
-                            throw new Error('User not found!');
+                            throw new AppError_1.default('User not found!', 404);
                         }
                         return [2 /*return*/, userId];
                 }
@@ -85,7 +105,7 @@ var UsersRepository = /** @class */ (function () {
                     case 1:
                         findUser = _a.sent();
                         if (!findUser) {
-                            throw new Error('Invalid Email or Password!');
+                            throw new AppError_1.default('Invalid Email or Password!', 401);
                         }
                         return [2 /*return*/, findUser];
                 }
@@ -112,11 +132,13 @@ var UsersRepository = /** @class */ (function () {
             var userUpdated;
             return __generator(this, function (_a) {
                 switch (_a.label) {
-                    case 0: return [4 /*yield*/, UserSchema_1.UserSchema.findByIdAndUpdate(userData.id, userData, { new: true })];
+                    case 0: return [4 /*yield*/, UserSchema_1.UserSchema.findByIdAndUpdate(userData.id, userData, {
+                            new: true,
+                        })];
                     case 1:
                         userUpdated = _a.sent();
                         if (userUpdated === null) {
-                            throw new Error('User not found!');
+                            throw new AppError_1.default('Not able to update user!', 401);
                         }
                         return [2 /*return*/, userUpdated];
                 }
@@ -128,11 +150,11 @@ var UsersRepository = /** @class */ (function () {
             var userDeleted;
             return __generator(this, function (_a) {
                 switch (_a.label) {
-                    case 0: return [4 /*yield*/, UserSchema_1.UserSchema.findByIdAndDelete(user.id)];
+                    case 0: return [4 /*yield*/, UserSchema_1.UserSchema.deleteOne(user)];
                     case 1:
                         userDeleted = _a.sent();
                         if (userDeleted === null) {
-                            throw new Error('User not found!');
+                            throw new AppError_1.default('User not found!', 404);
                         }
                         return [2 /*return*/];
                 }

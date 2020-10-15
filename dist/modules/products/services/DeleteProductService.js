@@ -47,12 +47,8 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
         if (op[0] & 5) throw op[1]; return { value: op[0] ? op[1] : void 0, done: true };
     }
 };
-var __importDefault = (this && this.__importDefault) || function (mod) {
-    return (mod && mod.__esModule) ? mod : { "default": mod };
-};
 Object.defineProperty(exports, "__esModule", { value: true });
 var tsyringe_1 = require("tsyringe");
-var S3StorageProvider_1 = __importDefault(require("../../../shared/container/implementations/S3StorageProvider"));
 var DeleteProductService = /** @class */ (function () {
     function DeleteProductService(productRepository) {
         this.productRepository = productRepository;
@@ -60,21 +56,18 @@ var DeleteProductService = /** @class */ (function () {
     DeleteProductService.prototype.execute = function (_a) {
         var id = _a.id;
         return __awaiter(this, void 0, void 0, function () {
-            var product, fileUploaded;
+            var product;
             return __generator(this, function (_b) {
                 switch (_b.label) {
-                    case 0: return [4 /*yield*/, this.productRepository.find(id)];
+                    case 0: return [4 /*yield*/, this.productRepository.findById(id)];
                     case 1:
                         product = _b.sent();
-                        if (!product) {
-                            throw new Error('Product not Found');
-                        }
-                        fileUploaded = new S3StorageProvider_1.default();
-                        return [4 /*yield*/, fileUploaded.deleteFile(product.image)];
-                    case 2:
-                        _b.sent();
+                        // const fileUploaded = new DiskStorageProvider();
+                        // await fileUploaded.deleteFile(product.image);
                         return [4 /*yield*/, this.productRepository.delete(product)];
-                    case 3:
+                    case 2:
+                        // const fileUploaded = new DiskStorageProvider();
+                        // await fileUploaded.deleteFile(product.image);
                         _b.sent();
                         return [2 /*return*/];
                 }

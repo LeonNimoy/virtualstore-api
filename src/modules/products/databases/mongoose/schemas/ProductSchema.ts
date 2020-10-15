@@ -40,7 +40,7 @@ const schema = new mongoose.Schema(
   },
 );
 
-interface IProductModel extends Omit<IProductEntity, '_id'>, Document {}
+interface IProductModel extends Omit<IProductEntity, 'id'>, Document {}
 export const ProductSchema: Model<IProductModel> = mongoose.model(
   'Product',
   schema,

@@ -47,9 +47,13 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
         if (op[0] & 5) throw op[1]; return { value: op[0] ? op[1] : void 0, done: true };
     }
 };
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
 Object.defineProperty(exports, "__esModule", { value: true });
 require("reflect-metadata");
 var tsyringe_1 = require("tsyringe");
+var AppError_1 = __importDefault(require("../../../shared/errors/AppError"));
 var CreateUserService = /** @class */ (function () {
     function CreateUserService(userRepository, hashUser) {
         this.userRepository = userRepository;
@@ -79,7 +83,7 @@ var CreateUserService = /** @class */ (function () {
                     case 3:
                         user = _b.sent();
                         return [2 /*return*/, user];
-                    case 4: throw new Error('Email already used!');
+                    case 4: throw new AppError_1.default('Email already used!', 409);
                 }
             });
         });

@@ -4,6 +4,7 @@ import { inject, injectable } from 'tsyringe';
 import IProductDTO from '../dtos/IProductDTO';
 import IProductEntity from '../entities/IProductEntity';
 import IProductsProvider from '../providers/IProductsProvider';
+import AppError from '../../../shared/errors/AppError';
 
 @injectable()
 class CreateProductService {
@@ -20,16 +21,21 @@ class CreateProductService {
     price,
     quantity,
   }: IProductDTO): Promise<IProductEntity> {
-    const product = this.productRepository.save({
-      name,
-      tags,
-      description,
-      image,
-      price,
-      quantity,
-    });
-    await product;
-    return product;
+    const checkName = await this.productRepository.checkName(name);
+
+    if (checkName) {
+      const product = this.productRepository.save({
+        name,
+        tags,
+        description,
+        image,
+        price,
+        quantity,
+      });
+      return product;
+    }
+
+    throw new AppError('Name for product already used!', 409);
   }
 }
 

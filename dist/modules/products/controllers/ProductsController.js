@@ -40,48 +40,42 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 var tsyringe_1 = require("tsyringe");
-var mongoose_1 = __importDefault(require("mongoose"));
-var ProductSchema_1 = require("../databases/mongoose/schemas/ProductSchema");
 var DeleteProductService_1 = __importDefault(require("../services/DeleteProductService"));
 var CreateProductService_1 = __importDefault(require("../services/CreateProductService"));
 var UpdateProductService_1 = __importDefault(require("../services/UpdateProductService"));
+var ProductsRepository_1 = __importDefault(require("../repositories/ProductsRepository"));
 var ProductsController = /** @class */ (function () {
     function ProductsController() {
     }
     ProductsController.prototype.list = function (req, res) {
         return __awaiter(this, void 0, void 0, function () {
-            var product, products, error_1;
+            var findProduct, productFound, products, productsFound;
             return __generator(this, function (_a) {
                 switch (_a.label) {
                     case 0:
-                        _a.trys.push([0, 4, , 5]);
                         if (!req.params.id) return [3 /*break*/, 2];
-                        return [4 /*yield*/, ProductSchema_1.ProductSchema.findById(req.params.id)];
+                        findProduct = new ProductsRepository_1.default();
+                        return [4 /*yield*/, findProduct.findById(req.params.id)];
                     case 1:
-                        product = _a.sent();
-                        return [2 /*return*/, res.status(200).json(product)];
-                    case 2: return [4 /*yield*/, ProductSchema_1.ProductSchema.find({})];
+                        productFound = _a.sent();
+                        return [2 /*return*/, res.status(200).json(productFound)];
+                    case 2:
+                        products = new ProductsRepository_1.default();
+                        return [4 /*yield*/, products.find()];
                     case 3:
-                        products = _a.sent();
-                        return [2 /*return*/, res.status(200).json(products)];
-                    case 4:
-                        error_1 = _a.sent();
-                        return [2 /*return*/, res.status(500).json({ error: 'Something went wrong' })];
-                    case 5: return [2 /*return*/];
+                        productsFound = _a.sent();
+                        return [2 /*return*/, res.status(200).json(productsFound)];
                 }
             });
         });
     };
     ProductsController.prototype.create = function (req, res) {
         return __awaiter(this, void 0, void 0, function () {
-            var _a, name, tags, description, image, price, quantity, createProduct, product, error_2;
+            var _a, name, tags, description, image, price, quantity, createProduct, product;
             return __generator(this, function (_b) {
                 switch (_b.label) {
                     case 0:
                         _a = req.body, name = _a.name, tags = _a.tags, description = _a.description, image = _a.image, price = _a.price, quantity = _a.quantity;
-                        _b.label = 1;
-                    case 1:
-                        _b.trys.push([1, 3, , 4]);
                         createProduct = tsyringe_1.container.resolve(CreateProductService_1.default);
                         return [4 /*yield*/, createProduct.execute({
                                 name: name,
@@ -91,33 +85,25 @@ var ProductsController = /** @class */ (function () {
                                 price: price,
                                 quantity: quantity,
                             })];
-                    case 2:
+                    case 1:
                         product = _b.sent();
                         return [2 /*return*/, res.status(201).json(product)];
-                    case 3:
-                        error_2 = _b.sent();
-                        if (error_2 instanceof mongoose_1.default.Error.ValidationError) {
-                            return [2 /*return*/, res.status(422).json({ error: error_2.message })];
-                        }
-                        return [2 /*return*/, res.status(500).json({ error: 'Internal Server Error' })];
-                    case 4: return [2 /*return*/];
                 }
             });
         });
     };
     ProductsController.prototype.update = function (req, res) {
         return __awaiter(this, void 0, void 0, function () {
-            var id, _a, name_1, tags, description, image, price, quantity, updateProduct, product, err_1;
+            var id, _a, name, tags, description, image, price, quantity, updateProduct, product;
             return __generator(this, function (_b) {
                 switch (_b.label) {
                     case 0:
-                        _b.trys.push([0, 2, , 3]);
                         id = req.params.id;
-                        _a = req.body, name_1 = _a.name, tags = _a.tags, description = _a.description, image = _a.image, price = _a.price, quantity = _a.quantity;
+                        _a = req.body, name = _a.name, tags = _a.tags, description = _a.description, image = _a.image, price = _a.price, quantity = _a.quantity;
                         updateProduct = tsyringe_1.container.resolve(UpdateProductService_1.default);
                         return [4 /*yield*/, updateProduct.execute({
                                 id: id,
-                                name: name_1,
+                                name: name,
                                 tags: tags,
                                 description: description,
                                 image: image,
@@ -127,37 +113,22 @@ var ProductsController = /** @class */ (function () {
                     case 1:
                         product = _b.sent();
                         return [2 /*return*/, res.status(200).json(product)];
-                    case 2:
-                        err_1 = _b.sent();
-                        if (err_1 instanceof mongoose_1.default.Error.ValidationError) {
-                            return [2 /*return*/, res.status(422).json({ err: err_1.message })];
-                        }
-                        return [2 /*return*/, res.status(500).json({ err: 'Internal Server Error' })];
-                    case 3: return [2 /*return*/];
                 }
             });
         });
     };
     ProductsController.prototype.delete = function (req, res) {
         return __awaiter(this, void 0, void 0, function () {
-            var id, productDeleted, err_2;
+            var id, productDeleted;
             return __generator(this, function (_a) {
                 switch (_a.label) {
                     case 0:
-                        _a.trys.push([0, 2, , 3]);
                         id = req.params.id;
                         productDeleted = tsyringe_1.container.resolve(DeleteProductService_1.default);
                         return [4 /*yield*/, productDeleted.execute({ id: id })];
                     case 1:
                         _a.sent();
                         return [2 /*return*/, res.status(200).json({ message: 'Product deleted!' })];
-                    case 2:
-                        err_2 = _a.sent();
-                        if (err_2 instanceof mongoose_1.default.Error.ValidationError) {
-                            return [2 /*return*/, res.status(422).json({ err: err_2.message })];
-                        }
-                        return [2 /*return*/, res.status(500).json({ err: 'Internal Server Error' })];
-                    case 3: return [2 /*return*/];
                 }
             });
         });

@@ -44,6 +44,7 @@ var path_1 = __importDefault(require("path"));
 var mime_1 = __importDefault(require("mime"));
 var aws_sdk_1 = __importDefault(require("aws-sdk"));
 var upload_1 = __importDefault(require("../../../config/upload"));
+var AppError_1 = __importDefault(require("../../errors/AppError"));
 var DiskStorageProvider = /** @class */ (function () {
     function DiskStorageProvider() {
         this.client = new aws_sdk_1.default.S3({
@@ -69,7 +70,7 @@ var DiskStorageProvider = /** @class */ (function () {
                         return [4 /*yield*/, fs_1.default.promises.unlink(originalPath)];
                     case 2:
                         _a.sent();
-                        throw new Error('Type file not valid');
+                        throw new AppError_1.default('Type file not valid', 403);
                     case 3: return [4 /*yield*/, this.client
                             .putObject({
                             Bucket: upload_1.default.config.disk.bucket,

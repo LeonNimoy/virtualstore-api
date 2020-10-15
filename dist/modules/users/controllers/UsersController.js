@@ -40,7 +40,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 var tsyringe_1 = require("tsyringe");
-var UserSchema_1 = require("../databases/mongoose/schemas/UserSchema");
+var UsersRepository_1 = __importDefault(require("../repositories/UsersRepository"));
 var CreateUserService_1 = __importDefault(require("../services/CreateUserService"));
 var UpdateUserService_1 = __importDefault(require("../services/UpdateUserService"));
 var DeleteUserService_1 = __importDefault(require("../services/DeleteUserService"));
@@ -49,41 +49,33 @@ var UsersController = /** @class */ (function () {
     }
     UsersController.prototype.list = function (req, res) {
         return __awaiter(this, void 0, void 0, function () {
-            var user, users, err_1;
+            var findUser, userFound, users, usersFound;
             return __generator(this, function (_a) {
                 switch (_a.label) {
                     case 0:
-                        _a.trys.push([0, 4, , 5]);
                         if (!req.params.id) return [3 /*break*/, 2];
-                        return [4 /*yield*/, UserSchema_1.UserSchema.findById(req.params.id)];
+                        findUser = new UsersRepository_1.default();
+                        return [4 /*yield*/, findUser.findById(req.params.id)];
                     case 1:
-                        user = _a.sent();
-                        return [2 /*return*/, res.status(200).json(user)];
-                    case 2: return [4 /*yield*/, UserSchema_1.UserSchema.find({})];
+                        userFound = _a.sent();
+                        return [2 /*return*/, res.status(200).json(userFound)];
+                    case 2:
+                        users = new UsersRepository_1.default();
+                        return [4 /*yield*/, users.find()];
                     case 3:
-                        users = _a.sent();
-                        return [2 /*return*/, res.status(200).json(users)];
-                    case 4:
-                        err_1 = _a.sent();
-                        if (err_1.name === 'MongoError' && err_1.code === 11000) {
-                            return [2 /*return*/, res.status(500).json('Something Wrong')];
-                        }
-                        return [2 /*return*/, res.status(404).json({ error: err_1.message })];
-                    case 5: return [2 /*return*/];
+                        usersFound = _a.sent();
+                        return [2 /*return*/, res.status(200).json(usersFound)];
                 }
             });
         });
     };
     UsersController.prototype.create = function (req, res) {
         return __awaiter(this, void 0, void 0, function () {
-            var _a, name, email, password, phone, cpf, address, createUser, err_2;
+            var _a, name, email, password, phone, cpf, address, createUser;
             return __generator(this, function (_b) {
                 switch (_b.label) {
                     case 0:
                         _a = req.body, name = _a.name, email = _a.email, password = _a.password, phone = _a.phone, cpf = _a.cpf, address = _a.address;
-                        _b.label = 1;
-                    case 1:
-                        _b.trys.push([1, 3, , 4]);
                         createUser = tsyringe_1.container.resolve(CreateUserService_1.default);
                         return [4 /*yield*/, createUser.execute({
                                 name: name,
@@ -93,33 +85,25 @@ var UsersController = /** @class */ (function () {
                                 cpf: cpf,
                                 address: address,
                             })];
-                    case 2:
+                    case 1:
                         _b.sent();
                         return [2 /*return*/, res.status(201).json({ name: name, email: email, phone: phone, cpf: cpf, address: address })];
-                    case 3:
-                        err_2 = _b.sent();
-                        if (err_2.name === 'MongoError' && err_2.code === 11000) {
-                            return [2 /*return*/, res.status(500).json('Something Wrong')];
-                        }
-                        return [2 /*return*/, res.status(409).json({ error: err_2.message })];
-                    case 4: return [2 /*return*/];
                 }
             });
         });
     };
     UsersController.prototype.update = function (req, res) {
         return __awaiter(this, void 0, void 0, function () {
-            var id, _a, name_1, email, password, phone, cpf, address, updateUser, user, err_3;
+            var id, _a, name, email, password, phone, cpf, address, updateUser, user;
             return __generator(this, function (_b) {
                 switch (_b.label) {
                     case 0:
-                        _b.trys.push([0, 2, , 3]);
                         id = req.params.id;
-                        _a = req.body, name_1 = _a.name, email = _a.email, password = _a.password, phone = _a.phone, cpf = _a.cpf, address = _a.address;
+                        _a = req.body, name = _a.name, email = _a.email, password = _a.password, phone = _a.phone, cpf = _a.cpf, address = _a.address;
                         updateUser = tsyringe_1.container.resolve(UpdateUserService_1.default);
                         return [4 /*yield*/, updateUser.execute({
                                 id: id,
-                                name: name_1,
+                                name: name,
                                 email: email,
                                 password: password,
                                 phone: phone,
@@ -129,37 +113,22 @@ var UsersController = /** @class */ (function () {
                     case 1:
                         user = _b.sent();
                         return [2 /*return*/, res.status(200).json(user)];
-                    case 2:
-                        err_3 = _b.sent();
-                        if (err_3.name === 'MongoError' && err_3.code === 11000) {
-                            return [2 /*return*/, res.status(500).json('Something Wrong')];
-                        }
-                        return [2 /*return*/, res.status(404).json({ error: err_3.message })];
-                    case 3: return [2 /*return*/];
                 }
             });
         });
     };
     UsersController.prototype.delete = function (req, res) {
         return __awaiter(this, void 0, void 0, function () {
-            var id, userDeleted, err_4;
+            var id, userDeleted;
             return __generator(this, function (_a) {
                 switch (_a.label) {
                     case 0:
-                        _a.trys.push([0, 2, , 3]);
                         id = req.params.id;
                         userDeleted = tsyringe_1.container.resolve(DeleteUserService_1.default);
                         return [4 /*yield*/, userDeleted.execute({ id: id })];
                     case 1:
                         _a.sent();
                         return [2 /*return*/, res.status(200).json({ message: 'user deleted!' })];
-                    case 2:
-                        err_4 = _a.sent();
-                        if (err_4.name === 'MongoError' && err_4.code === 11000) {
-                            return [2 /*return*/, res.status(500).json('Something Wrong')];
-                        }
-                        return [2 /*return*/, res.status(404).json({ error: err_4.message })];
-                    case 3: return [2 /*return*/];
                 }
             });
         });

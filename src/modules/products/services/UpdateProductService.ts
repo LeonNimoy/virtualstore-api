@@ -13,11 +13,7 @@ class UpdateProductService {
   ) {}
 
   public async execute(productNewData: IProductDTO): Promise<IProductEntity> {
-    const product = await this.productRepository.find(productNewData.id);
-
-    if (!product) {
-      throw new Error('Product not Found');
-    }
+    const product = await this.productRepository.findById(productNewData.id);
 
     if (productNewData.name) {
       product.name = productNewData.name;

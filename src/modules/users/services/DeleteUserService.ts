@@ -14,11 +14,7 @@ class DeleteUserService {
   ) {}
 
   public async execute({ id }: Request): Promise<void> {
-    const user = await this.userRepository.find(id);
-
-    if (!user) {
-      throw new Error('user not Found');
-    }
+    const user = await this.userRepository.findById(id);
 
     await this.userRepository.delete(user);
   }
