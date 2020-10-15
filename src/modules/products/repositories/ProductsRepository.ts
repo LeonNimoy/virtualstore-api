@@ -24,6 +24,18 @@ export default class ProductsRepository implements IProductsProvider {
     return findProductId;
   }
 
+  public async checkName(newProductName: string): Promise<boolean> {
+    const notAvailableName = await ProductSchema.findOne({
+      name: newProductName,
+    });
+
+    if (!notAvailableName) {
+      return true;
+    }
+
+    return false;
+  }
+
   public async save(productData: IProductDTO): Promise<IProductEntity> {
     const productCreated = new ProductSchema(productData);
     await productCreated.save();
@@ -38,7 +50,7 @@ export default class ProductsRepository implements IProductsProvider {
     );
 
     if (productUpdated === null) {
-      throw new Error('Product not found');
+      throw new AppError('Product not found', 404);
     }
 
     return productUpdated;
@@ -48,7 +60,7 @@ export default class ProductsRepository implements IProductsProvider {
     const productDeleted = await ProductSchema.findByIdAndDelete(product.id);
 
     if (productDeleted === null) {
-      throw new Error('Product not found');
+      throw new AppError('Product not found', 404);
     }
   }
 }
