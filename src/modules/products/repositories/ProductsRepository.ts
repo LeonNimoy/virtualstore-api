@@ -2,13 +2,23 @@ import { ProductSchema } from '../databases/mongoose/schemas/ProductSchema';
 import IProductEntity from '../entities/IProductEntity';
 import IProductDTO from '../dtos/IProductDTO';
 import IProductsProvider from '../providers/IProductsProvider';
+import AppError from '../../../shared/errors/AppError';
 
 export default class ProductsRepository implements IProductsProvider {
-  public async find(id: string): Promise<IProductEntity> {
+  public async find(): Promise<IProductEntity[]> {
+    const products = await ProductSchema.find();
+
+    if (products === null) {
+      throw new AppError('Products not found!', 404);
+    }
+    return products;
+  }
+
+  public async findById(id: string): Promise<IProductEntity> {
     const findProductId = await ProductSchema.findById(id);
 
     if (findProductId === null) {
-      throw new Error('Product not found');
+      throw new AppError('Product not found', 404);
     }
 
     return findProductId;

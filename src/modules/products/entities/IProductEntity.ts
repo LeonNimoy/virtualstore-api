@@ -1,5 +1,5 @@
 export default interface IProductEntity {
-  _id?: string;
+  id?: string;
   name: string;
   tags: Array<string>;
   description: string;

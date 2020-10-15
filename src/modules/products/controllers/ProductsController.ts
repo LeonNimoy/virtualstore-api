@@ -6,20 +6,20 @@ import { ProductSchema } from '../databases/mongoose/schemas/ProductSchema';
 import DeleteProductService from '../services/DeleteProductService';
 import CreateProductService from '../services/CreateProductService';
 import UpdateProductService from '../services/UpdateProductService';
+import ProductsRepository from '../repositories/ProductsRepository';
 
 export default class ProductsController {
   public async list(req: Request, res: Response): Promise<Response> {
-    try {
-      if (req.params.id) {
-        const product = await ProductSchema.findById(req.params.id);
-        return res.status(200).json(product);
-      }
-      const products = await ProductSchema.find({});
-
-      return res.status(200).json(products);
-    } catch (error) {
-      return res.status(500).json({ error: 'Something went wrong' });
+    if (req.params.id) {
+      const findProduct = new ProductsRepository();
+      const productFound = await findProduct.findById(req.params.id);
+      return res.status(200).json(productFound);
     }
+
+    const products = new ProductsRepository();
+    const productsFound = await products.find();
+
+    return res.status(200).json(productsFound);
   }
 
   public async create(req: Request, res: Response): Promise<Response> {
