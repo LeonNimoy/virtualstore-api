@@ -42,7 +42,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 var CreateProductService_1 = __importDefault(require("./CreateProductService"));
 var FakeProductsRepository_1 = __importDefault(require("../repositories/fakes/FakeProductsRepository"));
 describe('CreateProduct', function () {
-    it('should be able to create a new product', function () { return __awaiter(void 0, void 0, void 0, function () {
+    it.skip('should be able to create a new product', function () { return __awaiter(void 0, void 0, void 0, function () {
         var fakeProductRepository, createProductService, product;
         return __generator(this, function (_a) {
             switch (_a.label) {

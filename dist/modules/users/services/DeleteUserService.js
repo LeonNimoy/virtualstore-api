@@ -59,12 +59,9 @@ var DeleteUserService = /** @class */ (function () {
             var user;
             return __generator(this, function (_b) {
                 switch (_b.label) {
-                    case 0: return [4 /*yield*/, this.userRepository.find(id)];
+                    case 0: return [4 /*yield*/, this.userRepository.findById(id)];
                     case 1:
                         user = _b.sent();
-                        if (!user) {
-                            throw new Error('user not Found');
-                        }
                         return [4 /*yield*/, this.userRepository.delete(user)];
                     case 2:
                         _b.sent();

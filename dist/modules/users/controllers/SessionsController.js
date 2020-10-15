@@ -46,11 +46,10 @@ var SessionsController = /** @class */ (function () {
     }
     SessionsController.prototype.create = function (req, res) {
         return __awaiter(this, void 0, void 0, function () {
-            var _a, email, password, authenticateUser, _b, user, token, authUser, err_1;
+            var _a, email, password, authenticateUser, _b, user, token, authUser;
             return __generator(this, function (_c) {
                 switch (_c.label) {
                     case 0:
-                        _c.trys.push([0, 2, , 3]);
                         _a = req.body, email = _a.email, password = _a.password;
                         authenticateUser = tsyringe_1.container.resolve(AuthenticateUserService_1.default);
                         return [4 /*yield*/, authenticateUser.execute({
@@ -61,13 +60,6 @@ var SessionsController = /** @class */ (function () {
                         _b = _c.sent(), user = _b.user, token = _b.token;
                         authUser = user.email;
                         return [2 /*return*/, res.status(200).json({ authUser: authUser, token: token })];
-                    case 2:
-                        err_1 = _c.sent();
-                        if (err_1.name === 'MongoError' && err_1.code === 11000) {
-                            return [2 /*return*/, res.status(500).json('Something Wrong')];
-                        }
-                        return [2 /*return*/, res.status(409).json({ error: err_1.message })];
-                    case 3: return [2 /*return*/];
                 }
             });
         });

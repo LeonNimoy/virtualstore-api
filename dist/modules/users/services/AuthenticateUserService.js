@@ -51,12 +51,12 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-/* eslint-disable no-underscore-dangle */
 require("reflect-metadata");
 var jsonwebtoken_1 = require("jsonwebtoken");
 var tsyringe_1 = require("tsyringe");
 var auth_1 = __importDefault(require("../../../config/auth"));
 var UsersRepository_1 = __importDefault(require("../repositories/UsersRepository"));
+var AppError_1 = __importDefault(require("../../../shared/errors/AppError"));
 var AuthenticateUserService = /** @class */ (function () {
     function AuthenticateUserService(userRepository, hashUser) {
         this.userRepository = userRepository;
@@ -75,7 +75,7 @@ var AuthenticateUserService = /** @class */ (function () {
                     case 2:
                         passwordMatched = _c.sent();
                         if (!passwordMatched) {
-                            throw new Error('Incorrect email/password combination');
+                            throw new AppError_1.default('Incorrect email/password combination', 401);
                         }
                         _b = auth_1.default.jwt, secret = _b.secret, expiresIn = _b.expiresIn;
                         token = jsonwebtoken_1.sign({}, secret, {

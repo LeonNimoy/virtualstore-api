@@ -35,13 +35,33 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
         if (op[0] & 5) throw op[1]; return { value: op[0] ? op[1] : void 0, done: true };
     }
 };
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
 Object.defineProperty(exports, "__esModule", { value: true });
 var ProductSchema_1 = require("../../databases/mongoose/schemas/ProductSchema");
+var AppError_1 = __importDefault(require("../../../../shared/errors/AppError"));
 var FakeProductsRepository = /** @class */ (function () {
     function FakeProductsRepository() {
         this.products = [];
     }
-    FakeProductsRepository.prototype.find = function (id) {
+    FakeProductsRepository.prototype.find = function () {
+        return __awaiter(this, void 0, void 0, function () {
+            var products;
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0: return [4 /*yield*/, ProductSchema_1.ProductSchema.find()];
+                    case 1:
+                        products = _a.sent();
+                        if (products === null) {
+                            throw new AppError_1.default('Products not found!', 404);
+                        }
+                        return [2 /*return*/, products];
+                }
+            });
+        });
+    };
+    FakeProductsRepository.prototype.findById = function (id) {
         return __awaiter(this, void 0, void 0, function () {
             var productId;
             return __generator(this, function (_a) {
@@ -53,6 +73,24 @@ var FakeProductsRepository = /** @class */ (function () {
                             throw new Error('Product not found on Database');
                         }
                         return [2 /*return*/, productId];
+                }
+            });
+        });
+    };
+    FakeProductsRepository.prototype.checkName = function (newProductName) {
+        return __awaiter(this, void 0, void 0, function () {
+            var notAvailableName;
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0: return [4 /*yield*/, ProductSchema_1.ProductSchema.findOne({
+                            name: newProductName,
+                        })];
+                    case 1:
+                        notAvailableName = _a.sent();
+                        if (!notAvailableName) {
+                            return [2 /*return*/, true];
+                        }
+                        return [2 /*return*/, false];
                 }
             });
         });

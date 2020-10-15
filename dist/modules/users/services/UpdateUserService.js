@@ -60,12 +60,9 @@ var UpdateUserService = /** @class */ (function () {
             var user, hashedPassword, userUpdated;
             return __generator(this, function (_a) {
                 switch (_a.label) {
-                    case 0: return [4 /*yield*/, this.userRepository.find(userNewData.id)];
+                    case 0: return [4 /*yield*/, this.userRepository.findById(userNewData.id)];
                     case 1:
                         user = _a.sent();
-                        if (!user) {
-                            throw new Error('user not Found');
-                        }
                         if (userNewData.name) {
                             user.name = userNewData.name;
                         }

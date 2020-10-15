@@ -42,6 +42,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.close = exports.connect = void 0;
 var mongoose_1 = __importDefault(require("mongoose"));
 mongoose_1.default.set('runValidators', true);
+// production: MONGODB_URL - test: MONGODB_TEST
 exports.connect = function () { return __awaiter(void 0, void 0, void 0, function () {
     return __generator(this, function (_a) {
         return [2 /*return*/, mongoose_1.default.connect(process.env.MONGODB_URL, {

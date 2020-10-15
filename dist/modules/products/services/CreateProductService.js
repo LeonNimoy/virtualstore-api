@@ -47,9 +47,13 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
         if (op[0] & 5) throw op[1]; return { value: op[0] ? op[1] : void 0, done: true };
     }
 };
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
 Object.defineProperty(exports, "__esModule", { value: true });
 require("reflect-metadata");
 var tsyringe_1 = require("tsyringe");
+var AppError_1 = __importDefault(require("../../../shared/errors/AppError"));
 var CreateProductService = /** @class */ (function () {
     function CreateProductService(productRepository) {
         this.productRepository = productRepository;
@@ -57,22 +61,24 @@ var CreateProductService = /** @class */ (function () {
     CreateProductService.prototype.execute = function (_a) {
         var name = _a.name, tags = _a.tags, description = _a.description, image = _a.image, price = _a.price, quantity = _a.quantity;
         return __awaiter(this, void 0, void 0, function () {
-            var product;
+            var checkName, product;
             return __generator(this, function (_b) {
                 switch (_b.label) {
-                    case 0:
-                        product = this.productRepository.save({
-                            name: name,
-                            tags: tags,
-                            description: description,
-                            image: image,
-                            price: price,
-                            quantity: quantity,
-                        });
-                        return [4 /*yield*/, product];
+                    case 0: return [4 /*yield*/, this.productRepository.checkName(name)];
                     case 1:
-                        _b.sent();
-                        return [2 /*return*/, product];
+                        checkName = _b.sent();
+                        if (checkName) {
+                            product = this.productRepository.save({
+                                name: name,
+                                tags: tags,
+                                description: description,
+                                image: image,
+                                price: price,
+                                quantity: quantity,
+                            });
+                            return [2 /*return*/, product];
+                        }
+                        throw new AppError_1.default('Name for product already used!', 409);
                 }
             });
         });
