@@ -12,7 +12,7 @@ routes.use('/sessions', sessionsRouter);
 
 routes.use('/', async (req, res) => {
   try {
-    res.status(200).send('API is working!!');
+    res.status(200).send('API is working!!!');
   } catch (error) {
     res.status(500).json({ error: 'Something went wrong' });
   }

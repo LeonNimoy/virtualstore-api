@@ -50,7 +50,7 @@ routes.use('/sessions', sessions_routes_1.default);
 routes.use('/', function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
     return __generator(this, function (_a) {
         try {
-            res.status(200).send('API is working!!');
+            res.status(200).send('API is working!!!');
         }
         catch (error) {
             res.status(500).json({ error: 'Something went wrong' });
