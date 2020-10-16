@@ -41,8 +41,9 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 var CreateProductService_1 = __importDefault(require("./CreateProductService"));
 var FakeProductsRepository_1 = __importDefault(require("../repositories/fakes/FakeProductsRepository"));
+var AppError_1 = __importDefault(require("../../../shared/errors/AppError"));
 describe('CreateProduct', function () {
-    it.skip('should be able to create a new product', function () { return __awaiter(void 0, void 0, void 0, function () {
+    it('should be able to create a new product', function () { return __awaiter(void 0, void 0, void 0, function () {
         var fakeProductRepository, createProductService, product;
         return __generator(this, function (_a) {
             switch (_a.label) {
@@ -60,6 +61,35 @@ describe('CreateProduct', function () {
                 case 1:
                     product = _a.sent();
                     expect(product).toEqual(expect.objectContaining(product));
+                    return [2 /*return*/];
+            }
+        });
+    }); });
+    it('should not be able to create a new product with the same name of an old product', function () { return __awaiter(void 0, void 0, void 0, function () {
+        var fakeProductRepository, createProductService;
+        return __generator(this, function (_a) {
+            switch (_a.label) {
+                case 0:
+                    fakeProductRepository = new FakeProductsRepository_1.default();
+                    createProductService = new CreateProductService_1.default(fakeProductRepository);
+                    return [4 /*yield*/, createProductService.execute({
+                            name: 'Product Test',
+                            tags: ['Product', 'Test'],
+                            description: 'Just a simple test.',
+                            image: 'www.test.com',
+                            price: 46.89,
+                            quantity: 4,
+                        })];
+                case 1:
+                    _a.sent();
+                    expect(createProductService.execute({
+                        name: 'Product Test',
+                        tags: ['Product', 'Test'],
+                        description: 'Just a simple test.',
+                        image: 'www.test.com',
+                        price: 46.89,
+                        quantity: 4,
+                    })).rejects.toBeInstanceOf(AppError_1.default);
                     return [2 /*return*/];
             }
         });

@@ -81,17 +81,11 @@ var FakeProductsRepository = /** @class */ (function () {
         return __awaiter(this, void 0, void 0, function () {
             var notAvailableName;
             return __generator(this, function (_a) {
-                switch (_a.label) {
-                    case 0: return [4 /*yield*/, ProductSchema_1.ProductSchema.findOne({
-                            name: newProductName,
-                        })];
-                    case 1:
-                        notAvailableName = _a.sent();
-                        if (!notAvailableName) {
-                            return [2 /*return*/, true];
-                        }
-                        return [2 /*return*/, false];
+                notAvailableName = this.products.find(function (product) { return product.name === newProductName; });
+                if (!notAvailableName) {
+                    return [2 /*return*/, true];
                 }
+                return [2 /*return*/, false];
             });
         });
     };
