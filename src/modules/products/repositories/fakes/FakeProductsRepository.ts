@@ -16,11 +16,11 @@ class FakeProductsRepository implements IProductProvider {
     return products;
   }
 
-  public async findById(id: string): Promise<IProductEntity> {
-    const productId = await ProductSchema.findById(id);
+  public async findById(id: string): Promise<IProductEntity | undefined> {
+    const productId = this.products.find(product => product.id === id);
 
     if (productId === null) {
-      throw new Error('Product not found on Database');
+      throw new AppError('Product not found on Database', 404);
     }
 
     return productId;
@@ -48,11 +48,7 @@ class FakeProductsRepository implements IProductProvider {
   }
 
   public async update(newProductData: IProductDTO): Promise<IProductEntity> {
-    // if()
-
-    // if (productUpdated === null) {
-    //   throw new Error('Product not found');
-    // }
+    this.products.map(product => newProductData === product);
 
     return newProductData;
   }

@@ -20,7 +20,7 @@ describe('CreateProduct', () => {
     expect(product).toEqual(expect.objectContaining(product));
   });
 
-  it('should not be able to create a new product with the same name of an old product', async () => {
+  it('should not be able to create a new product with the same name of an another product', async () => {
     const fakeProductRepository = new FakeProductsRepository();
 
     const createProductService = new CreateProductService(
