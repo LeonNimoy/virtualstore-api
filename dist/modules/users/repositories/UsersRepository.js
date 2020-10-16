@@ -49,7 +49,7 @@ var UsersRepository = /** @class */ (function () {
             var users;
             return __generator(this, function (_a) {
                 switch (_a.label) {
-                    case 0: return [4 /*yield*/, UserSchema_1.UserSchema.find()];
+                    case 0: return [4 /*yield*/, UserSchema_1.UserSchema.find().select('-password')];
                     case 1:
                         users = _a.sent();
                         if (users === null) {
@@ -65,7 +65,7 @@ var UsersRepository = /** @class */ (function () {
             var userId;
             return __generator(this, function (_a) {
                 switch (_a.label) {
-                    case 0: return [4 /*yield*/, UserSchema_1.UserSchema.findById(id)];
+                    case 0: return [4 /*yield*/, UserSchema_1.UserSchema.findById(id).select('-password')];
                     case 1:
                         userId = _a.sent();
                         if (userId === null) {
