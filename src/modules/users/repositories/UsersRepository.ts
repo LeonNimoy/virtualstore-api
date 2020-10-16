@@ -62,7 +62,7 @@ export default class UsersRepository implements IUsersProvider {
       {
         new: true,
       },
-    );
+    ).select('-password');
 
     if (userUpdated === null) {
       throw new AppError('Not able to update user!', 401);
