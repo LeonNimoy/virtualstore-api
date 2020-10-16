@@ -39,11 +39,13 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
+var UpdateProductService_1 = __importDefault(require("./UpdateProductService"));
 var FakeProductsRepository_1 = __importDefault(require("../repositories/fakes/FakeProductsRepository"));
 var CreateProductService_1 = __importDefault(require("./CreateProductService"));
-describe('CreateProduct', function () {
-    it.skip('should be able to update a product', function () { return __awaiter(void 0, void 0, void 0, function () {
-        var fakeProductRepository, createProductService, product;
+var AppError_1 = __importDefault(require("../../../shared/errors/AppError"));
+describe('UpdateProduct', function () {
+    it('should be able to update a product', function () { return __awaiter(void 0, void 0, void 0, function () {
+        var fakeProductRepository, createProductService, oldUserData, updateProduct, productUpdated;
         return __generator(this, function (_a) {
             switch (_a.label) {
                 case 0:
@@ -58,7 +60,241 @@ describe('CreateProduct', function () {
                             quantity: 4,
                         })];
                 case 1:
-                    product = _a.sent();
+                    oldUserData = _a.sent();
+                    updateProduct = new UpdateProductService_1.default(fakeProductRepository);
+                    return [4 /*yield*/, updateProduct.execute({
+                            id: oldUserData.id,
+                            name: 'New Name',
+                            tags: ['Product', 'Test'],
+                            description: 'Just a simple test.',
+                            image: 'www.test.com',
+                            price: 46.89,
+                            quantity: 4,
+                        })];
+                case 2:
+                    productUpdated = _a.sent();
+                    expect(productUpdated).toEqual(expect.objectContaining(productUpdated));
+                    return [2 /*return*/];
+            }
+        });
+    }); });
+    it("should not be able to update a product that doesn't exist", function () { return __awaiter(void 0, void 0, void 0, function () {
+        var fakeProductRepository, updateProduct;
+        return __generator(this, function (_a) {
+            fakeProductRepository = new FakeProductsRepository_1.default();
+            updateProduct = new UpdateProductService_1.default(fakeProductRepository);
+            expect(updateProduct.execute({
+                id: undefined,
+                name: 'New Name',
+                tags: ['Product', 'Test'],
+                description: 'Just a simple test.',
+                image: 'www.test.com',
+                price: 46.89,
+                quantity: 4,
+            })).rejects.toBeInstanceOf(AppError_1.default);
+            return [2 /*return*/];
+        });
+    }); });
+    it('should not be able o change the property name if input is empty', function () { return __awaiter(void 0, void 0, void 0, function () {
+        var fakeProductRepository, createProductService, oldUserData, updateProduct, productUpdated;
+        return __generator(this, function (_a) {
+            switch (_a.label) {
+                case 0:
+                    fakeProductRepository = new FakeProductsRepository_1.default();
+                    createProductService = new CreateProductService_1.default(fakeProductRepository);
+                    return [4 /*yield*/, createProductService.execute({
+                            name: 'Product Test',
+                            tags: ['Product', 'Test'],
+                            description: 'Just a simple test.',
+                            image: 'www.test.com',
+                            price: 46.89,
+                            quantity: 4,
+                        })];
+                case 1:
+                    oldUserData = _a.sent();
+                    updateProduct = new UpdateProductService_1.default(fakeProductRepository);
+                    return [4 /*yield*/, updateProduct.execute({
+                            id: oldUserData.id,
+                            name: '',
+                            tags: ['Product', 'Test'],
+                            description: 'Just a simple test.',
+                            image: 'www.test.com',
+                            price: 46.89,
+                            quantity: 4,
+                        })];
+                case 2:
+                    productUpdated = _a.sent();
+                    expect(productUpdated.name).toEqual('Product Test');
+                    return [2 /*return*/];
+            }
+        });
+    }); });
+    it('should not be able o change the property tags if input is empty', function () { return __awaiter(void 0, void 0, void 0, function () {
+        var fakeProductRepository, createProductService, oldUserData, updateProduct, productUpdated;
+        return __generator(this, function (_a) {
+            switch (_a.label) {
+                case 0:
+                    fakeProductRepository = new FakeProductsRepository_1.default();
+                    createProductService = new CreateProductService_1.default(fakeProductRepository);
+                    return [4 /*yield*/, createProductService.execute({
+                            name: 'Product Test',
+                            tags: ['Product', 'Test'],
+                            description: 'Just a simple test.',
+                            image: 'www.test.com',
+                            price: 46.89,
+                            quantity: 4,
+                        })];
+                case 1:
+                    oldUserData = _a.sent();
+                    updateProduct = new UpdateProductService_1.default(fakeProductRepository);
+                    return [4 /*yield*/, updateProduct.execute({
+                            id: oldUserData.id,
+                            name: 'Product Test',
+                            tags: [],
+                            description: 'Just a simple test.',
+                            image: 'www.test.com',
+                            price: 46.89,
+                            quantity: 4,
+                        })];
+                case 2:
+                    productUpdated = _a.sent();
+                    expect(Array.from(productUpdated.tags)).toEqual(['Product', 'Test']);
+                    return [2 /*return*/];
+            }
+        });
+    }); });
+    it('should not be able o change the property description if input is empty', function () { return __awaiter(void 0, void 0, void 0, function () {
+        var fakeProductRepository, createProductService, oldUserData, updateProduct, productUpdated;
+        return __generator(this, function (_a) {
+            switch (_a.label) {
+                case 0:
+                    fakeProductRepository = new FakeProductsRepository_1.default();
+                    createProductService = new CreateProductService_1.default(fakeProductRepository);
+                    return [4 /*yield*/, createProductService.execute({
+                            name: 'Product Test',
+                            tags: ['Product', 'Test'],
+                            description: 'Just a simple test.',
+                            image: 'www.test.com',
+                            price: 46.89,
+                            quantity: 4,
+                        })];
+                case 1:
+                    oldUserData = _a.sent();
+                    updateProduct = new UpdateProductService_1.default(fakeProductRepository);
+                    return [4 /*yield*/, updateProduct.execute({
+                            id: oldUserData.id,
+                            name: 'Product Test',
+                            tags: ['Product', 'Test'],
+                            description: '',
+                            image: 'www.test.com',
+                            price: 46.89,
+                            quantity: 4,
+                        })];
+                case 2:
+                    productUpdated = _a.sent();
+                    expect(productUpdated.description).toEqual('Just a simple test.');
+                    return [2 /*return*/];
+            }
+        });
+    }); });
+    it('should not be able o change the property image if input is empty', function () { return __awaiter(void 0, void 0, void 0, function () {
+        var fakeProductRepository, createProductService, oldUserData, updateProduct, productUpdated;
+        return __generator(this, function (_a) {
+            switch (_a.label) {
+                case 0:
+                    fakeProductRepository = new FakeProductsRepository_1.default();
+                    createProductService = new CreateProductService_1.default(fakeProductRepository);
+                    return [4 /*yield*/, createProductService.execute({
+                            name: 'Product Test',
+                            tags: ['Product', 'Test'],
+                            description: 'Just a simple test.',
+                            image: 'www.test.com',
+                            price: 46.89,
+                            quantity: 4,
+                        })];
+                case 1:
+                    oldUserData = _a.sent();
+                    updateProduct = new UpdateProductService_1.default(fakeProductRepository);
+                    return [4 /*yield*/, updateProduct.execute({
+                            id: oldUserData.id,
+                            name: 'Product Test',
+                            tags: ['Product', 'Test'],
+                            description: '',
+                            image: '',
+                            price: 46.89,
+                            quantity: 4,
+                        })];
+                case 2:
+                    productUpdated = _a.sent();
+                    expect(productUpdated.image).toEqual('www.test.com');
+                    return [2 /*return*/];
+            }
+        });
+    }); });
+    it('should not be able o change the property price if input is empty', function () { return __awaiter(void 0, void 0, void 0, function () {
+        var fakeProductRepository, createProductService, oldUserData, updateProduct, productUpdated;
+        return __generator(this, function (_a) {
+            switch (_a.label) {
+                case 0:
+                    fakeProductRepository = new FakeProductsRepository_1.default();
+                    createProductService = new CreateProductService_1.default(fakeProductRepository);
+                    return [4 /*yield*/, createProductService.execute({
+                            name: 'Product Test',
+                            tags: ['Product', 'Test'],
+                            description: 'Just a simple test.',
+                            image: 'www.test.com',
+                            price: 46.89,
+                            quantity: 4,
+                        })];
+                case 1:
+                    oldUserData = _a.sent();
+                    updateProduct = new UpdateProductService_1.default(fakeProductRepository);
+                    return [4 /*yield*/, updateProduct.execute({
+                            id: oldUserData.id,
+                            name: 'Product Test',
+                            tags: ['Product', 'Test'],
+                            description: '',
+                            image: '',
+                            price: 0,
+                            quantity: 4,
+                        })];
+                case 2:
+                    productUpdated = _a.sent();
+                    expect(productUpdated.price).toEqual(46.89);
+                    return [2 /*return*/];
+            }
+        });
+    }); });
+    it('should not be able o change the property quantity if input is empty', function () { return __awaiter(void 0, void 0, void 0, function () {
+        var fakeProductRepository, createProductService, oldUserData, updateProduct, productUpdated;
+        return __generator(this, function (_a) {
+            switch (_a.label) {
+                case 0:
+                    fakeProductRepository = new FakeProductsRepository_1.default();
+                    createProductService = new CreateProductService_1.default(fakeProductRepository);
+                    return [4 /*yield*/, createProductService.execute({
+                            name: 'Product Test',
+                            tags: ['Product', 'Test'],
+                            description: 'Just a simple test.',
+                            image: 'www.test.com',
+                            price: 46.89,
+                            quantity: 4,
+                        })];
+                case 1:
+                    oldUserData = _a.sent();
+                    updateProduct = new UpdateProductService_1.default(fakeProductRepository);
+                    return [4 /*yield*/, updateProduct.execute({
+                            id: oldUserData.id,
+                            name: 'Product Test',
+                            tags: ['Product', 'Test'],
+                            description: '',
+                            image: '',
+                            price: 46.89,
+                            quantity: 0,
+                        })];
+                case 2:
+                    productUpdated = _a.sent();
+                    expect(productUpdated.quantity).toEqual(4);
                     return [2 /*return*/];
             }
         });

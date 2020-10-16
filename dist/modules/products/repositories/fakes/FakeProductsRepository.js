@@ -65,15 +65,11 @@ var FakeProductsRepository = /** @class */ (function () {
         return __awaiter(this, void 0, void 0, function () {
             var productId;
             return __generator(this, function (_a) {
-                switch (_a.label) {
-                    case 0: return [4 /*yield*/, ProductSchema_1.ProductSchema.findById(id)];
-                    case 1:
-                        productId = _a.sent();
-                        if (productId === null) {
-                            throw new Error('Product not found on Database');
-                        }
-                        return [2 /*return*/, productId];
+                productId = this.products.find(function (product) { return product.id === id; });
+                if (productId === null) {
+                    throw new AppError_1.default('Product not found on Database', 404);
                 }
+                return [2 /*return*/, productId];
             });
         });
     };
@@ -103,10 +99,7 @@ var FakeProductsRepository = /** @class */ (function () {
     FakeProductsRepository.prototype.update = function (newProductData) {
         return __awaiter(this, void 0, void 0, function () {
             return __generator(this, function (_a) {
-                // if()
-                // if (productUpdated === null) {
-                //   throw new Error('Product not found');
-                // }
+                this.products.map(function (product) { return newProductData === product; });
                 return [2 /*return*/, newProductData];
             });
         });

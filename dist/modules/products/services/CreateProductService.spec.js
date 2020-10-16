@@ -65,7 +65,7 @@ describe('CreateProduct', function () {
             }
         });
     }); });
-    it('should not be able to create a new product with the same name of an old product', function () { return __awaiter(void 0, void 0, void 0, function () {
+    it('should not be able to create a new product with the same name of an another product', function () { return __awaiter(void 0, void 0, void 0, function () {
         var fakeProductRepository, createProductService;
         return __generator(this, function (_a) {
             switch (_a.label) {
