@@ -27,9 +27,9 @@ class FakeProductsRepository implements IProductProvider {
   }
 
   public async checkName(newProductName: string): Promise<boolean> {
-    const notAvailableName = await ProductSchema.findOne({
-      name: newProductName,
-    });
+    const notAvailableName = this.products.find(
+      product => product.name === newProductName,
+    );
 
     if (!notAvailableName) {
       return true;
