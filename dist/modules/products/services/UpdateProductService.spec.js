@@ -45,7 +45,7 @@ var CreateProductService_1 = __importDefault(require("./CreateProductService"));
 var AppError_1 = __importDefault(require("../../../shared/errors/AppError"));
 describe('UpdateProduct', function () {
     it('should be able to update a product', function () { return __awaiter(void 0, void 0, void 0, function () {
-        var fakeProductRepository, createProductService, oldUserData, updateProduct, productUpdated;
+        var fakeProductRepository, createProductService, oldProductData, updateProduct, productUpdated;
         return __generator(this, function (_a) {
             switch (_a.label) {
                 case 0:
@@ -60,10 +60,10 @@ describe('UpdateProduct', function () {
                             quantity: 4,
                         })];
                 case 1:
-                    oldUserData = _a.sent();
+                    oldProductData = _a.sent();
                     updateProduct = new UpdateProductService_1.default(fakeProductRepository);
                     return [4 /*yield*/, updateProduct.execute({
-                            id: oldUserData.id,
+                            id: oldProductData.id,
                             name: 'New Name',
                             tags: ['Product', 'Test'],
                             description: 'Just a simple test.',
@@ -96,7 +96,7 @@ describe('UpdateProduct', function () {
         });
     }); });
     it('should not be able o change the property name if input is empty', function () { return __awaiter(void 0, void 0, void 0, function () {
-        var fakeProductRepository, createProductService, oldUserData, updateProduct, productUpdated;
+        var fakeProductRepository, createProductService, oldProductData, updateProduct, productUpdated;
         return __generator(this, function (_a) {
             switch (_a.label) {
                 case 0:
@@ -111,10 +111,10 @@ describe('UpdateProduct', function () {
                             quantity: 4,
                         })];
                 case 1:
-                    oldUserData = _a.sent();
+                    oldProductData = _a.sent();
                     updateProduct = new UpdateProductService_1.default(fakeProductRepository);
                     return [4 /*yield*/, updateProduct.execute({
-                            id: oldUserData.id,
+                            id: oldProductData.id,
                             name: '',
                             tags: ['Product', 'Test'],
                             description: 'Just a simple test.',
@@ -130,7 +130,7 @@ describe('UpdateProduct', function () {
         });
     }); });
     it('should not be able o change the property tags if input is empty', function () { return __awaiter(void 0, void 0, void 0, function () {
-        var fakeProductRepository, createProductService, oldUserData, updateProduct, productUpdated;
+        var fakeProductRepository, createProductService, oldProductData, updateProduct, productUpdated;
         return __generator(this, function (_a) {
             switch (_a.label) {
                 case 0:
@@ -145,10 +145,10 @@ describe('UpdateProduct', function () {
                             quantity: 4,
                         })];
                 case 1:
-                    oldUserData = _a.sent();
+                    oldProductData = _a.sent();
                     updateProduct = new UpdateProductService_1.default(fakeProductRepository);
                     return [4 /*yield*/, updateProduct.execute({
-                            id: oldUserData.id,
+                            id: oldProductData.id,
                             name: 'Product Test',
                             tags: [],
                             description: 'Just a simple test.',
@@ -164,7 +164,7 @@ describe('UpdateProduct', function () {
         });
     }); });
     it('should not be able o change the property description if input is empty', function () { return __awaiter(void 0, void 0, void 0, function () {
-        var fakeProductRepository, createProductService, oldUserData, updateProduct, productUpdated;
+        var fakeProductRepository, createProductService, oldProductData, updateProduct, productUpdated;
         return __generator(this, function (_a) {
             switch (_a.label) {
                 case 0:
@@ -179,10 +179,10 @@ describe('UpdateProduct', function () {
                             quantity: 4,
                         })];
                 case 1:
-                    oldUserData = _a.sent();
+                    oldProductData = _a.sent();
                     updateProduct = new UpdateProductService_1.default(fakeProductRepository);
                     return [4 /*yield*/, updateProduct.execute({
-                            id: oldUserData.id,
+                            id: oldProductData.id,
                             name: 'Product Test',
                             tags: ['Product', 'Test'],
                             description: '',
@@ -198,7 +198,7 @@ describe('UpdateProduct', function () {
         });
     }); });
     it('should not be able o change the property image if input is empty', function () { return __awaiter(void 0, void 0, void 0, function () {
-        var fakeProductRepository, createProductService, oldUserData, updateProduct, productUpdated;
+        var fakeProductRepository, createProductService, oldProductData, updateProduct, productUpdated;
         return __generator(this, function (_a) {
             switch (_a.label) {
                 case 0:
@@ -213,10 +213,10 @@ describe('UpdateProduct', function () {
                             quantity: 4,
                         })];
                 case 1:
-                    oldUserData = _a.sent();
+                    oldProductData = _a.sent();
                     updateProduct = new UpdateProductService_1.default(fakeProductRepository);
                     return [4 /*yield*/, updateProduct.execute({
-                            id: oldUserData.id,
+                            id: oldProductData.id,
                             name: 'Product Test',
                             tags: ['Product', 'Test'],
                             description: '',
@@ -232,7 +232,7 @@ describe('UpdateProduct', function () {
         });
     }); });
     it('should not be able o change the property price if input is empty', function () { return __awaiter(void 0, void 0, void 0, function () {
-        var fakeProductRepository, createProductService, oldUserData, updateProduct, productUpdated;
+        var fakeProductRepository, createProductService, oldProductData, updateProduct, productUpdated;
         return __generator(this, function (_a) {
             switch (_a.label) {
                 case 0:
@@ -247,10 +247,10 @@ describe('UpdateProduct', function () {
                             quantity: 4,
                         })];
                 case 1:
-                    oldUserData = _a.sent();
+                    oldProductData = _a.sent();
                     updateProduct = new UpdateProductService_1.default(fakeProductRepository);
                     return [4 /*yield*/, updateProduct.execute({
-                            id: oldUserData.id,
+                            id: oldProductData.id,
                             name: 'Product Test',
                             tags: ['Product', 'Test'],
                             description: '',
@@ -266,7 +266,7 @@ describe('UpdateProduct', function () {
         });
     }); });
     it('should not be able o change the property quantity if input is empty', function () { return __awaiter(void 0, void 0, void 0, function () {
-        var fakeProductRepository, createProductService, oldUserData, updateProduct, productUpdated;
+        var fakeProductRepository, createProductService, oldProductData, updateProduct, productUpdated;
         return __generator(this, function (_a) {
             switch (_a.label) {
                 case 0:
@@ -281,10 +281,10 @@ describe('UpdateProduct', function () {
                             quantity: 4,
                         })];
                 case 1:
-                    oldUserData = _a.sent();
+                    oldProductData = _a.sent();
                     updateProduct = new UpdateProductService_1.default(fakeProductRepository);
                     return [4 /*yield*/, updateProduct.execute({
-                            id: oldUserData.id,
+                            id: oldProductData.id,
                             name: 'Product Test',
                             tags: ['Product', 'Test'],
                             description: '',

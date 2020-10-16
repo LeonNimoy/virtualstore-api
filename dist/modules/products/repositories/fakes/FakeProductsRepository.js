@@ -104,19 +104,15 @@ var FakeProductsRepository = /** @class */ (function () {
             });
         });
     };
-    FakeProductsRepository.prototype.delete = function (product) {
+    FakeProductsRepository.prototype.delete = function (productToDelete) {
         return __awaiter(this, void 0, void 0, function () {
-            var productDeleted;
+            var findProduct;
             return __generator(this, function (_a) {
-                switch (_a.label) {
-                    case 0: return [4 /*yield*/, ProductSchema_1.ProductSchema.findByIdAndDelete(product.id)];
-                    case 1:
-                        productDeleted = _a.sent();
-                        if (productDeleted === null) {
-                            throw new Error('Product not found');
-                        }
-                        return [2 /*return*/];
+                findProduct = this.products.map(function (product) { return productToDelete.id === product.id; });
+                if (findProduct) {
+                    this.products.splice(0, 1);
                 }
+                return [2 /*return*/];
             });
         });
     };
