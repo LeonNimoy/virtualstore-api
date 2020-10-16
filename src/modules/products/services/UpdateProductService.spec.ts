@@ -10,7 +10,7 @@ describe('UpdateProduct', () => {
     const createProductService = new CreateProductService(
       fakeProductRepository,
     );
-    const oldUserData = await createProductService.execute({
+    const oldProductData = await createProductService.execute({
       name: 'Product Test',
       tags: ['Product', 'Test'],
       description: 'Just a simple test.',
@@ -22,7 +22,7 @@ describe('UpdateProduct', () => {
     const updateProduct = new UpdateProductService(fakeProductRepository);
 
     const productUpdated = await updateProduct.execute({
-      id: oldUserData.id,
+      id: oldProductData.id,
       name: 'New Name',
       tags: ['Product', 'Test'],
       description: 'Just a simple test.',
@@ -58,7 +58,7 @@ describe('UpdateProduct', () => {
     const createProductService = new CreateProductService(
       fakeProductRepository,
     );
-    const oldUserData = await createProductService.execute({
+    const oldProductData = await createProductService.execute({
       name: 'Product Test',
       tags: ['Product', 'Test'],
       description: 'Just a simple test.',
@@ -70,7 +70,7 @@ describe('UpdateProduct', () => {
     const updateProduct = new UpdateProductService(fakeProductRepository);
 
     const productUpdated = await updateProduct.execute({
-      id: oldUserData.id,
+      id: oldProductData.id,
       name: '',
       tags: ['Product', 'Test'],
       description: 'Just a simple test.',
@@ -88,7 +88,7 @@ describe('UpdateProduct', () => {
     const createProductService = new CreateProductService(
       fakeProductRepository,
     );
-    const oldUserData = await createProductService.execute({
+    const oldProductData = await createProductService.execute({
       name: 'Product Test',
       tags: ['Product', 'Test'],
       description: 'Just a simple test.',
@@ -100,7 +100,7 @@ describe('UpdateProduct', () => {
     const updateProduct = new UpdateProductService(fakeProductRepository);
 
     const productUpdated = await updateProduct.execute({
-      id: oldUserData.id,
+      id: oldProductData.id,
       name: 'Product Test',
       tags: [],
       description: 'Just a simple test.',
@@ -118,7 +118,7 @@ describe('UpdateProduct', () => {
     const createProductService = new CreateProductService(
       fakeProductRepository,
     );
-    const oldUserData = await createProductService.execute({
+    const oldProductData = await createProductService.execute({
       name: 'Product Test',
       tags: ['Product', 'Test'],
       description: 'Just a simple test.',
@@ -130,7 +130,7 @@ describe('UpdateProduct', () => {
     const updateProduct = new UpdateProductService(fakeProductRepository);
 
     const productUpdated = await updateProduct.execute({
-      id: oldUserData.id,
+      id: oldProductData.id,
       name: 'Product Test',
       tags: ['Product', 'Test'],
       description: '',
@@ -148,7 +148,7 @@ describe('UpdateProduct', () => {
     const createProductService = new CreateProductService(
       fakeProductRepository,
     );
-    const oldUserData = await createProductService.execute({
+    const oldProductData = await createProductService.execute({
       name: 'Product Test',
       tags: ['Product', 'Test'],
       description: 'Just a simple test.',
@@ -160,7 +160,7 @@ describe('UpdateProduct', () => {
     const updateProduct = new UpdateProductService(fakeProductRepository);
 
     const productUpdated = await updateProduct.execute({
-      id: oldUserData.id,
+      id: oldProductData.id,
       name: 'Product Test',
       tags: ['Product', 'Test'],
       description: '',
@@ -178,7 +178,7 @@ describe('UpdateProduct', () => {
     const createProductService = new CreateProductService(
       fakeProductRepository,
     );
-    const oldUserData = await createProductService.execute({
+    const oldProductData = await createProductService.execute({
       name: 'Product Test',
       tags: ['Product', 'Test'],
       description: 'Just a simple test.',
@@ -190,7 +190,7 @@ describe('UpdateProduct', () => {
     const updateProduct = new UpdateProductService(fakeProductRepository);
 
     const productUpdated = await updateProduct.execute({
-      id: oldUserData.id,
+      id: oldProductData.id,
       name: 'Product Test',
       tags: ['Product', 'Test'],
       description: '',
@@ -208,7 +208,7 @@ describe('UpdateProduct', () => {
     const createProductService = new CreateProductService(
       fakeProductRepository,
     );
-    const oldUserData = await createProductService.execute({
+    const oldProductData = await createProductService.execute({
       name: 'Product Test',
       tags: ['Product', 'Test'],
       description: 'Just a simple test.',
@@ -220,7 +220,7 @@ describe('UpdateProduct', () => {
     const updateProduct = new UpdateProductService(fakeProductRepository);
 
     const productUpdated = await updateProduct.execute({
-      id: oldUserData.id,
+      id: oldProductData.id,
       name: 'Product Test',
       tags: ['Product', 'Test'],
       description: '',

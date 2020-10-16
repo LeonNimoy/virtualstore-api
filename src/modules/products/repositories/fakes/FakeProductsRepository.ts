@@ -53,11 +53,13 @@ class FakeProductsRepository implements IProductProvider {
     return newProductData;
   }
 
-  public async delete(product: IProductDTO): Promise<void> {
-    const productDeleted = await ProductSchema.findByIdAndDelete(product.id);
+  public async delete(productToDelete: IProductDTO): Promise<void> {
+    const findProduct = this.products.map(
+      product => productToDelete.id === product.id,
+    );
 
-    if (productDeleted === null) {
-      throw new Error('Product not found');
+    if (findProduct) {
+      this.products.splice(0, 1);
     }
   }
 }

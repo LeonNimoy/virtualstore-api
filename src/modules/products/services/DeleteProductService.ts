@@ -5,7 +5,7 @@ import AppError from '../../../shared/errors/AppError';
 // import DiskStorageProvider from '../../../shared/container/implementations/S3StorageProvider';
 
 interface Request {
-  id: string;
+  id: string | undefined;
 }
 @injectable()
 class DeleteProductService {
