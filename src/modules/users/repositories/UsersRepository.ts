@@ -6,16 +6,17 @@ import AppError from '../../../shared/errors/AppError';
 
 export default class UsersRepository implements IUsersProvider {
   public async find(): Promise<IUserEntity[]> {
-    const users = await UserSchema.find();
+    const users = await UserSchema.find().select('-password');
 
     if (users === null) {
       throw new AppError('Users not found!', 404);
     }
+
     return users;
   }
 
   public async findById(id: string): Promise<IUserEntity> {
-    const userId = await UserSchema.findById(id);
+    const userId = await UserSchema.findById(id).select('-password');
 
     if (userId === null) {
       throw new AppError('User not found!', 404);
