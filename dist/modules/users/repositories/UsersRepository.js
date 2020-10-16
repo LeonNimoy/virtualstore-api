@@ -134,7 +134,7 @@ var UsersRepository = /** @class */ (function () {
                 switch (_a.label) {
                     case 0: return [4 /*yield*/, UserSchema_1.UserSchema.findByIdAndUpdate(userData.id, userData, {
                             new: true,
-                        })];
+                        }).select('-password')];
                     case 1:
                         userUpdated = _a.sent();
                         if (userUpdated === null) {
