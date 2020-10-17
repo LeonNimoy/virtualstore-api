@@ -4,10 +4,10 @@ import mime from 'mime';
 import aws, { S3 } from 'aws-sdk';
 
 import uploadConfig from '../../../config/upload';
-import DiskStorageEntity from '../entities/DiskStorageEntity';
+import IStorageProvider from '../entities/IStorageProvider';
 import AppError from '../../errors/AppError';
 
-class DiskStorageProvider implements DiskStorageEntity {
+class DiskStorageProvider implements IStorageProvider {
   private client: S3;
 
   constructor() {
@@ -31,7 +31,7 @@ class DiskStorageProvider implements DiskStorageEntity {
 
     if (!ContentType || !filesChecker) {
       await fs.promises.unlink(originalPath);
-      throw new AppError('Type file not valid', 403);
+      throw new AppError('Type of file not valid', 403);
     }
 
     await this.client
