@@ -1,5 +1,6 @@
 import 'reflect-metadata';
 import { inject, injectable } from 'tsyringe';
+import AppError from '../../../shared/errors/AppError';
 
 import IProductDTO from '../dtos/IProductDTO';
 import IProductEntity from '../entities/IProductEntity';
@@ -15,11 +16,15 @@ class UpdateProductService {
   public async execute(productNewData: IProductDTO): Promise<IProductEntity> {
     const product = await this.productRepository.findById(productNewData.id);
 
+    if (product === undefined) {
+      throw new AppError('User not found', 404);
+    }
+
     if (productNewData.name) {
       product.name = productNewData.name;
     }
 
-    if (productNewData.tags) {
+    if (productNewData.tags.length > 0) {
       product.tags = productNewData.tags;
     }
 

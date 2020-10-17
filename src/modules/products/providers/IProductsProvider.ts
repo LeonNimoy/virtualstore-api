@@ -3,7 +3,7 @@ import IProductEntity from '../entities/IProductEntity';
 
 export default interface IProductProvider {
   find(): Promise<IProductEntity[]>;
-  findById(id: string | undefined): Promise<IProductEntity>;
+  findById(id: string | undefined): Promise<IProductEntity | undefined>;
   checkName(productName: string): Promise<boolean>;
   save(productData: IProductDTO): Promise<IProductEntity>;
   update(newProductData: IProductDTO): Promise<IProductEntity>;

@@ -1,16 +1,4 @@
 "use strict";
-var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
-    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
-    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
-    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
-    return c > 3 && r && Object.defineProperty(target, key, r), r;
-};
-var __metadata = (this && this.__metadata) || function (k, v) {
-    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
-};
-var __param = (this && this.__param) || function (paramIndex, decorator) {
-    return function (target, key) { decorator(target, key, paramIndex); }
-};
 var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
     function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
     return new (P || (P = Promise))(function (resolve, reject) {
@@ -51,37 +39,48 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-require("reflect-metadata");
-var tsyringe_1 = require("tsyringe");
+var CreateProductService_1 = __importDefault(require("./CreateProductService"));
+var FakeProductsRepository_1 = __importDefault(require("../repositories/fakes/FakeProductsRepository"));
+var DeleteProductService_1 = __importDefault(require("./DeleteProductService"));
 var AppError_1 = __importDefault(require("../../../shared/errors/AppError"));
-var upload_1 = __importDefault(require("../../../config/upload"));
-var UpdateProductImageService = /** @class */ (function () {
-    function UpdateProductImageService(s3StorageProvider) {
-        this.s3StorageProvider = s3StorageProvider;
-    }
-    UpdateProductImageService.prototype.execute = function (_a) {
-        var imageFilename = _a.imageFilename;
-        return __awaiter(this, void 0, void 0, function () {
-            var fileUpdated, imageUrl;
-            return __generator(this, function (_b) {
-                switch (_b.label) {
-                    case 0: return [4 /*yield*/, this.s3StorageProvider.saveFile(imageFilename)];
-                    case 1:
-                        fileUpdated = _b.sent();
-                        if (!fileUpdated) {
-                            throw new AppError_1.default('Invalid file!', 400);
-                        }
-                        imageUrl = "https://" + upload_1.default.config.disk.bucket + ".s3.amazonaws.com/" + imageFilename;
-                        return [2 /*return*/, imageUrl];
-                }
-            });
+describe('DeleteProduct', function () {
+    it('should be able to delete a product', function () { return __awaiter(void 0, void 0, void 0, function () {
+        var fakeProductRepository, createProductService, product, deleteProduct, _a;
+        return __generator(this, function (_b) {
+            switch (_b.label) {
+                case 0:
+                    fakeProductRepository = new FakeProductsRepository_1.default();
+                    createProductService = new CreateProductService_1.default(fakeProductRepository);
+                    return [4 /*yield*/, createProductService.execute({
+                            name: 'Product Test',
+                            tags: ['Product', 'Test'],
+                            description: 'Just a simple test.',
+                            image: 'www.test.com',
+                            price: 46.89,
+                            quantity: 4,
+                        })];
+                case 1:
+                    product = _b.sent();
+                    deleteProduct = new DeleteProductService_1.default(fakeProductRepository);
+                    _a = expect;
+                    return [4 /*yield*/, deleteProduct.execute({
+                            id: product.id,
+                        })];
+                case 2:
+                    _a.apply(void 0, [_b.sent()]).toBe(undefined);
+                    return [2 /*return*/];
+            }
         });
-    };
-    UpdateProductImageService = __decorate([
-        tsyringe_1.injectable(),
-        __param(0, tsyringe_1.inject('S3StorageProvider')),
-        __metadata("design:paramtypes", [Object])
-    ], UpdateProductImageService);
-    return UpdateProductImageService;
-}());
-exports.default = UpdateProductImageService;
+    }); });
+    it("should not be able to delete a product that doesn't exist", function () { return __awaiter(void 0, void 0, void 0, function () {
+        var fakeProductRepository, deleteProduct;
+        return __generator(this, function (_a) {
+            fakeProductRepository = new FakeProductsRepository_1.default();
+            deleteProduct = new DeleteProductService_1.default(fakeProductRepository);
+            expect(deleteProduct.execute({
+                id: undefined,
+            })).rejects.toBeInstanceOf(AppError_1.default);
+            return [2 /*return*/];
+        });
+    }); });
+});

@@ -47,8 +47,12 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
         if (op[0] & 5) throw op[1]; return { value: op[0] ? op[1] : void 0, done: true };
     }
 };
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
 Object.defineProperty(exports, "__esModule", { value: true });
 var tsyringe_1 = require("tsyringe");
+var AppError_1 = __importDefault(require("../../../shared/errors/AppError"));
 var DeleteProductService = /** @class */ (function () {
     function DeleteProductService(productRepository) {
         this.productRepository = productRepository;
@@ -62,6 +66,9 @@ var DeleteProductService = /** @class */ (function () {
                     case 0: return [4 /*yield*/, this.productRepository.findById(id)];
                     case 1:
                         product = _b.sent();
+                        if (product === undefined) {
+                            throw new AppError_1.default('Product not found', 404);
+                        }
                         // const fileUploaded = new DiskStorageProvider();
                         // await fileUploaded.deleteFile(product.image);
                         return [4 /*yield*/, this.productRepository.delete(product)];

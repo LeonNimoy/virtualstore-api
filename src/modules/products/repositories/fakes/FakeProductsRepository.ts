@@ -16,20 +16,20 @@ class FakeProductsRepository implements IProductProvider {
     return products;
   }
 
-  public async findById(id: string): Promise<IProductEntity> {
-    const productId = await ProductSchema.findById(id);
+  public async findById(id: string): Promise<IProductEntity | undefined> {
+    const productId = this.products.find(product => product.id === id);
 
     if (productId === null) {
-      throw new Error('Product not found on Database');
+      throw new AppError('Product not found on Database', 404);
     }
 
     return productId;
   }
 
   public async checkName(newProductName: string): Promise<boolean> {
-    const notAvailableName = await ProductSchema.findOne({
-      name: newProductName,
-    });
+    const notAvailableName = this.products.find(
+      product => product.name === newProductName,
+    );
 
     if (!notAvailableName) {
       return true;
@@ -48,20 +48,18 @@ class FakeProductsRepository implements IProductProvider {
   }
 
   public async update(newProductData: IProductDTO): Promise<IProductEntity> {
-    // if()
-
-    // if (productUpdated === null) {
-    //   throw new Error('Product not found');
-    // }
+    this.products.map(product => newProductData === product);
 
     return newProductData;
   }
 
-  public async delete(product: IProductDTO): Promise<void> {
-    const productDeleted = await ProductSchema.findByIdAndDelete(product.id);
+  public async delete(productToDelete: IProductDTO): Promise<void> {
+    const findProduct = this.products.map(
+      product => productToDelete.id === product.id,
+    );
 
-    if (productDeleted === null) {
-      throw new Error('Product not found');
+    if (findProduct) {
+      this.products.splice(0, 1);
     }
   }
 }
