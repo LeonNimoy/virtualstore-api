@@ -20,7 +20,7 @@ class FakeUsersRepository implements IUsersProvider {
     const userId = this.users.find(user => user.id === id);
 
     if (userId === undefined) {
-      throw new AppError('user not found on Database', 404);
+      throw new AppError('User not found', 404);
     }
 
     return userId;
