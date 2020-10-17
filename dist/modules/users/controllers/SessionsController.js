@@ -46,7 +46,7 @@ var SessionsController = /** @class */ (function () {
     }
     SessionsController.prototype.create = function (req, res) {
         return __awaiter(this, void 0, void 0, function () {
-            var _a, email, password, authenticateUser, _b, user, token, authUser;
+            var _a, email, password, authenticateUser, _b, user, token, name, address, cpf, id, phone;
             return __generator(this, function (_c) {
                 switch (_c.label) {
                     case 0:
@@ -58,8 +58,10 @@ var SessionsController = /** @class */ (function () {
                             })];
                     case 1:
                         _b = _c.sent(), user = _b.user, token = _b.token;
-                        authUser = user.email;
-                        return [2 /*return*/, res.status(200).json({ authUser: authUser, token: token })];
+                        name = user.name, address = user.address, cpf = user.cpf, id = user.id, phone = user.phone;
+                        return [2 /*return*/, res
+                                .status(200)
+                                .json({ id: id, name: name, email: email, address: address, cpf: cpf, phone: phone, token: token })];
                 }
             });
         });
