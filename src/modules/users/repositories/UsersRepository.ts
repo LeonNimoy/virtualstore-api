@@ -15,7 +15,7 @@ export default class UsersRepository implements IUsersProvider {
     return users;
   }
 
-  public async findById(id: string): Promise<IUserEntity> {
+  public async findById(id: string | undefined): Promise<IUserEntity> {
     const userId = await UserSchema.findById(id).select('-password');
 
     if (userId === null) {
