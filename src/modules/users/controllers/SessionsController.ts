@@ -14,8 +14,10 @@ export default class SessionsController {
       password,
     });
 
-    const authUser = user.email;
+    const { name, address, cpf, id, phone } = user;
 
-    return res.status(200).json({ authUser, token });
+    return res
+      .status(200)
+      .json({ id, name, email, address, cpf, phone, token });
   }
 }
