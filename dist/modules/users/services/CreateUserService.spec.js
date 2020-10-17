@@ -39,7 +39,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-var BCryptHashUser_1 = __importDefault(require("../providers/HashUser/implementations/BCryptHashUser"));
+var FakeHashProvider_1 = __importDefault(require("../providers/HashUser/fakes/FakeHashProvider"));
 var CreateUserService_1 = __importDefault(require("./CreateUserService"));
 var FakeUsersRepository_1 = __importDefault(require("../repositories/fakes/FakeUsersRepository"));
 describe('CreateUser', function () {
@@ -49,7 +49,7 @@ describe('CreateUser', function () {
             switch (_a.label) {
                 case 0:
                     fakeUserRepository = new FakeUsersRepository_1.default();
-                    hashPassword = new BCryptHashUser_1.default();
+                    hashPassword = new FakeHashProvider_1.default();
                     createUserService = new CreateUserService_1.default(fakeUserRepository, hashPassword);
                     return [4 /*yield*/, createUserService.execute({
                             name: 'John Doe',
@@ -72,7 +72,7 @@ describe('CreateUser', function () {
             switch (_a.label) {
                 case 0:
                     fakeUserRepository = new FakeUsersRepository_1.default();
-                    hashPassword = new BCryptHashUser_1.default();
+                    hashPassword = new FakeHashProvider_1.default();
                     createUserService = new CreateUserService_1.default(fakeUserRepository, hashPassword);
                     return [4 /*yield*/, createUserService.execute({
                             name: 'John Doe',

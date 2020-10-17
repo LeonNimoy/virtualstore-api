@@ -67,7 +67,7 @@ var FakeUsersRepository = /** @class */ (function () {
             return __generator(this, function (_a) {
                 userId = this.users.find(function (user) { return user.id === id; });
                 if (userId === undefined) {
-                    throw new AppError_1.default('user not found on Database', 404);
+                    throw new AppError_1.default('User not found', 404);
                 }
                 return [2 /*return*/, userId];
             });
