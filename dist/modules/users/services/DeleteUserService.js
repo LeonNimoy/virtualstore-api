@@ -47,8 +47,12 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
         if (op[0] & 5) throw op[1]; return { value: op[0] ? op[1] : void 0, done: true };
     }
 };
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
 Object.defineProperty(exports, "__esModule", { value: true });
 var tsyringe_1 = require("tsyringe");
+var AppError_1 = __importDefault(require("../../../shared/errors/AppError"));
 var DeleteUserService = /** @class */ (function () {
     function DeleteUserService(userRepository) {
         this.userRepository = userRepository;
@@ -62,6 +66,13 @@ var DeleteUserService = /** @class */ (function () {
                     case 0: return [4 /*yield*/, this.userRepository.findById(id)];
                     case 1:
                         user = _b.sent();
+                        switch (user) {
+                            case null:
+                                throw new AppError_1.default('User not found', 404);
+                            case undefined:
+                                throw new AppError_1.default('User not found', 400);
+                            default:
+                        }
                         return [4 /*yield*/, this.userRepository.delete(user)];
                     case 2:
                         _b.sent();

@@ -71,6 +71,9 @@ var AuthenticateUserService = /** @class */ (function () {
                     case 0: return [4 /*yield*/, this.userRepository.findByEmail(email)];
                     case 1:
                         user = _c.sent();
+                        if (!user) {
+                            throw new AppError_1.default('Invalid Email or Password!', 401);
+                        }
                         return [4 /*yield*/, this.hashUser.compareHash(password, user.password)];
                     case 2:
                         passwordMatched = _c.sent();
