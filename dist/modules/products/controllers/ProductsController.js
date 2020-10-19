@@ -44,6 +44,7 @@ var DeleteProductService_1 = __importDefault(require("../services/DeleteProductS
 var CreateProductService_1 = __importDefault(require("../services/CreateProductService"));
 var UpdateProductService_1 = __importDefault(require("../services/UpdateProductService"));
 var ProductsRepository_1 = __importDefault(require("../repositories/ProductsRepository"));
+var AppError_1 = __importDefault(require("../../../shared/errors/AppError"));
 var ProductsController = /** @class */ (function () {
     function ProductsController() {
     }
@@ -58,12 +59,22 @@ var ProductsController = /** @class */ (function () {
                         return [4 /*yield*/, findProduct.findById(req.params.id)];
                     case 1:
                         productFound = _a.sent();
+                        switch (productFound) {
+                            case null:
+                                throw new AppError_1.default('Product not found', 404);
+                            case undefined:
+                                throw new AppError_1.default('Product not found', 400);
+                            default:
+                        }
                         return [2 /*return*/, res.status(200).json(productFound)];
                     case 2:
                         products = new ProductsRepository_1.default();
                         return [4 /*yield*/, products.find()];
                     case 3:
                         productsFound = _a.sent();
+                        if (products === null) {
+                            throw new AppError_1.default('Products not found!', 404);
+                        }
                         return [2 /*return*/, res.status(200).json(productsFound)];
                 }
             });

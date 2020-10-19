@@ -66,8 +66,12 @@ var DeleteProductService = /** @class */ (function () {
                     case 0: return [4 /*yield*/, this.productRepository.findById(id)];
                     case 1:
                         product = _b.sent();
-                        if (product === undefined) {
-                            throw new AppError_1.default('Product not found', 404);
+                        switch (product) {
+                            case null:
+                                throw new AppError_1.default('Product not found', 404);
+                            case undefined:
+                                throw new AppError_1.default('Product not found', 400);
+                            default:
                         }
                         // const fileUploaded = new DiskStorageProvider();
                         // await fileUploaded.deleteFile(product.image);

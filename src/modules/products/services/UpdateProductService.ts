@@ -16,15 +16,21 @@ class UpdateProductService {
   public async execute(productNewData: IProductDTO): Promise<IProductEntity> {
     const product = await this.productRepository.findById(productNewData.id);
 
-    if (product === undefined) {
-      throw new AppError('User not found', 404);
+    switch (product) {
+      case null:
+        throw new AppError('Product not found', 404);
+      case undefined:
+        throw new AppError('Product not found', 400);
+      default:
     }
 
     if (productNewData.name) {
       product.name = productNewData.name;
     }
 
-    if (productNewData.tags.length > 0) {
+    if (productNewData.tags === undefined) {
+      product.tags;
+    } else if (productNewData.tags.length) {
       product.tags = productNewData.tags;
     }
 
@@ -45,6 +51,12 @@ class UpdateProductService {
     }
 
     const productUpdated = await this.productRepository.update(product);
+
+    switch (productUpdated) {
+      case null:
+        throw new AppError('Product not found', 404);
+      default:
+    }
 
     return productUpdated;
   }

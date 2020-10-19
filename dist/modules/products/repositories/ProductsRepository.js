@@ -35,12 +35,8 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
         if (op[0] & 5) throw op[1]; return { value: op[0] ? op[1] : void 0, done: true };
     }
 };
-var __importDefault = (this && this.__importDefault) || function (mod) {
-    return (mod && mod.__esModule) ? mod : { "default": mod };
-};
 Object.defineProperty(exports, "__esModule", { value: true });
 var ProductSchema_1 = require("../databases/mongoose/schemas/ProductSchema");
-var AppError_1 = __importDefault(require("../../../shared/errors/AppError"));
 var ProductsRepository = /** @class */ (function () {
     function ProductsRepository() {
     }
@@ -52,9 +48,6 @@ var ProductsRepository = /** @class */ (function () {
                     case 0: return [4 /*yield*/, ProductSchema_1.ProductSchema.find()];
                     case 1:
                         products = _a.sent();
-                        if (products === null) {
-                            throw new AppError_1.default('Products not found!', 404);
-                        }
                         return [2 /*return*/, products];
                 }
             });
@@ -68,9 +61,6 @@ var ProductsRepository = /** @class */ (function () {
                     case 0: return [4 /*yield*/, ProductSchema_1.ProductSchema.findById(id)];
                     case 1:
                         findProductId = _a.sent();
-                        if (findProductId === null) {
-                            throw new AppError_1.default('Product not found', 404);
-                        }
                         return [2 /*return*/, findProductId];
                 }
             });
@@ -117,9 +107,6 @@ var ProductsRepository = /** @class */ (function () {
                     case 0: return [4 /*yield*/, ProductSchema_1.ProductSchema.findByIdAndUpdate(newProductData.id, newProductData, { new: true })];
                     case 1:
                         productUpdated = _a.sent();
-                        if (productUpdated === null) {
-                            throw new AppError_1.default('Product not found', 404);
-                        }
                         return [2 /*return*/, productUpdated];
                 }
             });
@@ -127,15 +114,11 @@ var ProductsRepository = /** @class */ (function () {
     };
     ProductsRepository.prototype.delete = function (product) {
         return __awaiter(this, void 0, void 0, function () {
-            var productDeleted;
             return __generator(this, function (_a) {
                 switch (_a.label) {
                     case 0: return [4 /*yield*/, ProductSchema_1.ProductSchema.findByIdAndDelete(product.id)];
                     case 1:
-                        productDeleted = _a.sent();
-                        if (productDeleted === null) {
-                            throw new AppError_1.default('Product not found', 404);
-                        }
+                        _a.sent();
                         return [2 /*return*/];
                 }
             });

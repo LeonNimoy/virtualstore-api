@@ -66,9 +66,6 @@ var FakeProductsRepository = /** @class */ (function () {
             var productId;
             return __generator(this, function (_a) {
                 productId = this.products.find(function (product) { return product.id === id; });
-                if (productId === null) {
-                    throw new AppError_1.default('Product not found on Database', 404);
-                }
                 return [2 /*return*/, productId];
             });
         });

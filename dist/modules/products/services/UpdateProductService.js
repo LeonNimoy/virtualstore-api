@@ -66,13 +66,20 @@ var UpdateProductService = /** @class */ (function () {
                     case 0: return [4 /*yield*/, this.productRepository.findById(productNewData.id)];
                     case 1:
                         product = _a.sent();
-                        if (product === undefined) {
-                            throw new AppError_1.default('User not found', 404);
+                        switch (product) {
+                            case null:
+                                throw new AppError_1.default('Product not found', 404);
+                            case undefined:
+                                throw new AppError_1.default('Product not found', 400);
+                            default:
                         }
                         if (productNewData.name) {
                             product.name = productNewData.name;
                         }
-                        if (productNewData.tags.length > 0) {
+                        if (productNewData.tags === undefined) {
+                            product.tags;
+                        }
+                        else if (productNewData.tags.length) {
                             product.tags = productNewData.tags;
                         }
                         if (productNewData.description) {
@@ -90,6 +97,11 @@ var UpdateProductService = /** @class */ (function () {
                         return [4 /*yield*/, this.productRepository.update(product)];
                     case 2:
                         productUpdated = _a.sent();
+                        switch (productUpdated) {
+                            case null:
+                                throw new AppError_1.default('Product not found', 404);
+                            default:
+                        }
                         return [2 /*return*/, productUpdated];
                 }
             });

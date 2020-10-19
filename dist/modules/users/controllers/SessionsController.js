@@ -40,10 +40,26 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 var tsyringe_1 = require("tsyringe");
+var UsersRepository_1 = __importDefault(require("../repositories/UsersRepository"));
 var AuthenticateUserService_1 = __importDefault(require("../services/AuthenticateUserService"));
 var SessionsController = /** @class */ (function () {
     function SessionsController() {
     }
+    SessionsController.prototype.list = function (req, res) {
+        return __awaiter(this, void 0, void 0, function () {
+            var findUser, user;
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0:
+                        findUser = new UsersRepository_1.default();
+                        return [4 /*yield*/, findUser.findById(req.params.id)];
+                    case 1:
+                        user = _a.sent();
+                        return [2 /*return*/, res.status(200).json(user)];
+                }
+            });
+        });
+    };
     SessionsController.prototype.create = function (req, res) {
         return __awaiter(this, void 0, void 0, function () {
             var _a, email, password, authenticateUser, _b, user, token, name, address, cpf, id, phone;

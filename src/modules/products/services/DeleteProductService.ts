@@ -17,8 +17,12 @@ class DeleteProductService {
   public async execute({ id }: Request): Promise<void> {
     const product = await this.productRepository.findById(id);
 
-    if (product === undefined) {
-      throw new AppError('Product not found', 404);
+    switch (product) {
+      case null:
+        throw new AppError('Product not found', 404);
+      case undefined:
+        throw new AppError('Product not found', 400);
+      default:
     }
 
     // const fileUploaded = new DiskStorageProvider();
