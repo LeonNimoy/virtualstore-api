@@ -7,7 +7,7 @@ import AppError from '../../../../shared/errors/AppError';
 class FakeProductsRepository implements IProductProvider {
   private products: IProductEntity[] = [];
 
-  public async find(): Promise<IProductEntity[]> {
+  public async find(): Promise<IProductEntity[] | null> {
     const products = await ProductSchema.find();
 
     if (products === null) {
@@ -18,10 +18,6 @@ class FakeProductsRepository implements IProductProvider {
 
   public async findById(id: string): Promise<IProductEntity | undefined> {
     const productId = this.products.find(product => product.id === id);
-
-    if (productId === null) {
-      throw new AppError('Product not found on Database', 404);
-    }
 
     return productId;
   }
@@ -47,13 +43,15 @@ class FakeProductsRepository implements IProductProvider {
     return product;
   }
 
-  public async update(newProductData: IProductDTO): Promise<IProductEntity> {
+  public async update(
+    newProductData: IProductDTO,
+  ): Promise<IProductEntity | null> {
     this.products.map(product => newProductData === product);
 
     return newProductData;
   }
 
-  public async delete(productToDelete: IProductDTO): Promise<void> {
+  public async delete(productToDelete: IProductDTO): Promise<void | null> {
     const findProduct = this.products.map(
       product => productToDelete.id === product.id,
     );
