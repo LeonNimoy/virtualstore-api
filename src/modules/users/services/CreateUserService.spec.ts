@@ -1,6 +1,7 @@
 import FakeHashProvider from '../providers/HashUser/fakes/FakeHashProvider';
 import CreateUserService from './CreateUserService';
 import FakeUsersRepository from '../repositories/fakes/FakeUsersRepository';
+import AppError from '../../../shared/errors/AppError';
 
 describe('CreateUser', () => {
   it('should be able to create a new user', async () => {
@@ -48,6 +49,6 @@ describe('CreateUser', () => {
         cpf: 963454212,
         address: '10 Downing Street',
       }),
-    ).rejects.toThrowError('Email already used!');
+    ).rejects.toBeInstanceOf(AppError);
   });
 });
