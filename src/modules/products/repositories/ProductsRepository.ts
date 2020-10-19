@@ -2,24 +2,18 @@ import { ProductSchema } from '../databases/mongoose/schemas/ProductSchema';
 import IProductEntity from '../entities/IProductEntity';
 import IProductDTO from '../dtos/IProductDTO';
 import IProductsProvider from '../providers/IProductsProvider';
-import AppError from '../../../shared/errors/AppError';
 
 export default class ProductsRepository implements IProductsProvider {
-  public async find(): Promise<IProductEntity[]> {
+  public async find(): Promise<IProductEntity[] | null> {
     const products = await ProductSchema.find();
 
-    if (products === null) {
-      throw new AppError('Products not found!', 404);
-    }
     return products;
   }
 
-  public async findById(id: string): Promise<IProductEntity> {
+  public async findById(
+    id: string,
+  ): Promise<IProductEntity | null | undefined> {
     const findProductId = await ProductSchema.findById(id);
-
-    if (findProductId === null) {
-      throw new AppError('Product not found', 404);
-    }
 
     return findProductId;
   }
@@ -42,25 +36,19 @@ export default class ProductsRepository implements IProductsProvider {
     return productCreated;
   }
 
-  public async update(newProductData: IProductDTO): Promise<IProductEntity> {
+  public async update(
+    newProductData: IProductDTO,
+  ): Promise<IProductEntity | null> {
     const productUpdated = await ProductSchema.findByIdAndUpdate(
       newProductData.id,
       newProductData,
       { new: true },
     );
 
-    if (productUpdated === null) {
-      throw new AppError('Product not found', 404);
-    }
-
     return productUpdated;
   }
 
-  public async delete(product: IProductDTO): Promise<void> {
-    const productDeleted = await ProductSchema.findByIdAndDelete(product.id);
-
-    if (productDeleted === null) {
-      throw new AppError('Product not found', 404);
-    }
+  public async delete(product: IProductDTO): Promise<void | null> {
+    await ProductSchema.findByIdAndDelete(product.id);
   }
 }

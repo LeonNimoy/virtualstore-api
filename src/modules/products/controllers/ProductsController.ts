@@ -5,17 +5,31 @@ import DeleteProductService from '../services/DeleteProductService';
 import CreateProductService from '../services/CreateProductService';
 import UpdateProductService from '../services/UpdateProductService';
 import ProductsRepository from '../repositories/ProductsRepository';
+import AppError from '../../../shared/errors/AppError';
 
 export default class ProductsController {
   public async list(req: Request, res: Response): Promise<Response> {
     if (req.params.id) {
       const findProduct = new ProductsRepository();
       const productFound = await findProduct.findById(req.params.id);
+
+      switch (productFound) {
+        case null:
+          throw new AppError('Product not found', 404);
+        case undefined:
+          throw new AppError('Product not found', 400);
+        default:
+      }
+
       return res.status(200).json(productFound);
     }
 
     const products = new ProductsRepository();
     const productsFound = await products.find();
+
+    if (products === null) {
+      throw new AppError('Products not found!', 404);
+    }
 
     return res.status(200).json(productsFound);
   }
