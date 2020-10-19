@@ -1,6 +1,3 @@
-import 'reflect-metadata';
-import 'dotenv/config';
-
 import { Server } from '@overnightjs/core';
 import express, { Application, Request, Response, NextFunction } from 'express';
 import 'express-async-errors';
