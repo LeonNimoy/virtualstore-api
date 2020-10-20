@@ -30,6 +30,10 @@ class AuthenticateUserService {
   public async execute({ email, password }: IRequest): Promise<IResponse> {
     const user = await this.userRepository.findByEmail(email);
 
+    if (!user) {
+      throw new AppError('Invalid Email or Password!', 401);
+    }
+
     const passwordMatched = await this.hashUser.compareHash(
       password,
       user.password,

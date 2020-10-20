@@ -44,6 +44,7 @@ var UsersRepository_1 = __importDefault(require("../repositories/UsersRepository
 var CreateUserService_1 = __importDefault(require("../services/CreateUserService"));
 var UpdateUserService_1 = __importDefault(require("../services/UpdateUserService"));
 var DeleteUserService_1 = __importDefault(require("../services/DeleteUserService"));
+var AppError_1 = __importDefault(require("../../../shared/errors/AppError"));
 var UsersController = /** @class */ (function () {
     function UsersController() {
     }
@@ -58,6 +59,13 @@ var UsersController = /** @class */ (function () {
                         return [4 /*yield*/, findUser.findById(req.params.id)];
                     case 1:
                         userFound = _a.sent();
+                        switch (userFound) {
+                            case null:
+                                throw new AppError_1.default('User not found', 404);
+                            case undefined:
+                                throw new AppError_1.default('User not found', 400);
+                            default:
+                        }
                         return [2 /*return*/, res.status(200).json(userFound)];
                     case 2:
                         users = new UsersRepository_1.default();

@@ -36,16 +36,17 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
     }
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-var UserSchema_1 = require("../databases/mongoose/schemas/UserSchema");
-var UsersRepository = /** @class */ (function () {
-    function UsersRepository() {
+var UserSchema_1 = require("../../databases/mongoose/schemas/UserSchema");
+var FakeUsersRepository = /** @class */ (function () {
+    function FakeUsersRepository() {
+        this.users = [];
     }
-    UsersRepository.prototype.find = function () {
+    FakeUsersRepository.prototype.find = function () {
         return __awaiter(this, void 0, void 0, function () {
             var users;
             return __generator(this, function (_a) {
                 switch (_a.label) {
-                    case 0: return [4 /*yield*/, UserSchema_1.UserSchema.find().select('-password')];
+                    case 0: return [4 /*yield*/, UserSchema_1.UserSchema.find()];
                     case 1:
                         users = _a.sent();
                         return [2 /*return*/, users];
@@ -53,94 +54,67 @@ var UsersRepository = /** @class */ (function () {
             });
         });
     };
-    UsersRepository.prototype.findById = function (id) {
+    FakeUsersRepository.prototype.findById = function (id) {
         return __awaiter(this, void 0, void 0, function () {
             var userId;
             return __generator(this, function (_a) {
-                switch (_a.label) {
-                    case 0: return [4 /*yield*/, UserSchema_1.UserSchema.findById(id).select('-password')];
-                    case 1:
-                        userId = _a.sent();
-                        return [2 /*return*/, userId];
-                }
+                userId = this.users.find(function (user) { return user.id === id; });
+                return [2 /*return*/, userId];
             });
         });
     };
-    UsersRepository.prototype.checkEmail = function (newUserEmail) {
+    FakeUsersRepository.prototype.checkEmail = function (newUserEmail) {
         return __awaiter(this, void 0, void 0, function () {
             var notAvailableEmail;
             return __generator(this, function (_a) {
-                switch (_a.label) {
-                    case 0: return [4 /*yield*/, UserSchema_1.UserSchema.findOne({
-                            email: newUserEmail,
-                        })];
-                    case 1:
-                        notAvailableEmail = _a.sent();
-                        if (!notAvailableEmail) {
-                            return [2 /*return*/, true];
-                        }
-                        return [2 /*return*/, false];
+                notAvailableEmail = this.users.find(function (user) { return user.email === newUserEmail; });
+                if (!notAvailableEmail) {
+                    return [2 /*return*/, true];
                 }
+                return [2 /*return*/, false];
             });
         });
     };
-    UsersRepository.prototype.findByEmail = function (userEmail) {
+    FakeUsersRepository.prototype.findByEmail = function (userEmail) {
         return __awaiter(this, void 0, void 0, function () {
             var findUser;
             return __generator(this, function (_a) {
-                switch (_a.label) {
-                    case 0: return [4 /*yield*/, UserSchema_1.UserSchema.findOne({
-                            email: userEmail,
-                        })];
-                    case 1:
-                        findUser = _a.sent();
-                        return [2 /*return*/, findUser];
-                }
+                findUser = this.users.find(function (user) { return user.email === userEmail; });
+                return [2 /*return*/, findUser];
             });
         });
     };
-    UsersRepository.prototype.save = function (userData) {
+    FakeUsersRepository.prototype.save = function (userData) {
         return __awaiter(this, void 0, void 0, function () {
-            var userCreated;
+            var user;
             return __generator(this, function (_a) {
-                switch (_a.label) {
-                    case 0:
-                        userCreated = new UserSchema_1.UserSchema(userData);
-                        return [4 /*yield*/, userCreated.save()];
-                    case 1:
-                        _a.sent();
-                        return [2 /*return*/, userCreated];
-                }
+                user = new UserSchema_1.UserSchema(userData);
+                Object.assign(user, userData);
+                this.users.push(user);
+                return [2 /*return*/, user];
             });
         });
     };
-    UsersRepository.prototype.update = function (userData) {
-        return __awaiter(this, void 0, void 0, function () {
-            var userUpdated;
-            return __generator(this, function (_a) {
-                switch (_a.label) {
-                    case 0: return [4 /*yield*/, UserSchema_1.UserSchema.findByIdAndUpdate(userData.id, userData, {
-                            new: true,
-                        }).select('-password')];
-                    case 1:
-                        userUpdated = _a.sent();
-                        return [2 /*return*/, userUpdated];
-                }
-            });
-        });
-    };
-    UsersRepository.prototype.delete = function (user) {
+    FakeUsersRepository.prototype.update = function (newUserData) {
         return __awaiter(this, void 0, void 0, function () {
             return __generator(this, function (_a) {
-                switch (_a.label) {
-                    case 0: return [4 /*yield*/, UserSchema_1.UserSchema.deleteOne(user)];
-                    case 1:
-                        _a.sent();
-                        return [2 /*return*/];
-                }
+                this.users.map(function (user) { return newUserData === user; });
+                return [2 /*return*/, newUserData];
             });
         });
     };
-    return UsersRepository;
+    FakeUsersRepository.prototype.delete = function (userToDelete) {
+        return __awaiter(this, void 0, void 0, function () {
+            var findUser;
+            return __generator(this, function (_a) {
+                findUser = this.users.map(function (user) { return userToDelete.id === user.id; });
+                if (findUser) {
+                    this.users.splice(0, 1);
+                }
+                return [2 /*return*/];
+            });
+        });
+    };
+    return FakeUsersRepository;
 }());
-exports.default = UsersRepository;
+exports.default = FakeUsersRepository;

@@ -5,12 +5,21 @@ import UsersRepository from '../repositories/UsersRepository';
 import CreateUserService from '../services/CreateUserService';
 import UpdateUserService from '../services/UpdateUserService';
 import DeleteUserService from '../services/DeleteUserService';
+import AppError from '../../../shared/errors/AppError';
 
 export default class UsersController {
   public async list(req: Request, res: Response): Promise<Response> {
     if (req.params.id) {
       const findUser = new UsersRepository();
       const userFound = await findUser.findById(req.params.id);
+
+      switch (userFound) {
+        case null:
+          throw new AppError('User not found', 404);
+        case undefined:
+          throw new AppError('User not found', 400);
+        default:
+      }
 
       return res.status(200).json(userFound);
     }

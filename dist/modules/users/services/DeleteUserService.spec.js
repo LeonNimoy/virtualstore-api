@@ -1,16 +1,4 @@
 "use strict";
-var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
-    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
-    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
-    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
-    return c > 3 && r && Object.defineProperty(target, key, r), r;
-};
-var __metadata = (this && this.__metadata) || function (k, v) {
-    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
-};
-var __param = (this && this.__param) || function (paramIndex, decorator) {
-    return function (target, key) { decorator(target, key, paramIndex); }
-};
 var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
     function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
     return new (P || (P = Promise))(function (resolve, reject) {
@@ -51,41 +39,50 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-var tsyringe_1 = require("tsyringe");
+var FakeUsersRepository_1 = __importDefault(require("../repositories/fakes/FakeUsersRepository"));
+var CreateUserService_1 = __importDefault(require("./CreateUserService"));
+var DeleteUserService_1 = __importDefault(require("./DeleteUserService"));
 var AppError_1 = __importDefault(require("../../../shared/errors/AppError"));
-var DeleteUserService = /** @class */ (function () {
-    function DeleteUserService(userRepository) {
-        this.userRepository = userRepository;
-    }
-    DeleteUserService.prototype.execute = function (_a) {
-        var id = _a.id;
-        return __awaiter(this, void 0, void 0, function () {
-            var user;
-            return __generator(this, function (_b) {
-                switch (_b.label) {
-                    case 0: return [4 /*yield*/, this.userRepository.findById(id)];
-                    case 1:
-                        user = _b.sent();
-                        switch (user) {
-                            case null:
-                                throw new AppError_1.default('User not found', 404);
-                            case undefined:
-                                throw new AppError_1.default('User not found', 400);
-                            default:
-                        }
-                        return [4 /*yield*/, this.userRepository.delete(user)];
-                    case 2:
-                        _b.sent();
-                        return [2 /*return*/];
-                }
-            });
+var FakeHashProvider_1 = __importDefault(require("../providers/HashUser/fakes/FakeHashProvider"));
+describe('DeleteUser', function () {
+    it('should be able to delete a user', function () { return __awaiter(void 0, void 0, void 0, function () {
+        var fakeUserRepository, hashedPassword, createUser, userData, deleteUser, _a;
+        return __generator(this, function (_b) {
+            switch (_b.label) {
+                case 0:
+                    fakeUserRepository = new FakeUsersRepository_1.default();
+                    hashedPassword = new FakeHashProvider_1.default();
+                    createUser = new CreateUserService_1.default(fakeUserRepository, hashedPassword);
+                    return [4 /*yield*/, createUser.execute({
+                            name: 'John Doe',
+                            email: 'john@gmail.com',
+                            password: '123456',
+                            phone: 965689,
+                            cpf: 963454212,
+                            address: '10 Downing Street',
+                        })];
+                case 1:
+                    userData = _b.sent();
+                    deleteUser = new DeleteUserService_1.default(fakeUserRepository);
+                    _a = expect;
+                    return [4 /*yield*/, deleteUser.execute({
+                            id: userData.id,
+                        })];
+                case 2:
+                    _a.apply(void 0, [_b.sent()]).toBe(undefined);
+                    return [2 /*return*/];
+            }
         });
-    };
-    DeleteUserService = __decorate([
-        tsyringe_1.injectable(),
-        __param(0, tsyringe_1.inject('UsersRepository')),
-        __metadata("design:paramtypes", [Object])
-    ], DeleteUserService);
-    return DeleteUserService;
-}());
-exports.default = DeleteUserService;
+    }); });
+    it("should not be able to delete a user that doesn't exist", function () { return __awaiter(void 0, void 0, void 0, function () {
+        var fakeUserRepository, deleteUser;
+        return __generator(this, function (_a) {
+            fakeUserRepository = new FakeUsersRepository_1.default();
+            deleteUser = new DeleteUserService_1.default(fakeUserRepository);
+            expect(deleteUser.execute({
+                id: undefined,
+            })).rejects.toBeInstanceOf(AppError_1.default);
+            return [2 /*return*/];
+        });
+    }); });
+});
