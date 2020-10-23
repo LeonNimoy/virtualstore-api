@@ -40,10 +40,10 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 var UpdateUserService_1 = __importDefault(require("./UpdateUserService"));
-var FakeUsersRepository_1 = __importDefault(require("../repositories/fakes/FakeUsersRepository"));
-var CreateUserService_1 = __importDefault(require("./CreateUserService"));
-var AppError_1 = __importDefault(require("../../../shared/errors/AppError"));
-var FakeHashProvider_1 = __importDefault(require("../providers/HashUser/fakes/FakeHashProvider"));
+var FakeUsersRepository_1 = __importDefault(require("../../repositories/fakes/FakeUsersRepository"));
+var CreateUserService_1 = __importDefault(require("../CreateUserService/CreateUserService"));
+var AppError_1 = __importDefault(require("../../../../shared/errors/AppError"));
+var FakeHashProvider_1 = __importDefault(require("../../providers/HashUser/fakes/FakeHashProvider"));
 describe('UpdateUser', function () {
     it('should be able to update a user', function () { return __awaiter(void 0, void 0, void 0, function () {
         var fakeUserRepository, hashPassword, createUserService, oldUserData, updateUser, userUpdated;
@@ -59,7 +59,6 @@ describe('UpdateUser', function () {
                             password: '123456',
                             phone: 965689,
                             cpf: 963454212,
-                            address: '10 Downing Street',
                         })];
                 case 1:
                     oldUserData = _a.sent();
@@ -71,7 +70,6 @@ describe('UpdateUser', function () {
                             password: '123456',
                             phone: 965689,
                             cpf: 963454212,
-                            address: '10 Downing Street',
                         })];
                 case 2:
                     userUpdated = _a.sent();
@@ -93,7 +91,6 @@ describe('UpdateUser', function () {
                 password: '123456',
                 phone: 965689,
                 cpf: 963454212,
-                address: '10 Downing Street',
             })).rejects.toBeInstanceOf(AppError_1.default);
             return [2 /*return*/];
         });
@@ -112,7 +109,6 @@ describe('UpdateUser', function () {
                             password: '123456',
                             phone: 965689,
                             cpf: 963454212,
-                            address: '10 Downing Street',
                         })];
                 case 1:
                     oldUserData = _a.sent();
@@ -124,7 +120,6 @@ describe('UpdateUser', function () {
                             password: '123456',
                             phone: 965689,
                             cpf: 963454212,
-                            address: '10 Downing Street',
                         })];
                 case 2:
                     userUpdated = _a.sent();
@@ -147,7 +142,6 @@ describe('UpdateUser', function () {
                             password: '123456',
                             phone: 965689,
                             cpf: 963454212,
-                            address: '10 Downing Street',
                         })];
                 case 1:
                     oldUserData = _a.sent();
@@ -159,116 +153,10 @@ describe('UpdateUser', function () {
                             password: '',
                             phone: 965689,
                             cpf: 963454212,
-                            address: '10 Downing Street',
                         })];
                 case 2:
                     userUpdated = _a.sent();
                     expect(userUpdated.password).toEqual('123456');
-                    return [2 /*return*/];
-            }
-        });
-    }); });
-    it('should not be able o change the property phone, if the input is empty', function () { return __awaiter(void 0, void 0, void 0, function () {
-        var fakeUserRepository, hashPassword, createUserService, oldUserData, updateUser, userUpdated;
-        return __generator(this, function (_a) {
-            switch (_a.label) {
-                case 0:
-                    fakeUserRepository = new FakeUsersRepository_1.default();
-                    hashPassword = new FakeHashProvider_1.default();
-                    createUserService = new CreateUserService_1.default(fakeUserRepository, hashPassword);
-                    return [4 /*yield*/, createUserService.execute({
-                            name: 'John Doe',
-                            email: 'john@gmail.com',
-                            password: '123456',
-                            phone: 965689,
-                            cpf: 963454212,
-                            address: '10 Downing Street',
-                        })];
-                case 1:
-                    oldUserData = _a.sent();
-                    updateUser = new UpdateUserService_1.default(fakeUserRepository, hashPassword);
-                    return [4 /*yield*/, updateUser.execute({
-                            id: oldUserData.id,
-                            name: 'John Doe',
-                            email: 'john@gmail.com',
-                            password: '123456',
-                            phone: 0,
-                            cpf: 963454212,
-                            address: '10 Downing Street',
-                        })];
-                case 2:
-                    userUpdated = _a.sent();
-                    expect(userUpdated.phone).toEqual(965689);
-                    return [2 /*return*/];
-            }
-        });
-    }); });
-    it('should not be able o change the property cpf, if the input is empty', function () { return __awaiter(void 0, void 0, void 0, function () {
-        var fakeUserRepository, hashPassword, createUserService, oldUserData, updateUser, userUpdated;
-        return __generator(this, function (_a) {
-            switch (_a.label) {
-                case 0:
-                    fakeUserRepository = new FakeUsersRepository_1.default();
-                    hashPassword = new FakeHashProvider_1.default();
-                    createUserService = new CreateUserService_1.default(fakeUserRepository, hashPassword);
-                    return [4 /*yield*/, createUserService.execute({
-                            name: 'John Doe',
-                            email: 'john@gmail.com',
-                            password: '123456',
-                            phone: 965689,
-                            cpf: 963454212,
-                            address: '10 Downing Street',
-                        })];
-                case 1:
-                    oldUserData = _a.sent();
-                    updateUser = new UpdateUserService_1.default(fakeUserRepository, hashPassword);
-                    return [4 /*yield*/, updateUser.execute({
-                            id: oldUserData.id,
-                            name: 'John Doe',
-                            email: 'john@gmail.com',
-                            password: '123456',
-                            phone: 965689,
-                            cpf: 0,
-                            address: '10 Downing Street',
-                        })];
-                case 2:
-                    userUpdated = _a.sent();
-                    expect(userUpdated.cpf).toEqual(963454212);
-                    return [2 /*return*/];
-            }
-        });
-    }); });
-    it('should not be able o change the property address, if the input is empty', function () { return __awaiter(void 0, void 0, void 0, function () {
-        var fakeUserRepository, hashPassword, createUserService, oldUserData, updateUser, userUpdated;
-        return __generator(this, function (_a) {
-            switch (_a.label) {
-                case 0:
-                    fakeUserRepository = new FakeUsersRepository_1.default();
-                    hashPassword = new FakeHashProvider_1.default();
-                    createUserService = new CreateUserService_1.default(fakeUserRepository, hashPassword);
-                    return [4 /*yield*/, createUserService.execute({
-                            name: 'John Doe',
-                            email: 'john@gmail.com',
-                            password: '123456',
-                            phone: 965689,
-                            cpf: 963454212,
-                            address: '10 Downing Street',
-                        })];
-                case 1:
-                    oldUserData = _a.sent();
-                    updateUser = new UpdateUserService_1.default(fakeUserRepository, hashPassword);
-                    return [4 /*yield*/, updateUser.execute({
-                            id: oldUserData.id,
-                            name: 'John Doe',
-                            email: 'john@gmail.com',
-                            password: '123456',
-                            phone: 965689,
-                            cpf: 963454212,
-                            address: '',
-                        })];
-                case 2:
-                    userUpdated = _a.sent();
-                    expect(userUpdated.address).toEqual('10 Downing Street');
                     return [2 /*return*/];
             }
         });

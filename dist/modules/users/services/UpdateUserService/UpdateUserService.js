@@ -52,50 +52,59 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 require("reflect-metadata");
-var jsonwebtoken_1 = require("jsonwebtoken");
 var tsyringe_1 = require("tsyringe");
-var auth_1 = __importDefault(require("../../../config/auth"));
-var UsersRepository_1 = __importDefault(require("../repositories/UsersRepository"));
-var AppError_1 = __importDefault(require("../../../shared/errors/AppError"));
-var AuthenticateUserService = /** @class */ (function () {
-    function AuthenticateUserService(userRepository, hashUser) {
+var AppError_1 = __importDefault(require("../../../../shared/errors/AppError"));
+var UpdateUserService = /** @class */ (function () {
+    function UpdateUserService(userRepository, hashUser) {
         this.userRepository = userRepository;
         this.hashUser = hashUser;
     }
-    AuthenticateUserService.prototype.execute = function (_a) {
-        var email = _a.email, password = _a.password;
+    UpdateUserService.prototype.execute = function (userNewData) {
         return __awaiter(this, void 0, void 0, function () {
-            var user, passwordMatched, _b, secret, expiresIn, token;
-            return __generator(this, function (_c) {
-                switch (_c.label) {
-                    case 0: return [4 /*yield*/, this.userRepository.findByEmail(email)];
+            var user, hashedPassword, userUpdated;
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0: return [4 /*yield*/, this.userRepository.findById(userNewData.id)];
                     case 1:
-                        user = _c.sent();
-                        if (!user) {
-                            throw new AppError_1.default('Invalid Email or Password!', 401);
+                        user = _a.sent();
+                        switch (user) {
+                            case null:
+                                throw new AppError_1.default('User not found', 404);
+                            case undefined:
+                                throw new AppError_1.default('User not found', 400);
+                            default:
                         }
-                        return [4 /*yield*/, this.hashUser.compareHash(password, user.password)];
+                        if (userNewData.name) {
+                            user.name = userNewData.name;
+                        }
+                        if (userNewData.email) {
+                            user.email = userNewData.email;
+                        }
+                        if (!userNewData.password) return [3 /*break*/, 3];
+                        return [4 /*yield*/, this.hashUser.generateHash(userNewData.password)];
                     case 2:
-                        passwordMatched = _c.sent();
-                        if (!passwordMatched) {
-                            throw new AppError_1.default('Incorrect email/password combination', 401);
+                        hashedPassword = _a.sent();
+                        user.password = hashedPassword;
+                        _a.label = 3;
+                    case 3: return [4 /*yield*/, this.userRepository.update(user)];
+                    case 4:
+                        userUpdated = _a.sent();
+                        switch (userUpdated) {
+                            case null:
+                                throw new AppError_1.default('User not found', 404);
+                            default:
                         }
-                        _b = auth_1.default.jwt, secret = _b.secret, expiresIn = _b.expiresIn;
-                        token = jsonwebtoken_1.sign({}, secret, {
-                            subject: user.id,
-                            expiresIn: expiresIn,
-                        });
-                        return [2 /*return*/, { user: user, token: token }];
+                        return [2 /*return*/, userUpdated];
                 }
             });
         });
     };
-    AuthenticateUserService = __decorate([
+    UpdateUserService = __decorate([
         tsyringe_1.injectable(),
         __param(0, tsyringe_1.inject('UsersRepository')),
         __param(1, tsyringe_1.inject('HashUser')),
-        __metadata("design:paramtypes", [UsersRepository_1.default, Object])
-    ], AuthenticateUserService);
-    return AuthenticateUserService;
+        __metadata("design:paramtypes", [Object, Object])
+    ], UpdateUserService);
+    return UpdateUserService;
 }());
-exports.default = AuthenticateUserService;
+exports.default = UpdateUserService;

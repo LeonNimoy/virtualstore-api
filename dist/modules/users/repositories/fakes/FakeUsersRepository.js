@@ -36,7 +36,7 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
     }
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-var UserSchema_1 = require("../../databases/mongoose/schemas/UserSchema");
+var UserSchema_1 = require("../../infra/databases/mongoose/schemas/UserSchema");
 var FakeUsersRepository = /** @class */ (function () {
     function FakeUsersRepository() {
         this.users = [];

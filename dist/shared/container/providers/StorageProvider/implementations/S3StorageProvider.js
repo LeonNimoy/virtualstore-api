@@ -39,47 +39,74 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-var tsyringe_1 = require("tsyringe");
-var UsersRepository_1 = __importDefault(require("../repositories/UsersRepository"));
-var AuthenticateUserService_1 = __importDefault(require("../services/Authtenticate/AuthenticateUserService"));
-var SessionsController = /** @class */ (function () {
-    function SessionsController() {
+var fs_1 = __importDefault(require("fs"));
+var path_1 = __importDefault(require("path"));
+var mime_1 = __importDefault(require("mime"));
+var aws_sdk_1 = __importDefault(require("aws-sdk"));
+var upload_1 = __importDefault(require("../../../../../config/upload"));
+var AppError_1 = __importDefault(require("../../../../errors/AppError"));
+var DiskStorageProvider = /** @class */ (function () {
+    function DiskStorageProvider() {
+        this.client = new aws_sdk_1.default.S3({
+            accessKeyId: process.env.AWS_ACCESS_ID,
+            secretAccessKey: process.env.AWS_SECRET_ACCESS,
+            region: 'us-east-1',
+        });
     }
-    SessionsController.prototype.list = function (req, res) {
+    DiskStorageProvider.prototype.saveFile = function (file) {
         return __awaiter(this, void 0, void 0, function () {
-            var findUser, user;
+            var originalPath, fileContent, fileTypes, filesChecker, ContentType;
             return __generator(this, function (_a) {
                 switch (_a.label) {
                     case 0:
-                        findUser = new UsersRepository_1.default();
-                        return [4 /*yield*/, findUser.findById(req.params.id)];
+                        originalPath = path_1.default.resolve(upload_1.default.tmpFolder, file);
+                        return [4 /*yield*/, fs_1.default.promises.readFile(originalPath)];
                     case 1:
-                        user = _a.sent();
-                        return [2 /*return*/, res.status(200).json(user)];
+                        fileContent = _a.sent();
+                        fileTypes = /jpg|jpeg|png/;
+                        filesChecker = fileTypes.test(path_1.default.extname(file));
+                        ContentType = mime_1.default.getType(originalPath);
+                        if (!(!ContentType || !filesChecker)) return [3 /*break*/, 3];
+                        return [4 /*yield*/, fs_1.default.promises.unlink(originalPath)];
+                    case 2:
+                        _a.sent();
+                        throw new AppError_1.default('Type of file not valid', 403);
+                    case 3: return [4 /*yield*/, this.client
+                            .putObject({
+                            Bucket: upload_1.default.config.disk.bucket,
+                            Key: file,
+                            ACL: 'public-read',
+                            Body: fileContent,
+                            ContentType: ContentType,
+                        })
+                            .promise()];
+                    case 4:
+                        _a.sent();
+                        return [4 /*yield*/, fs_1.default.promises.unlink(originalPath)];
+                    case 5:
+                        _a.sent();
+                        return [2 /*return*/, file];
                 }
             });
         });
     };
-    SessionsController.prototype.create = function (req, res) {
+    DiskStorageProvider.prototype.deleteFile = function (file) {
         return __awaiter(this, void 0, void 0, function () {
-            var _a, email, password, authenticateUser, _b, user, token, name, id;
-            return __generator(this, function (_c) {
-                switch (_c.label) {
-                    case 0:
-                        _a = req.body, email = _a.email, password = _a.password;
-                        authenticateUser = tsyringe_1.container.resolve(AuthenticateUserService_1.default);
-                        return [4 /*yield*/, authenticateUser.execute({
-                                email: email,
-                                password: password,
-                            })];
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0: return [4 /*yield*/, this.client
+                            .deleteObject({
+                            Bucket: upload_1.default.config.disk.bucket,
+                            Key: file,
+                        })
+                            .promise()];
                     case 1:
-                        _b = _c.sent(), user = _b.user, token = _b.token;
-                        name = user.name, id = user.id;
-                        return [2 /*return*/, res.status(200).json({ id: id, name: name, email: email, token: token })];
+                        _a.sent();
+                        return [2 /*return*/];
                 }
             });
         });
     };
-    return SessionsController;
+    return DiskStorageProvider;
 }());
-exports.default = SessionsController;
+exports.default = DiskStorageProvider;

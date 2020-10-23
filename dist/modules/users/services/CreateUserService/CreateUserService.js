@@ -1,4 +1,16 @@
 "use strict";
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __metadata = (this && this.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
+var __param = (this && this.__param) || function (paramIndex, decorator) {
+    return function (target, key) { decorator(target, key, paramIndex); }
+};
 var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
     function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
     return new (P || (P = Promise))(function (resolve, reject) {
@@ -39,47 +51,46 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
+require("reflect-metadata");
 var tsyringe_1 = require("tsyringe");
-var UsersRepository_1 = __importDefault(require("../repositories/UsersRepository"));
-var AuthenticateUserService_1 = __importDefault(require("../services/Authtenticate/AuthenticateUserService"));
-var SessionsController = /** @class */ (function () {
-    function SessionsController() {
+var AppError_1 = __importDefault(require("../../../../shared/errors/AppError"));
+var CreateUserService = /** @class */ (function () {
+    function CreateUserService(userRepository, hashUser) {
+        this.userRepository = userRepository;
+        this.hashUser = hashUser;
     }
-    SessionsController.prototype.list = function (req, res) {
+    CreateUserService.prototype.execute = function (_a) {
+        var name = _a.name, email = _a.email, password = _a.password;
         return __awaiter(this, void 0, void 0, function () {
-            var findUser, user;
-            return __generator(this, function (_a) {
-                switch (_a.label) {
-                    case 0:
-                        findUser = new UsersRepository_1.default();
-                        return [4 /*yield*/, findUser.findById(req.params.id)];
+            var checkEmail, hashedPassword, user;
+            return __generator(this, function (_b) {
+                switch (_b.label) {
+                    case 0: return [4 /*yield*/, this.userRepository.checkEmail(email)];
                     case 1:
-                        user = _a.sent();
-                        return [2 /*return*/, res.status(200).json(user)];
-                }
-            });
-        });
-    };
-    SessionsController.prototype.create = function (req, res) {
-        return __awaiter(this, void 0, void 0, function () {
-            var _a, email, password, authenticateUser, _b, user, token, name, id;
-            return __generator(this, function (_c) {
-                switch (_c.label) {
-                    case 0:
-                        _a = req.body, email = _a.email, password = _a.password;
-                        authenticateUser = tsyringe_1.container.resolve(AuthenticateUserService_1.default);
-                        return [4 /*yield*/, authenticateUser.execute({
+                        checkEmail = _b.sent();
+                        if (!checkEmail) return [3 /*break*/, 4];
+                        return [4 /*yield*/, this.hashUser.generateHash(password)];
+                    case 2:
+                        hashedPassword = _b.sent();
+                        return [4 /*yield*/, this.userRepository.save({
+                                name: name,
                                 email: email,
-                                password: password,
+                                password: hashedPassword,
                             })];
-                    case 1:
-                        _b = _c.sent(), user = _b.user, token = _b.token;
-                        name = user.name, id = user.id;
-                        return [2 /*return*/, res.status(200).json({ id: id, name: name, email: email, token: token })];
+                    case 3:
+                        user = _b.sent();
+                        return [2 /*return*/, user];
+                    case 4: throw new AppError_1.default('Email already used!', 409);
                 }
             });
         });
     };
-    return SessionsController;
+    CreateUserService = __decorate([
+        tsyringe_1.injectable(),
+        __param(0, tsyringe_1.inject('UsersRepository')),
+        __param(1, tsyringe_1.inject('HashUser')),
+        __metadata("design:paramtypes", [Object, Object])
+    ], CreateUserService);
+    return CreateUserService;
 }());
-exports.default = SessionsController;
+exports.default = CreateUserService;

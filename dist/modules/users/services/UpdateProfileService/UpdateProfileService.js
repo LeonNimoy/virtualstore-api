@@ -51,29 +51,41 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
+require("reflect-metadata");
 var tsyringe_1 = require("tsyringe");
-var AppError_1 = __importDefault(require("../../../shared/errors/AppError"));
-var DeleteUserService = /** @class */ (function () {
-    function DeleteUserService(userRepository) {
+var AppError_1 = __importDefault(require("../../../../shared/errors/AppError"));
+var UpdateProfileService = /** @class */ (function () {
+    function UpdateProfileService(userRepository, profileRepository) {
         this.userRepository = userRepository;
+        this.profileRepository = profileRepository;
     }
-    DeleteUserService.prototype.execute = function (_a) {
-        var id = _a.id;
+    UpdateProfileService.prototype.execute = function (_a) {
+        var user_id = _a.user_id, cpf = _a.cpf, phone = _a.phone, cep = _a.cep, address = _a.address, address_2 = _a.address_2, neighborhood = _a.neighborhood, city = _a.city, state = _a.state;
         return __awaiter(this, void 0, void 0, function () {
-            var user;
+            var findValidUser;
             return __generator(this, function (_b) {
                 switch (_b.label) {
-                    case 0: return [4 /*yield*/, this.userRepository.findById(id)];
+                    case 0: return [4 /*yield*/, this.userRepository.findById(user_id)];
                     case 1:
-                        user = _b.sent();
-                        switch (user) {
+                        findValidUser = _b.sent();
+                        switch (findValidUser) {
                             case null:
                                 throw new AppError_1.default('User not found', 404);
                             case undefined:
-                                throw new AppError_1.default('User not found', 400);
+                                throw new AppError_1.default('Invalid Registration', 400);
                             default:
                         }
-                        return [4 /*yield*/, this.userRepository.delete(user)];
+                        return [4 /*yield*/, this.profileRepository.save({
+                                user_id: findValidUser.id,
+                                cpf: cpf,
+                                phone: phone,
+                                cep: cep,
+                                address: address,
+                                address_2: address_2,
+                                neighborhood: neighborhood,
+                                city: city,
+                                state: state,
+                            })];
                     case 2:
                         _b.sent();
                         return [2 /*return*/];
@@ -81,11 +93,12 @@ var DeleteUserService = /** @class */ (function () {
             });
         });
     };
-    DeleteUserService = __decorate([
+    UpdateProfileService = __decorate([
         tsyringe_1.injectable(),
         __param(0, tsyringe_1.inject('UsersRepository')),
-        __metadata("design:paramtypes", [Object])
-    ], DeleteUserService);
-    return DeleteUserService;
+        __param(1, tsyringe_1.inject('ProfileRepository')),
+        __metadata("design:paramtypes", [Object, Object])
+    ], UpdateProfileService);
+    return UpdateProfileService;
 }());
-exports.default = DeleteUserService;
+exports.default = UpdateProfileService;

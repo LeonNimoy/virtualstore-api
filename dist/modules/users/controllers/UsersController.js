@@ -41,9 +41,9 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 var tsyringe_1 = require("tsyringe");
 var UsersRepository_1 = __importDefault(require("../repositories/UsersRepository"));
-var CreateUserService_1 = __importDefault(require("../services/CreateUserService"));
-var UpdateUserService_1 = __importDefault(require("../services/UpdateUserService"));
-var DeleteUserService_1 = __importDefault(require("../services/DeleteUserService"));
+var CreateUserService_1 = __importDefault(require("../services/CreateUserService/CreateUserService"));
+var UpdateUserService_1 = __importDefault(require("../services/UpdateUserService/UpdateUserService"));
+var DeleteUserService_1 = __importDefault(require("../services/DeleteUserService/DeleteUserService"));
 var AppError_1 = __importDefault(require("../../../shared/errors/AppError"));
 var UsersController = /** @class */ (function () {
     function UsersController() {
@@ -60,8 +60,6 @@ var UsersController = /** @class */ (function () {
                     case 1:
                         userFound = _a.sent();
                         switch (userFound) {
-                            case null:
-                                throw new AppError_1.default('User not found', 404);
                             case undefined:
                                 throw new AppError_1.default('User not found', 400);
                             default:
@@ -79,44 +77,38 @@ var UsersController = /** @class */ (function () {
     };
     UsersController.prototype.create = function (req, res) {
         return __awaiter(this, void 0, void 0, function () {
-            var _a, name, email, password, phone, cpf, address, createUser;
+            var _a, name, email, password, createUser, userId;
             return __generator(this, function (_b) {
                 switch (_b.label) {
                     case 0:
-                        _a = req.body, name = _a.name, email = _a.email, password = _a.password, phone = _a.phone, cpf = _a.cpf, address = _a.address;
+                        _a = req.body, name = _a.name, email = _a.email, password = _a.password;
                         createUser = tsyringe_1.container.resolve(CreateUserService_1.default);
                         return [4 /*yield*/, createUser.execute({
                                 name: name,
                                 email: email,
                                 password: password,
-                                phone: phone,
-                                cpf: cpf,
-                                address: address,
                             })];
                     case 1:
-                        _b.sent();
-                        return [2 /*return*/, res.status(201).json({ name: name, email: email, phone: phone, cpf: cpf, address: address })];
+                        userId = _b.sent();
+                        return [2 /*return*/, res.status(201).json({ id: userId })];
                 }
             });
         });
     };
     UsersController.prototype.update = function (req, res) {
         return __awaiter(this, void 0, void 0, function () {
-            var id, _a, name, email, password, phone, cpf, address, updateUser, user;
+            var id, _a, name, email, password, updateUser, user;
             return __generator(this, function (_b) {
                 switch (_b.label) {
                     case 0:
                         id = req.params.id;
-                        _a = req.body, name = _a.name, email = _a.email, password = _a.password, phone = _a.phone, cpf = _a.cpf, address = _a.address;
+                        _a = req.body, name = _a.name, email = _a.email, password = _a.password;
                         updateUser = tsyringe_1.container.resolve(UpdateUserService_1.default);
                         return [4 /*yield*/, updateUser.execute({
                                 id: id,
                                 name: name,
                                 email: email,
                                 password: password,
-                                phone: phone,
-                                cpf: cpf,
-                                address: address,
                             })];
                     case 1:
                         user = _b.sent();

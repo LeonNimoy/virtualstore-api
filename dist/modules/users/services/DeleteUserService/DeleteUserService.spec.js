@@ -39,11 +39,11 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-var FakeUsersRepository_1 = __importDefault(require("../repositories/fakes/FakeUsersRepository"));
-var CreateUserService_1 = __importDefault(require("./CreateUserService"));
+var FakeUsersRepository_1 = __importDefault(require("../../repositories/fakes/FakeUsersRepository"));
+var CreateUserService_1 = __importDefault(require("../CreateUserService/CreateUserService"));
 var DeleteUserService_1 = __importDefault(require("./DeleteUserService"));
-var AppError_1 = __importDefault(require("../../../shared/errors/AppError"));
-var FakeHashProvider_1 = __importDefault(require("../providers/HashUser/fakes/FakeHashProvider"));
+var AppError_1 = __importDefault(require("../../../../shared/errors/AppError"));
+var FakeHashProvider_1 = __importDefault(require("../../providers/HashUser/fakes/FakeHashProvider"));
 describe('DeleteUser', function () {
     it('should be able to delete a user', function () { return __awaiter(void 0, void 0, void 0, function () {
         var fakeUserRepository, hashedPassword, createUser, userData, deleteUser, _a;
@@ -59,7 +59,6 @@ describe('DeleteUser', function () {
                             password: '123456',
                             phone: 965689,
                             cpf: 963454212,
-                            address: '10 Downing Street',
                         })];
                 case 1:
                     userData = _b.sent();

@@ -39,25 +39,37 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-var express_1 = require("express");
-var products_routes_1 = __importDefault(require("../../modules/products/routes/products.routes"));
-var users_routes_1 = __importDefault(require("../../modules/users/infra/routes/users.routes"));
-var sessions_routes_1 = __importDefault(require("../../modules/users/infra/routes/sessions.routes"));
-var profiles_routes_1 = __importDefault(require("../../modules/users/infra/routes/profiles.routes"));
-var routes = express_1.Router();
-routes.use('/products', products_routes_1.default);
-routes.use('/users', users_routes_1.default);
-routes.use('/sessions', sessions_routes_1.default);
-routes.use('/profiles', profiles_routes_1.default);
-routes.use('/', function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
-    return __generator(this, function (_a) {
-        try {
-            res.status(200).send('API is working!!!');
-        }
-        catch (error) {
-            res.status(500).json({ error: 'Something went wrong' });
-        }
-        return [2 /*return*/];
-    });
-}); });
-exports.default = routes;
+var tsyringe_1 = require("tsyringe");
+// import UsersRepository from '../repositories/UsersRepository';
+var CreateUserService_1 = __importDefault(require("../services/CreateUserService/CreateUserService"));
+// import UpdateUserService from '../services/UpdateUserService';
+// import DeleteUserService from '../services/DeleteUserService';
+// import AppError from '../../../shared/errors/AppError';
+var UsersController = /** @class */ (function () {
+    function UsersController() {
+    }
+    UsersController.prototype.create = function (req, res) {
+        return __awaiter(this, void 0, void 0, function () {
+            var _a, name, email, password, phone, cpf, address, createUser;
+            return __generator(this, function (_b) {
+                switch (_b.label) {
+                    case 0:
+                        _a = req.body, name = _a.name, email = _a.email, password = _a.password, phone = _a.phone, cpf = _a.cpf, address = _a.address;
+                        createUser = tsyringe_1.container.resolve(CreateUserService_1.default);
+                        return [4 /*yield*/, createUser.execute({
+                                name: name,
+                                email: email,
+                                password: password,
+                                phone: phone,
+                                cpf: cpf,
+                            })];
+                    case 1:
+                        _b.sent();
+                        return [2 /*return*/, res.status(201).json({ name: name, email: email, phone: phone, cpf: cpf, address: address })];
+                }
+            });
+        });
+    };
+    return UsersController;
+}());
+exports.default = UsersController;

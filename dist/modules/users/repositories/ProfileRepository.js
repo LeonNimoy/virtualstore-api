@@ -35,71 +35,74 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
         if (op[0] & 5) throw op[1]; return { value: op[0] ? op[1] : void 0, done: true };
     }
 };
-var __importDefault = (this && this.__importDefault) || function (mod) {
-    return (mod && mod.__esModule) ? mod : { "default": mod };
-};
 Object.defineProperty(exports, "__esModule", { value: true });
-var fs_1 = __importDefault(require("fs"));
-var path_1 = __importDefault(require("path"));
-var mime_1 = __importDefault(require("mime"));
-var aws_sdk_1 = __importDefault(require("aws-sdk"));
-var upload_1 = __importDefault(require("../../../config/upload"));
-var AppError_1 = __importDefault(require("../../errors/AppError"));
-var DiskStorageProvider = /** @class */ (function () {
-    function DiskStorageProvider() {
-        this.client = new aws_sdk_1.default.S3({
-            accessKeyId: process.env.AWS_ACCESS_ID,
-            secretAccessKey: process.env.AWS_SECRET_ACCESS,
-            region: 'us-east-1',
-        });
+var AddressSchema_1 = require("../infra/databases/mongoose/schemas/AddressSchema");
+var UserSchema_1 = require("../infra/databases/mongoose/schemas/UserSchema");
+var ProfilesRepository = /** @class */ (function () {
+    function ProfilesRepository() {
     }
-    DiskStorageProvider.prototype.saveFile = function (file) {
+    ProfilesRepository.prototype.findById = function (userId) {
         return __awaiter(this, void 0, void 0, function () {
-            var originalPath, fileContent, fileTypes, filesChecker, ContentType;
+            var findUserId;
             return __generator(this, function (_a) {
                 switch (_a.label) {
-                    case 0:
-                        originalPath = path_1.default.resolve(upload_1.default.tmpFolder, file);
-                        return [4 /*yield*/, fs_1.default.promises.readFile(originalPath)];
+                    case 0: return [4 /*yield*/, AddressSchema_1.AddressSchema.findById(userId)];
                     case 1:
-                        fileContent = _a.sent();
-                        fileTypes = /jpg|jpeg|png/;
-                        filesChecker = fileTypes.test(path_1.default.extname(file));
-                        ContentType = mime_1.default.getType(originalPath);
-                        if (!(!ContentType || !filesChecker)) return [3 /*break*/, 3];
-                        return [4 /*yield*/, fs_1.default.promises.unlink(originalPath)];
-                    case 2:
-                        _a.sent();
-                        throw new AppError_1.default('Type of file not valid', 403);
-                    case 3: return [4 /*yield*/, this.client
-                            .putObject({
-                            Bucket: upload_1.default.config.disk.bucket,
-                            Key: file,
-                            ACL: 'public-read',
-                            Body: fileContent,
-                            ContentType: ContentType,
-                        })
-                            .promise()];
-                    case 4:
-                        _a.sent();
-                        return [4 /*yield*/, fs_1.default.promises.unlink(originalPath)];
-                    case 5:
-                        _a.sent();
-                        return [2 /*return*/, file];
+                        findUserId = _a.sent();
+                        return [2 /*return*/, findUserId];
                 }
             });
         });
     };
-    DiskStorageProvider.prototype.deleteFile = function (file) {
+    ProfilesRepository.prototype.save = function (_a) {
+        var address = _a.address, address_2 = _a.address_2, cep = _a.cep, city = _a.city, neighborhood = _a.neighborhood, state = _a.state, cpf = _a.cpf, phone = _a.phone, user_id = _a.user_id;
+        return __awaiter(this, void 0, void 0, function () {
+            var addressSaved;
+            return __generator(this, function (_b) {
+                switch (_b.label) {
+                    case 0:
+                        addressSaved = new AddressSchema_1.AddressSchema({
+                            user_id: user_id,
+                            address: address,
+                            address_2: address_2,
+                            cep: cep,
+                            city: city,
+                            neighborhood: neighborhood,
+                            state: state,
+                        });
+                        return [4 /*yield*/, addressSaved.save()];
+                    case 1:
+                        _b.sent();
+                        return [4 /*yield*/, UserSchema_1.UserSchema.findByIdAndUpdate(user_id, { cpf: cpf, phone: phone, addresses_id: addressSaved.id }, {
+                                new: true,
+                            })];
+                    case 2:
+                        _b.sent();
+                        return [2 /*return*/];
+                }
+            });
+        });
+    };
+    ProfilesRepository.prototype.update = function (newProfileData) {
+        return __awaiter(this, void 0, void 0, function () {
+            var profileUpdated;
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0: return [4 /*yield*/, AddressSchema_1.AddressSchema.findByIdAndUpdate(newProfileData.user_id, newProfileData, {
+                            new: true,
+                        })];
+                    case 1:
+                        profileUpdated = _a.sent();
+                        return [2 /*return*/, profileUpdated];
+                }
+            });
+        });
+    };
+    ProfilesRepository.prototype.delete = function (profileData) {
         return __awaiter(this, void 0, void 0, function () {
             return __generator(this, function (_a) {
                 switch (_a.label) {
-                    case 0: return [4 /*yield*/, this.client
-                            .deleteObject({
-                            Bucket: upload_1.default.config.disk.bucket,
-                            Key: file,
-                        })
-                            .promise()];
+                    case 0: return [4 /*yield*/, AddressSchema_1.AddressSchema.deleteOne(profileData)];
                     case 1:
                         _a.sent();
                         return [2 /*return*/];
@@ -107,6 +110,6 @@ var DiskStorageProvider = /** @class */ (function () {
             });
         });
     };
-    return DiskStorageProvider;
+    return ProfilesRepository;
 }());
-exports.default = DiskStorageProvider;
+exports.default = ProfilesRepository;
