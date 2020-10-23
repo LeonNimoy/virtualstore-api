@@ -3,7 +3,7 @@ export default interface IUserEntity {
   name: string;
   email: string;
   password: string;
-  phone: number;
-  cpf: number;
-  address: string;
+  phone?: number;
+  cpf?: number;
+  addresses_id?: string;
 }

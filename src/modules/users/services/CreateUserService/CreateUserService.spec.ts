@@ -1,7 +1,7 @@
-import FakeHashProvider from '../providers/HashUser/fakes/FakeHashProvider';
+import FakeHashProvider from '../../providers/HashUser/fakes/FakeHashProvider';
 import CreateUserService from './CreateUserService';
-import FakeUsersRepository from '../repositories/fakes/FakeUsersRepository';
-import AppError from '../../../shared/errors/AppError';
+import FakeUsersRepository from '../../repositories/fakes/FakeUsersRepository';
+import AppError from '../../../../shared/errors/AppError';
 
 describe('CreateUser', () => {
   it('should be able to create a new user', async () => {
@@ -16,9 +16,6 @@ describe('CreateUser', () => {
       name: 'John Doe',
       email: 'john@gmail.com',
       password: '123456',
-      phone: 965689,
-      cpf: 963454212,
-      address: '10 Downing Street',
     });
     expect(user).toEqual(expect.objectContaining(user));
   });
@@ -35,9 +32,6 @@ describe('CreateUser', () => {
       name: 'John Doe',
       email: 'john@gmail.com',
       password: '123456',
-      phone: 965689,
-      cpf: 963454212,
-      address: '10 Downing Street',
     });
 
     expect(
@@ -45,9 +39,6 @@ describe('CreateUser', () => {
         name: 'John Doe',
         email: 'john@gmail.com',
         password: '123456',
-        phone: 965689,
-        cpf: 963454212,
-        address: '10 Downing Street',
       }),
     ).rejects.toBeInstanceOf(AppError);
   });

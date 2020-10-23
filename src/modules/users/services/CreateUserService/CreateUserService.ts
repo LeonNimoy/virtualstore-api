@@ -1,11 +1,11 @@
 import 'reflect-metadata';
 import { inject, injectable } from 'tsyringe';
 
-import IUserDTO from '../dtos/IUserDTO';
-import IUserEntity from '../entities/IUserEntity';
-import IUsersProvider from '../providers/IUsersProvider';
-import IHashUser from '../providers/HashUser/models/IHashUser';
-import AppError from '../../../shared/errors/AppError';
+import IUserDTO from '../../dtos/IUserDTO';
+import IUserEntity from '../../entities/IUserEntity';
+import IUsersProvider from '../../providers/IUsersProvider';
+import IHashUser from '../../providers/HashUser/models/IHashUser';
+import AppError from '../../../../shared/errors/AppError';
 
 @injectable()
 class CreateUserService {
@@ -21,9 +21,6 @@ class CreateUserService {
     name,
     email,
     password,
-    phone,
-    cpf,
-    address,
   }: IUserDTO): Promise<IUserEntity> {
     const checkEmail = await this.userRepository.checkEmail(email);
 
@@ -34,9 +31,6 @@ class CreateUserService {
         name,
         email,
         password: hashedPassword,
-        phone,
-        cpf,
-        address,
       });
 
       return user;

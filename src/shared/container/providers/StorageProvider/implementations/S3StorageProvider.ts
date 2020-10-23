@@ -3,9 +3,9 @@ import path from 'path';
 import mime from 'mime';
 import aws, { S3 } from 'aws-sdk';
 
-import uploadConfig from '../../../config/upload';
+import uploadConfig from '../../../../../config/upload';
 import IStorageProvider from '../entities/IStorageProvider';
-import AppError from '../../errors/AppError';
+import AppError from '../../../../errors/AppError';
 
 class DiskStorageProvider implements IStorageProvider {
   private client: S3;

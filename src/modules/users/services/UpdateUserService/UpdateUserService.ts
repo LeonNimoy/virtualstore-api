@@ -1,11 +1,11 @@
 import 'reflect-metadata';
 import { inject, injectable } from 'tsyringe';
 
-import IUserDTO from '../dtos/IUserDTO';
-import IUserEntity from '../entities/IUserEntity';
-import IUsersProvider from '../providers/IUsersProvider';
-import IHashUser from '../providers/HashUser/models/IHashUser';
-import AppError from '../../../shared/errors/AppError';
+import IUserDTO from '../../dtos/IUserDTO';
+import IUserEntity from '../../entities/IUserEntity';
+import IUsersProvider from '../../providers/IUsersProvider';
+import IHashUser from '../../providers/HashUser/models/IHashUser';
+import AppError from '../../../../shared/errors/AppError';
 
 @injectable()
 class UpdateUserService {
@@ -41,18 +41,6 @@ class UpdateUserService {
         userNewData.password,
       );
       user.password = hashedPassword;
-    }
-
-    if (userNewData.phone) {
-      user.phone = userNewData.phone;
-    }
-
-    if (userNewData.cpf) {
-      user.cpf = userNewData.cpf;
-    }
-
-    if (userNewData.address) {
-      user.address = userNewData.address;
     }
 
     const userUpdated = await this.userRepository.update(user);

@@ -1,4 +1,4 @@
-import { UserSchema } from '../databases/mongoose/schemas/UserSchema';
+import { UserSchema } from '../infra/databases/mongoose/schemas/UserSchema';
 import IUserEntity from '../entities/IUserEntity';
 import IUserDTO from '../dtos/IUserDTO';
 import IUsersProvider from '../providers/IUsersProvider';
@@ -41,7 +41,7 @@ export default class UsersRepository implements IUsersProvider {
   public async save(userData: IUserDTO): Promise<IUserEntity> {
     const userCreated = new UserSchema(userData);
     await userCreated.save();
-    return userCreated;
+    return userCreated.id;
   }
 
   public async update(userData: IUserDTO): Promise<IUserEntity | null> {

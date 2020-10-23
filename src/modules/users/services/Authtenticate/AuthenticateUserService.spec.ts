@@ -1,8 +1,8 @@
-import FakeHashProvider from '../providers/HashUser/fakes/FakeHashProvider';
+import FakeHashProvider from '../../providers/HashUser/fakes/FakeHashProvider';
 import AuthenticateUserService from './AuthenticateUserService';
-import CreateUserService from './CreateUserService';
-import FakeUsersRepository from '../repositories/fakes/FakeUsersRepository';
-import AppError from '../../../shared/errors/AppError';
+import CreateUserService from '../CreateUserService/CreateUserService';
+import FakeUsersRepository from '../../repositories/fakes/FakeUsersRepository';
+import AppError from '../../../../shared/errors/AppError';
 
 describe('AuthenticateUser', () => {
   it('should be able to authenticate a new user', async () => {
@@ -17,7 +17,6 @@ describe('AuthenticateUser', () => {
       password: '123456',
       phone: 965689,
       cpf: 963454212,
-      address: '10 Downing Street',
     });
 
     const authenticateUser = new AuthenticateUserService(
@@ -61,7 +60,6 @@ describe('AuthenticateUser', () => {
       password: '123456',
       phone: 965689,
       cpf: 963454212,
-      address: '10 Downing Street',
     });
 
     const authenticateUser = new AuthenticateUserService(

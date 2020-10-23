@@ -1,5 +1,5 @@
 import IUserDTO from '../../dtos/IUserDTO';
-import { UserSchema } from '../../databases/mongoose/schemas/UserSchema';
+import { UserSchema } from '../../infra/databases/mongoose/schemas/UserSchema';
 import IUserEntity from '../../entities/IUserEntity';
 import IUsersProvider from '../../providers/IUsersProvider';
 
@@ -49,7 +49,7 @@ class FakeUsersRepository implements IUsersProvider {
     return user;
   }
 
-  public async update(newUserData: IUserDTO): Promise<IUserEntity> {
+  public async update(newUserData: IUserDTO): Promise<IUserEntity | null> {
     this.users.map(user => newUserData === user);
 
     return newUserData;

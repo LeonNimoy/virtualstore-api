@@ -2,7 +2,7 @@ import { container } from 'tsyringe';
 import { Request, Response } from 'express';
 import UsersRepository from '../repositories/UsersRepository';
 
-import AuthenticateUserService from '../services/AuthenticateUserService';
+import AuthenticateUserService from '../services/Authtenticate/AuthenticateUserService';
 
 export default class SessionsController {
   public async list(req: Request, res: Response): Promise<Response> {
@@ -22,10 +22,8 @@ export default class SessionsController {
       password,
     });
 
-    const { name, address, cpf, id, phone } = user;
+    const { name, id } = user;
 
-    return res
-      .status(200)
-      .json({ id, name, email, address, cpf, phone, token });
+    return res.status(200).json({ id, name, email, token });
   }
 }
