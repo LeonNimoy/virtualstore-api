@@ -1,8 +1,6 @@
-/* eslint-disable no-param-reassign */
-/* eslint-disable no-underscore-dangle */
 import mongoose, { Document, Model } from 'mongoose';
 
-import IProductEntity from '../../../entities/IProductEntity';
+import Product from '../../entities/Product';
 
 const schema = new mongoose.Schema(
   {
@@ -40,7 +38,7 @@ const schema = new mongoose.Schema(
   },
 );
 
-interface IProductModel extends Omit<IProductEntity, 'id'>, Document {}
+interface IProductModel extends Omit<Product, 'id'>, Document {}
 export const ProductSchema: Model<IProductModel> = mongoose.model(
   'Product',
   schema,

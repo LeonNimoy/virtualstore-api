@@ -1,18 +1,16 @@
-import { ProductSchema } from '../databases/mongoose/schemas/ProductSchema';
-import IProductEntity from '../entities/IProductEntity';
+import { ProductSchema } from '../infra/databases/mongoose/schemas/ProductSchema';
+import Product from '../infra/databases/entities/Product';
 import IProductDTO from '../dtos/IProductDTO';
 import IProductsProvider from '../providers/IProductsProvider';
 
 export default class ProductsRepository implements IProductsProvider {
-  public async find(): Promise<IProductEntity[] | null> {
+  public async find(): Promise<Product[] | null> {
     const products = await ProductSchema.find();
 
     return products;
   }
 
-  public async findById(
-    id: string,
-  ): Promise<IProductEntity | null | undefined> {
+  public async findById(id: string): Promise<Product | null | undefined> {
     const findProductId = await ProductSchema.findById(id);
 
     return findProductId;
@@ -30,15 +28,13 @@ export default class ProductsRepository implements IProductsProvider {
     return false;
   }
 
-  public async save(productData: IProductDTO): Promise<IProductEntity> {
+  public async save(productData: IProductDTO): Promise<Product> {
     const productCreated = new ProductSchema(productData);
     await productCreated.save();
     return productCreated;
   }
 
-  public async update(
-    newProductData: IProductDTO,
-  ): Promise<IProductEntity | null> {
+  public async update(newProductData: IProductDTO): Promise<Product | null> {
     const productUpdated = await ProductSchema.findByIdAndUpdate(
       newProductData.id,
       newProductData,

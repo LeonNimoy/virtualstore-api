@@ -2,7 +2,7 @@ import 'reflect-metadata';
 import { inject, injectable } from 'tsyringe';
 
 import IProductDTO from '../dtos/IProductDTO';
-import IProductEntity from '../entities/IProductEntity';
+import Product from '../infra/databases/entities/Product';
 import IProductsProvider from '../providers/IProductsProvider';
 import AppError from '../../../shared/errors/AppError';
 
@@ -20,7 +20,7 @@ class CreateProductService {
     image,
     price,
     quantity,
-  }: IProductDTO): Promise<IProductEntity> {
+  }: IProductDTO): Promise<Product> {
     const checkName = await this.productRepository.checkName(name);
 
     if (checkName) {

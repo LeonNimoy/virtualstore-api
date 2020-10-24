@@ -1,13 +1,13 @@
 import IProductDTO from '../../dtos/IProductDTO';
-import { ProductSchema } from '../../databases/mongoose/schemas/ProductSchema';
-import IProductEntity from '../../entities/IProductEntity';
+import { ProductSchema } from '../../infra/databases/mongoose/schemas/ProductSchema';
+import Product from '../../infra/databases/entities/Product';
 import IProductProvider from '../../providers/IProductsProvider';
 import AppError from '../../../../shared/errors/AppError';
 
 class FakeProductsRepository implements IProductProvider {
-  private products: IProductEntity[] = [];
+  private products: Product[] = [];
 
-  public async find(): Promise<IProductEntity[] | null> {
+  public async find(): Promise<Product[] | null> {
     const products = await ProductSchema.find();
 
     if (products === null) {
@@ -16,7 +16,7 @@ class FakeProductsRepository implements IProductProvider {
     return products;
   }
 
-  public async findById(id: string): Promise<IProductEntity | undefined> {
+  public async findById(id: string): Promise<Product | undefined> {
     const productId = this.products.find(product => product.id === id);
 
     return productId;
@@ -34,7 +34,7 @@ class FakeProductsRepository implements IProductProvider {
     return false;
   }
 
-  public async save(productData: IProductDTO): Promise<IProductEntity> {
+  public async save(productData: IProductDTO): Promise<Product> {
     const product = new ProductSchema(productData);
 
     Object.assign(product, productData);
@@ -43,9 +43,7 @@ class FakeProductsRepository implements IProductProvider {
     return product;
   }
 
-  public async update(
-    newProductData: IProductDTO,
-  ): Promise<IProductEntity | null> {
+  public async update(newProductData: IProductDTO): Promise<Product | null> {
     this.products.map(product => newProductData === product);
 
     return newProductData;
