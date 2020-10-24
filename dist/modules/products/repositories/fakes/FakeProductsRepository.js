@@ -39,7 +39,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-var ProductSchema_1 = require("../../databases/mongoose/schemas/ProductSchema");
+var ProductSchema_1 = require("../../infra/databases/mongoose/schemas/ProductSchema");
 var AppError_1 = __importDefault(require("../../../../shared/errors/AppError"));
 var FakeProductsRepository = /** @class */ (function () {
     function FakeProductsRepository() {

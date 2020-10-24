@@ -36,7 +36,7 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
     }
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-var ProductSchema_1 = require("../databases/mongoose/schemas/ProductSchema");
+var ProductSchema_1 = require("../infra/databases/mongoose/schemas/ProductSchema");
 var ProductsRepository = /** @class */ (function () {
     function ProductsRepository() {
     }
