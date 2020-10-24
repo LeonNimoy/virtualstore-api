@@ -1,6 +1,6 @@
 import mongoose, { Document, Model } from 'mongoose';
 
-import User from '../entities/User';
+import User from '../../entities/User';
 
 const schema = new mongoose.Schema(
   {

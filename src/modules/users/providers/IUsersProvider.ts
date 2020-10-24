@@ -1,5 +1,5 @@
 import IUserDTO from '../dtos/IUserDTO';
-import User from '../infra/databases/mongoose/entities/User';
+import User from '../infra/databases/entities/User';
 import IProfileDTO from '../dtos/IProfileDTO';
 
 export default interface IUserProvider {

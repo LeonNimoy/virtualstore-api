@@ -1,5 +1,5 @@
 import IProfileDTO from '../dtos/IProfileDTO';
-import User from '../infra/databases/mongoose/entities/User';
+import User from '../infra/databases/entities/User';
 
 export default interface IProfileProvider {
   findById(userId: string | undefined): Promise<User | undefined | null>;

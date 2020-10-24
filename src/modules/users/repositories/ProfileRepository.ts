@@ -1,5 +1,5 @@
 import { UserSchema } from '../infra/databases/mongoose/schemas/UserSchema';
-import User from '../infra/databases/mongoose/entities/User';
+import User from '../infra/databases/entities/User';
 import IProfileDTO from '../dtos/IProfileDTO';
 import IProfileProvider from '../providers/IProfileProvider';
 

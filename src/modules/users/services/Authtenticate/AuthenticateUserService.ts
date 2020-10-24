@@ -4,7 +4,7 @@ import { injectable, inject } from 'tsyringe';
 
 import authConfig from '../../../../config/auth';
 import IHashUser from '../../providers/HashUser/models/IHashUser';
-import User from '../../infra/databases/mongoose/entities/User';
+import User from '../../infra/databases/entities/User';
 import UserRepository from '../../repositories/UsersRepository';
 import AppError from '../../../../shared/errors/AppError';
 

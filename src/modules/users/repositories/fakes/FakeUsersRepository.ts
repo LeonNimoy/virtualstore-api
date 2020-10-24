@@ -1,6 +1,6 @@
 import IUserDTO from '../../dtos/IUserDTO';
 import { UserSchema } from '../../infra/databases/mongoose/schemas/UserSchema';
-import User from '../../infra/databases/mongoose/entities/User';
+import User from '../../infra/databases/entities/User';
 import IUsersProvider from '../../providers/IUsersProvider';
 
 class FakeUsersRepository implements IUsersProvider {
