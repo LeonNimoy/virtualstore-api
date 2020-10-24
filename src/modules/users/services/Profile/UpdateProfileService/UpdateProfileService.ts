@@ -1,10 +1,10 @@
 import 'reflect-metadata';
 import { inject, injectable } from 'tsyringe';
 
-import IProfileProvider from '../../providers/IProfileProvider';
-import AppError from '../../../../shared/errors/AppError';
-import IProfileDTO from '../../dtos/IProfileDTO';
-import IUsersProvider from '../../providers/IUsersProvider';
+import IProfileProvider from '../../../providers/IProfileProvider';
+import AppError from '../../../../../shared/errors/AppError';
+import IProfileDTO from '../../../dtos/IProfileDTO';
+import IUsersProvider from '../../../providers/IUsersProvider';
 
 @injectable()
 class UpdateProfileService {
@@ -17,7 +17,7 @@ class UpdateProfileService {
   ) {}
 
   public async execute({
-    user_id,
+    id,
     cpf,
     phone,
     cep,
@@ -27,7 +27,7 @@ class UpdateProfileService {
     city,
     state,
   }: IProfileDTO): Promise<void> {
-    const findValidUser = await this.userRepository.findById(user_id);
+    const findValidUser = await this.userRepository.findById(id);
 
     switch (findValidUser) {
       case null:
@@ -38,7 +38,7 @@ class UpdateProfileService {
     }
 
     await this.profileRepository.save({
-      user_id: findValidUser.id,
+      id,
       cpf,
       phone,
       cep,

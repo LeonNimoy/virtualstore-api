@@ -1,53 +1,38 @@
-import { AddressSchema } from '../infra/databases/mongoose/schemas/AddressSchema';
 import { UserSchema } from '../infra/databases/mongoose/schemas/UserSchema';
-import IAddressEntity from '../entities/IAddressEntity';
+import User from '../infra/databases/mongoose/entities/User';
 import IProfileDTO from '../dtos/IProfileDTO';
 import IProfileProvider from '../providers/IProfileProvider';
 
 export default class ProfilesRepository implements IProfileProvider {
   public async findById(
     userId: string | undefined,
-  ): Promise<IAddressEntity | undefined | null> {
-    const findUserId = await AddressSchema.findById(userId);
+  ): Promise<User | undefined | null> {
+    const findUserId = await UserSchema.findById(userId);
 
     return findUserId;
   }
 
   public async save({
+    cep,
     address,
     address_2,
-    cep,
-    city,
     neighborhood,
+    city,
     state,
     cpf,
     phone,
-    user_id,
+    id,
   }: IProfileDTO): Promise<void> {
-    const addressSaved = new AddressSchema({
-      user_id,
-      address,
-      address_2,
-      cep,
-      city,
-      neighborhood,
-      state,
+    await UserSchema.findByIdAndUpdate(id, {
+      cpf,
+      phone,
+      addresses: [{ cep, address, address_2, neighborhood, city, state }],
     });
-    await addressSaved.save();
-    await UserSchema.findByIdAndUpdate(
-      user_id,
-      { cpf, phone, addresses_id: addressSaved.id },
-      {
-        new: true,
-      },
-    );
   }
 
-  public async update(
-    newProfileData: IProfileDTO,
-  ): Promise<IAddressEntity | null> {
-    const profileUpdated = await AddressSchema.findByIdAndUpdate(
-      newProfileData.user_id,
+  public async update(newProfileData: IProfileDTO): Promise<User | null> {
+    const profileUpdated = await UserSchema.findByIdAndUpdate(
+      newProfileData.id,
       newProfileData,
       {
         new: true,
@@ -57,7 +42,7 @@ export default class ProfilesRepository implements IProfileProvider {
     return profileUpdated;
   }
 
-  public async delete(profileData: IProfileDTO): Promise<void | null> {
-    await AddressSchema.deleteOne(profileData);
+  public async delete(profileData: IProfileDTO): Promise<void> {
+    await UserSchema.deleteOne(profileData);
   }
 }

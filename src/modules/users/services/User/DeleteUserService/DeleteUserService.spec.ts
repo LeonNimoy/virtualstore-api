@@ -1,8 +1,8 @@
-import FakeUsersRepository from '../../repositories/fakes/FakeUsersRepository';
+import FakeUsersRepository from '../../../repositories/fakes/FakeUsersRepository';
 import CreateUserService from '../CreateUserService/CreateUserService';
 import DeleteUserService from './DeleteUserService';
-import AppError from '../../../../shared/errors/AppError';
-import FakeHashProvider from '../../providers/HashUser/fakes/FakeHashProvider';
+import AppError from '../../../../../shared/errors/AppError';
+import FakeHashProvider from '../../../providers/HashUser/fakes/FakeHashProvider';
 
 describe('DeleteUser', () => {
   it('should be able to delete a user', async () => {
@@ -18,8 +18,6 @@ describe('DeleteUser', () => {
       name: 'John Doe',
       email: 'john@gmail.com',
       password: '123456',
-      phone: 965689,
-      cpf: 963454212,
     });
 
     const deleteUser = new DeleteUserService(fakeUserRepository);

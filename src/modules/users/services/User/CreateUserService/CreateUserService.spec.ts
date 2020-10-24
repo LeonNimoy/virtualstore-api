@@ -1,7 +1,7 @@
-import FakeHashProvider from '../../providers/HashUser/fakes/FakeHashProvider';
+import FakeHashProvider from '../../../providers/HashUser/fakes/FakeHashProvider';
 import CreateUserService from './CreateUserService';
-import FakeUsersRepository from '../../repositories/fakes/FakeUsersRepository';
-import AppError from '../../../../shared/errors/AppError';
+import FakeUsersRepository from '../../../repositories/fakes/FakeUsersRepository';
+import AppError from '../../../../../shared/errors/AppError';
 
 describe('CreateUser', () => {
   it('should be able to create a new user', async () => {

@@ -2,9 +2,9 @@ import { Request, Response } from 'express';
 import { container } from 'tsyringe';
 
 import UsersRepository from '../repositories/UsersRepository';
-import CreateUserService from '../services/CreateUserService/CreateUserService';
-import UpdateUserService from '../services/UpdateUserService/UpdateUserService';
-import DeleteUserService from '../services/DeleteUserService/DeleteUserService';
+import CreateUserService from '../services/User/CreateUserService/CreateUserService';
+import UpdateUserService from '../services/User/UpdateUserService/UpdateUserService';
+import DeleteUserService from '../services/User/DeleteUserService/DeleteUserService';
 import AppError from '../../../shared/errors/AppError';
 
 export default class UsersController {

@@ -1,7 +1,7 @@
 import { injectable, inject } from 'tsyringe';
 
-import IUsersProvider from '../../providers/IUsersProvider';
-import AppError from '../../../../shared/errors/AppError';
+import IUsersProvider from '../../../providers/IUsersProvider';
+import AppError from '../../../../../shared/errors/AppError';
 
 interface Request {
   id: string | undefined;

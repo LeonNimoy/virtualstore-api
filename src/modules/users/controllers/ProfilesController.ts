@@ -1,7 +1,7 @@
 import { Request, Response } from 'express';
 import { container } from 'tsyringe';
 
-import UpdateProfileService from '../services/UpdateProfileService/UpdateProfileService';
+import UpdateProfileService from '../services/Profile/UpdateProfileService/UpdateProfileService';
 
 export default class ProfilesController {
   public async post(req: Request, res: Response): Promise<Response> {
@@ -18,7 +18,7 @@ export default class ProfilesController {
     } = req.body;
     const updateUser = container.resolve(UpdateProfileService);
     await updateUser.execute({
-      user_id: id,
+      id,
       phone,
       cpf,
       cep,
@@ -29,6 +29,6 @@ export default class ProfilesController {
       state,
     });
 
-    return res.status(200).json({ message: 'User profile created' });
+    return res.status(200).json({ message: 'User profile Updated' });
   }
 }

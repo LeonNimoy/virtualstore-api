@@ -1,10 +1,8 @@
 import IProfileDTO from '../dtos/IProfileDTO';
-import IAddressEntity from '../entities/IAddressEntity';
+import User from '../infra/databases/mongoose/entities/User';
 
 export default interface IProfileProvider {
-  findById(
-    userId: string | undefined,
-  ): Promise<IAddressEntity | undefined | null>;
+  findById(userId: string | undefined): Promise<User | undefined | null>;
   save({
     address,
     address_2,
@@ -14,8 +12,7 @@ export default interface IProfileProvider {
     state,
     cpf,
     phone,
-    user_id,
-  }: IProfileDTO): Promise<void | undefined>;
-  update(newProfileData: IProfileDTO): Promise<IAddressEntity | null>;
-  delete(profileData: IProfileDTO): Promise<void | null>;
+  }: IProfileDTO): Promise<void>;
+  update(newProfileData: IProfileDTO): Promise<User | null>;
+  delete(profileData: IProfileDTO): Promise<void>;
 }

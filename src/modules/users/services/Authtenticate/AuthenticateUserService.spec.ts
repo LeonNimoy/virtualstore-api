@@ -1,6 +1,6 @@
 import FakeHashProvider from '../../providers/HashUser/fakes/FakeHashProvider';
 import AuthenticateUserService from './AuthenticateUserService';
-import CreateUserService from '../CreateUserService/CreateUserService';
+import CreateUserService from '../User/CreateUserService/CreateUserService';
 import FakeUsersRepository from '../../repositories/fakes/FakeUsersRepository';
 import AppError from '../../../../shared/errors/AppError';
 
@@ -15,8 +15,6 @@ describe('AuthenticateUser', () => {
       name: 'John Doe',
       email: 'john@gmail.com',
       password: '123456',
-      phone: 965689,
-      cpf: 963454212,
     });
 
     const authenticateUser = new AuthenticateUserService(
@@ -58,8 +56,6 @@ describe('AuthenticateUser', () => {
       name: 'John Doe',
       email: 'john@gmail.com',
       password: '123456',
-      phone: 965689,
-      cpf: 963454212,
     });
 
     const authenticateUser = new AuthenticateUserService(

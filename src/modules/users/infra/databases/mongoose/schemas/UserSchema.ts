@@ -1,6 +1,6 @@
 import mongoose, { Document, Model } from 'mongoose';
 
-import IUserEntity from '../../../../entities/IUserEntity';
+import User from '../entities/User';
 
 const schema = new mongoose.Schema(
   {
@@ -21,10 +21,43 @@ const schema = new mongoose.Schema(
       type: Number,
     },
 
-    addresses_id: [
+    addresses: [
       {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: 'AddressSchema',
+        cep: {
+          type: String,
+        },
+        address: {
+          type: String,
+        },
+        address_2: {
+          type: String,
+        },
+        neighborhood: {
+          type: String,
+        },
+        city: {
+          type: String,
+        },
+        state: {
+          type: String,
+        },
+      },
+    ],
+
+    payment: [
+      {
+        card_number: {
+          type: Number,
+        },
+        expire_date: {
+          type: Date,
+        },
+        security_code: {
+          type: Number,
+        },
+        owner_name: {
+          type: String,
+        },
       },
     ],
   },
@@ -41,5 +74,5 @@ const schema = new mongoose.Schema(
   },
 );
 
-interface IUserModel extends Omit<IUserEntity, 'id'>, Document {}
+interface IUserModel extends Omit<User, 'id'>, Document {}
 export const UserSchema: Model<IUserModel> = mongoose.model('User', schema);

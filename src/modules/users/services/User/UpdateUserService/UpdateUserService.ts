@@ -1,11 +1,11 @@
 import 'reflect-metadata';
 import { inject, injectable } from 'tsyringe';
 
-import IUserDTO from '../../dtos/IUserDTO';
-import IUserEntity from '../../entities/IUserEntity';
-import IUsersProvider from '../../providers/IUsersProvider';
-import IHashUser from '../../providers/HashUser/models/IHashUser';
-import AppError from '../../../../shared/errors/AppError';
+import IUserDTO from '../../../dtos/IUserDTO';
+import User from '../../../infra/databases/mongoose/entities/User';
+import IUsersProvider from '../../../providers/IUsersProvider';
+import IHashUser from '../../../providers/HashUser/models/IHashUser';
+import AppError from '../../../../../shared/errors/AppError';
 
 @injectable()
 class UpdateUserService {
@@ -17,7 +17,7 @@ class UpdateUserService {
     private hashUser: IHashUser,
   ) {}
 
-  public async execute(userNewData: IUserDTO): Promise<IUserEntity> {
+  public async execute(userNewData: IUserDTO): Promise<User> {
     const user = await this.userRepository.findById(userNewData.id);
 
     switch (user) {
