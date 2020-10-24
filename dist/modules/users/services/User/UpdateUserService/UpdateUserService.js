@@ -53,52 +53,58 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 require("reflect-metadata");
 var tsyringe_1 = require("tsyringe");
-var AppError_1 = __importDefault(require("../../../../shared/errors/AppError"));
-var UpdateProfileService = /** @class */ (function () {
-    function UpdateProfileService(userRepository, profileRepository) {
+var AppError_1 = __importDefault(require("../../../../../shared/errors/AppError"));
+var UpdateUserService = /** @class */ (function () {
+    function UpdateUserService(userRepository, hashUser) {
         this.userRepository = userRepository;
-        this.profileRepository = profileRepository;
+        this.hashUser = hashUser;
     }
-    UpdateProfileService.prototype.execute = function (_a) {
-        var user_id = _a.user_id, cpf = _a.cpf, phone = _a.phone, cep = _a.cep, address = _a.address, address_2 = _a.address_2, neighborhood = _a.neighborhood, city = _a.city, state = _a.state;
+    UpdateUserService.prototype.execute = function (userNewData) {
         return __awaiter(this, void 0, void 0, function () {
-            var findValidUser;
-            return __generator(this, function (_b) {
-                switch (_b.label) {
-                    case 0: return [4 /*yield*/, this.userRepository.findById(user_id)];
+            var user, hashedPassword, userUpdated;
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0: return [4 /*yield*/, this.userRepository.findById(userNewData.id)];
                     case 1:
-                        findValidUser = _b.sent();
-                        switch (findValidUser) {
+                        user = _a.sent();
+                        switch (user) {
                             case null:
                                 throw new AppError_1.default('User not found', 404);
                             case undefined:
-                                throw new AppError_1.default('Invalid Registration', 400);
+                                throw new AppError_1.default('User not found', 400);
                             default:
                         }
-                        return [4 /*yield*/, this.profileRepository.save({
-                                user_id: findValidUser.id,
-                                cpf: cpf,
-                                phone: phone,
-                                cep: cep,
-                                address: address,
-                                address_2: address_2,
-                                neighborhood: neighborhood,
-                                city: city,
-                                state: state,
-                            })];
+                        if (userNewData.name) {
+                            user.name = userNewData.name;
+                        }
+                        if (userNewData.email) {
+                            user.email = userNewData.email;
+                        }
+                        if (!userNewData.password) return [3 /*break*/, 3];
+                        return [4 /*yield*/, this.hashUser.generateHash(userNewData.password)];
                     case 2:
-                        _b.sent();
-                        return [2 /*return*/];
+                        hashedPassword = _a.sent();
+                        user.password = hashedPassword;
+                        _a.label = 3;
+                    case 3: return [4 /*yield*/, this.userRepository.update(user)];
+                    case 4:
+                        userUpdated = _a.sent();
+                        switch (userUpdated) {
+                            case null:
+                                throw new AppError_1.default('User not found', 404);
+                            default:
+                        }
+                        return [2 /*return*/, userUpdated];
                 }
             });
         });
     };
-    UpdateProfileService = __decorate([
+    UpdateUserService = __decorate([
         tsyringe_1.injectable(),
         __param(0, tsyringe_1.inject('UsersRepository')),
-        __param(1, tsyringe_1.inject('ProfileRepository')),
+        __param(1, tsyringe_1.inject('HashUser')),
         __metadata("design:paramtypes", [Object, Object])
-    ], UpdateProfileService);
-    return UpdateProfileService;
+    ], UpdateUserService);
+    return UpdateUserService;
 }());
-exports.default = UpdateProfileService;
+exports.default = UpdateUserService;

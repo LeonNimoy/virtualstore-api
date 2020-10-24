@@ -53,58 +53,44 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 require("reflect-metadata");
 var tsyringe_1 = require("tsyringe");
-var AppError_1 = __importDefault(require("../../../../shared/errors/AppError"));
-var UpdateUserService = /** @class */ (function () {
-    function UpdateUserService(userRepository, hashUser) {
+var AppError_1 = __importDefault(require("../../../../../shared/errors/AppError"));
+var CreateUserService = /** @class */ (function () {
+    function CreateUserService(userRepository, hashUser) {
         this.userRepository = userRepository;
         this.hashUser = hashUser;
     }
-    UpdateUserService.prototype.execute = function (userNewData) {
+    CreateUserService.prototype.execute = function (_a) {
+        var name = _a.name, email = _a.email, password = _a.password;
         return __awaiter(this, void 0, void 0, function () {
-            var user, hashedPassword, userUpdated;
-            return __generator(this, function (_a) {
-                switch (_a.label) {
-                    case 0: return [4 /*yield*/, this.userRepository.findById(userNewData.id)];
+            var checkEmail, hashedPassword, user;
+            return __generator(this, function (_b) {
+                switch (_b.label) {
+                    case 0: return [4 /*yield*/, this.userRepository.checkEmail(email)];
                     case 1:
-                        user = _a.sent();
-                        switch (user) {
-                            case null:
-                                throw new AppError_1.default('User not found', 404);
-                            case undefined:
-                                throw new AppError_1.default('User not found', 400);
-                            default:
-                        }
-                        if (userNewData.name) {
-                            user.name = userNewData.name;
-                        }
-                        if (userNewData.email) {
-                            user.email = userNewData.email;
-                        }
-                        if (!userNewData.password) return [3 /*break*/, 3];
-                        return [4 /*yield*/, this.hashUser.generateHash(userNewData.password)];
+                        checkEmail = _b.sent();
+                        if (!checkEmail) return [3 /*break*/, 4];
+                        return [4 /*yield*/, this.hashUser.generateHash(password)];
                     case 2:
-                        hashedPassword = _a.sent();
-                        user.password = hashedPassword;
-                        _a.label = 3;
-                    case 3: return [4 /*yield*/, this.userRepository.update(user)];
-                    case 4:
-                        userUpdated = _a.sent();
-                        switch (userUpdated) {
-                            case null:
-                                throw new AppError_1.default('User not found', 404);
-                            default:
-                        }
-                        return [2 /*return*/, userUpdated];
+                        hashedPassword = _b.sent();
+                        return [4 /*yield*/, this.userRepository.save({
+                                name: name,
+                                email: email,
+                                password: hashedPassword,
+                            })];
+                    case 3:
+                        user = _b.sent();
+                        return [2 /*return*/, user];
+                    case 4: throw new AppError_1.default('Email already used!', 409);
                 }
             });
         });
     };
-    UpdateUserService = __decorate([
+    CreateUserService = __decorate([
         tsyringe_1.injectable(),
         __param(0, tsyringe_1.inject('UsersRepository')),
         __param(1, tsyringe_1.inject('HashUser')),
         __metadata("design:paramtypes", [Object, Object])
-    ], UpdateUserService);
-    return UpdateUserService;
+    ], CreateUserService);
+    return CreateUserService;
 }());
-exports.default = UpdateUserService;
+exports.default = CreateUserService;

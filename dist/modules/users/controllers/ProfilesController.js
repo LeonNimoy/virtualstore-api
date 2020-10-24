@@ -40,7 +40,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 var tsyringe_1 = require("tsyringe");
-var UpdateProfileService_1 = __importDefault(require("../services/UpdateProfileService/UpdateProfileService"));
+var UpdateProfileService_1 = __importDefault(require("../services/Profile/UpdateProfileService/UpdateProfileService"));
 var ProfilesController = /** @class */ (function () {
     function ProfilesController() {
     }
@@ -54,7 +54,7 @@ var ProfilesController = /** @class */ (function () {
                         _a = req.body, phone = _a.phone, cpf = _a.cpf, cep = _a.cep, address = _a.address, address_2 = _a.address_2, neighborhood = _a.neighborhood, city = _a.city, state = _a.state;
                         updateUser = tsyringe_1.container.resolve(UpdateProfileService_1.default);
                         return [4 /*yield*/, updateUser.execute({
-                                user_id: id,
+                                id: id,
                                 phone: phone,
                                 cpf: cpf,
                                 cep: cep,
@@ -66,7 +66,7 @@ var ProfilesController = /** @class */ (function () {
                             })];
                     case 1:
                         _b.sent();
-                        return [2 /*return*/, res.status(200).json({ message: 'User profile created' })];
+                        return [2 /*return*/, res.status(200).json({ message: 'User profile Updated' })];
                 }
             });
         });

@@ -36,7 +36,6 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
     }
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-var AddressSchema_1 = require("../infra/databases/mongoose/schemas/AddressSchema");
 var UserSchema_1 = require("../infra/databases/mongoose/schemas/UserSchema");
 var ProfilesRepository = /** @class */ (function () {
     function ProfilesRepository() {
@@ -46,7 +45,7 @@ var ProfilesRepository = /** @class */ (function () {
             var findUserId;
             return __generator(this, function (_a) {
                 switch (_a.label) {
-                    case 0: return [4 /*yield*/, AddressSchema_1.AddressSchema.findById(userId)];
+                    case 0: return [4 /*yield*/, UserSchema_1.UserSchema.findById(userId)];
                     case 1:
                         findUserId = _a.sent();
                         return [2 /*return*/, findUserId];
@@ -55,28 +54,16 @@ var ProfilesRepository = /** @class */ (function () {
         });
     };
     ProfilesRepository.prototype.save = function (_a) {
-        var address = _a.address, address_2 = _a.address_2, cep = _a.cep, city = _a.city, neighborhood = _a.neighborhood, state = _a.state, cpf = _a.cpf, phone = _a.phone, user_id = _a.user_id;
+        var cep = _a.cep, address = _a.address, address_2 = _a.address_2, neighborhood = _a.neighborhood, city = _a.city, state = _a.state, cpf = _a.cpf, phone = _a.phone, id = _a.id;
         return __awaiter(this, void 0, void 0, function () {
-            var addressSaved;
             return __generator(this, function (_b) {
                 switch (_b.label) {
-                    case 0:
-                        addressSaved = new AddressSchema_1.AddressSchema({
-                            user_id: user_id,
-                            address: address,
-                            address_2: address_2,
-                            cep: cep,
-                            city: city,
-                            neighborhood: neighborhood,
-                            state: state,
-                        });
-                        return [4 /*yield*/, addressSaved.save()];
+                    case 0: return [4 /*yield*/, UserSchema_1.UserSchema.findByIdAndUpdate(id, {
+                            cpf: cpf,
+                            phone: phone,
+                            addresses: [{ cep: cep, address: address, address_2: address_2, neighborhood: neighborhood, city: city, state: state }],
+                        })];
                     case 1:
-                        _b.sent();
-                        return [4 /*yield*/, UserSchema_1.UserSchema.findByIdAndUpdate(user_id, { cpf: cpf, phone: phone, addresses_id: addressSaved.id }, {
-                                new: true,
-                            })];
-                    case 2:
                         _b.sent();
                         return [2 /*return*/];
                 }
@@ -88,7 +75,7 @@ var ProfilesRepository = /** @class */ (function () {
             var profileUpdated;
             return __generator(this, function (_a) {
                 switch (_a.label) {
-                    case 0: return [4 /*yield*/, AddressSchema_1.AddressSchema.findByIdAndUpdate(newProfileData.user_id, newProfileData, {
+                    case 0: return [4 /*yield*/, UserSchema_1.UserSchema.findByIdAndUpdate(newProfileData.id, newProfileData, {
                             new: true,
                         })];
                     case 1:
@@ -102,7 +89,7 @@ var ProfilesRepository = /** @class */ (function () {
         return __awaiter(this, void 0, void 0, function () {
             return __generator(this, function (_a) {
                 switch (_a.label) {
-                    case 0: return [4 /*yield*/, AddressSchema_1.AddressSchema.deleteOne(profileData)];
+                    case 0: return [4 /*yield*/, UserSchema_1.UserSchema.deleteOne(profileData)];
                     case 1:
                         _a.sent();
                         return [2 /*return*/];

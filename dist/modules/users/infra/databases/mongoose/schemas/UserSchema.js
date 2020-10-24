@@ -22,10 +22,42 @@ var schema = new mongoose_1.default.Schema({
     cpf: {
         type: Number,
     },
-    addresses_id: [
+    addresses: [
         {
-            type: mongoose_1.default.Schema.Types.ObjectId,
-            ref: 'AddressSchema',
+            cep: {
+                type: String,
+            },
+            address: {
+                type: String,
+            },
+            address_2: {
+                type: String,
+            },
+            neighborhood: {
+                type: String,
+            },
+            city: {
+                type: String,
+            },
+            state: {
+                type: String,
+            },
+        },
+    ],
+    payment: [
+        {
+            card_number: {
+                type: Number,
+            },
+            expire_date: {
+                type: Date,
+            },
+            security_code: {
+                type: Number,
+            },
+            owner_name: {
+                type: String,
+            },
         },
     ],
 }, {

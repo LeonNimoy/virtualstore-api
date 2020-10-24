@@ -41,9 +41,9 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 var tsyringe_1 = require("tsyringe");
 var UsersRepository_1 = __importDefault(require("../repositories/UsersRepository"));
-var CreateUserService_1 = __importDefault(require("../services/CreateUserService/CreateUserService"));
-var UpdateUserService_1 = __importDefault(require("../services/UpdateUserService/UpdateUserService"));
-var DeleteUserService_1 = __importDefault(require("../services/DeleteUserService/DeleteUserService"));
+var CreateUserService_1 = __importDefault(require("../services/User/CreateUserService/CreateUserService"));
+var UpdateUserService_1 = __importDefault(require("../services/User/UpdateUserService/UpdateUserService"));
+var DeleteUserService_1 = __importDefault(require("../services/User/DeleteUserService/DeleteUserService"));
 var AppError_1 = __importDefault(require("../../../shared/errors/AppError"));
 var UsersController = /** @class */ (function () {
     function UsersController() {

@@ -41,7 +41,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 var FakeHashProvider_1 = __importDefault(require("../../providers/HashUser/fakes/FakeHashProvider"));
 var AuthenticateUserService_1 = __importDefault(require("./AuthenticateUserService"));
-var CreateUserService_1 = __importDefault(require("../CreateUserService/CreateUserService"));
+var CreateUserService_1 = __importDefault(require("../User/CreateUserService/CreateUserService"));
 var FakeUsersRepository_1 = __importDefault(require("../../repositories/fakes/FakeUsersRepository"));
 var AppError_1 = __importDefault(require("../../../../shared/errors/AppError"));
 describe('AuthenticateUser', function () {
@@ -57,8 +57,6 @@ describe('AuthenticateUser', function () {
                             name: 'John Doe',
                             email: 'john@gmail.com',
                             password: '123456',
-                            phone: 965689,
-                            cpf: 963454212,
                         })];
                 case 1:
                     user = _a.sent();
@@ -100,8 +98,6 @@ describe('AuthenticateUser', function () {
                             name: 'John Doe',
                             email: 'john@gmail.com',
                             password: '123456',
-                            phone: 965689,
-                            cpf: 963454212,
                         })];
                 case 1:
                     _a.sent();

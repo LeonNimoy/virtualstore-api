@@ -40,10 +40,10 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 var UpdateUserService_1 = __importDefault(require("./UpdateUserService"));
-var FakeUsersRepository_1 = __importDefault(require("../../repositories/fakes/FakeUsersRepository"));
+var FakeUsersRepository_1 = __importDefault(require("../../../repositories/fakes/FakeUsersRepository"));
 var CreateUserService_1 = __importDefault(require("../CreateUserService/CreateUserService"));
-var AppError_1 = __importDefault(require("../../../../shared/errors/AppError"));
-var FakeHashProvider_1 = __importDefault(require("../../providers/HashUser/fakes/FakeHashProvider"));
+var AppError_1 = __importDefault(require("../../../../../shared/errors/AppError"));
+var FakeHashProvider_1 = __importDefault(require("../../../providers/HashUser/fakes/FakeHashProvider"));
 describe('UpdateUser', function () {
     it('should be able to update a user', function () { return __awaiter(void 0, void 0, void 0, function () {
         var fakeUserRepository, hashPassword, createUserService, oldUserData, updateUser, userUpdated;
@@ -57,8 +57,6 @@ describe('UpdateUser', function () {
                             name: 'John Doe',
                             email: 'john@gmail.com',
                             password: '123456',
-                            phone: 965689,
-                            cpf: 963454212,
                         })];
                 case 1:
                     oldUserData = _a.sent();
@@ -68,8 +66,6 @@ describe('UpdateUser', function () {
                             name: 'John Doe',
                             email: 'john@gmail.com',
                             password: '123456',
-                            phone: 965689,
-                            cpf: 963454212,
                         })];
                 case 2:
                     userUpdated = _a.sent();
@@ -89,8 +85,6 @@ describe('UpdateUser', function () {
                 name: 'John Doe',
                 email: 'john@gmail.com',
                 password: '123456',
-                phone: 965689,
-                cpf: 963454212,
             })).rejects.toBeInstanceOf(AppError_1.default);
             return [2 /*return*/];
         });
@@ -107,8 +101,6 @@ describe('UpdateUser', function () {
                             name: 'John Doe',
                             email: 'john@gmail.com',
                             password: '123456',
-                            phone: 965689,
-                            cpf: 963454212,
                         })];
                 case 1:
                     oldUserData = _a.sent();
@@ -118,8 +110,6 @@ describe('UpdateUser', function () {
                             name: '',
                             email: 'john@gmail.com',
                             password: '123456',
-                            phone: 965689,
-                            cpf: 963454212,
                         })];
                 case 2:
                     userUpdated = _a.sent();
@@ -140,8 +130,6 @@ describe('UpdateUser', function () {
                             name: 'John Doe',
                             email: 'john@gmail.com',
                             password: '123456',
-                            phone: 965689,
-                            cpf: 963454212,
                         })];
                 case 1:
                     oldUserData = _a.sent();
@@ -151,8 +139,6 @@ describe('UpdateUser', function () {
                             name: 'John Doe',
                             email: 'john@gmail.com',
                             password: '',
-                            phone: 965689,
-                            cpf: 963454212,
                         })];
                 case 2:
                     userUpdated = _a.sent();
