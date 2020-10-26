@@ -36,7 +36,7 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
     }
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-var UserSchema_1 = require("../databases/mongoose/schemas/UserSchema");
+var UserSchema_1 = require("../infra/databases/mongoose/schemas/UserSchema");
 var UsersRepository = /** @class */ (function () {
     function UsersRepository() {
     }
@@ -109,7 +109,7 @@ var UsersRepository = /** @class */ (function () {
                         return [4 /*yield*/, userCreated.save()];
                     case 1:
                         _a.sent();
-                        return [2 /*return*/, userCreated];
+                        return [2 /*return*/, userCreated.id];
                 }
             });
         });

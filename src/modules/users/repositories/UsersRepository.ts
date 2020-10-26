@@ -1,16 +1,16 @@
-import { UserSchema } from '../databases/mongoose/schemas/UserSchema';
-import IUserEntity from '../entities/IUserEntity';
+import { UserSchema } from '../infra/databases/mongoose/schemas/UserSchema';
+import User from '../infra/databases/entities/User';
 import IUserDTO from '../dtos/IUserDTO';
 import IUsersProvider from '../providers/IUsersProvider';
 
 export default class UsersRepository implements IUsersProvider {
-  public async find(): Promise<IUserEntity[]> {
+  public async find(): Promise<User[]> {
     const users = await UserSchema.find().select('-password');
 
     return users;
   }
 
-  public async findById(id: string): Promise<IUserEntity | undefined | null> {
+  public async findById(id: string): Promise<User | undefined | null> {
     const userId = await UserSchema.findById(id).select('-password');
 
     return userId;
@@ -30,7 +30,7 @@ export default class UsersRepository implements IUsersProvider {
 
   public async findByEmail(
     userEmail: string,
-  ): Promise<IUserEntity | undefined | null> {
+  ): Promise<User | undefined | null> {
     const findUser = await UserSchema.findOne({
       email: userEmail,
     });
@@ -38,13 +38,13 @@ export default class UsersRepository implements IUsersProvider {
     return findUser;
   }
 
-  public async save(userData: IUserDTO): Promise<IUserEntity> {
+  public async save(userData: IUserDTO): Promise<User> {
     const userCreated = new UserSchema(userData);
     await userCreated.save();
-    return userCreated;
+    return userCreated.id;
   }
 
-  public async update(userData: IUserDTO): Promise<IUserEntity | null> {
+  public async update(userData: IUserDTO): Promise<User | null> {
     const userUpdated = await UserSchema.findByIdAndUpdate(
       userData.id,
       userData,

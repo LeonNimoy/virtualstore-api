@@ -40,13 +40,15 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 var express_1 = require("express");
-var products_routes_1 = __importDefault(require("../../modules/products/infra/routes/products.routes"));
-var users_routes_1 = __importDefault(require("../../modules/users/routes/users.routes"));
-var sessions_routes_1 = __importDefault(require("../../modules/users/routes/sessions.routes"));
+var products_routes_1 = __importDefault(require("../../modules/products/routes/products.routes"));
+var users_routes_1 = __importDefault(require("../../modules/users/infra/routes/users.routes"));
+var sessions_routes_1 = __importDefault(require("../../modules/users/infra/routes/sessions.routes"));
+var profiles_routes_1 = __importDefault(require("../../modules/users/infra/routes/profiles.routes"));
 var routes = express_1.Router();
 routes.use('/products', products_routes_1.default);
 routes.use('/users', users_routes_1.default);
 routes.use('/sessions', sessions_routes_1.default);
+routes.use('/profiles', profiles_routes_1.default);
 routes.use('/', function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
     return __generator(this, function (_a) {
         try {

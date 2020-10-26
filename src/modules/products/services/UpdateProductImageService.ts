@@ -2,7 +2,7 @@ import 'reflect-metadata';
 
 import { injectable, inject } from 'tsyringe';
 import AppError from '../../../shared/errors/AppError';
-import IStorageProvider from '../../../shared/container/entities/IStorageProvider';
+import IStorageProvider from '../../../shared/container/providers/StorageProvider/entities/IStorageProvider';
 import uploadConfig from '../../../config/upload';
 
 interface IRequest {
