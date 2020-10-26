@@ -36,7 +36,7 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
     }
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-var UserSchema_1 = require("../../databases/mongoose/schemas/UserSchema");
+var UserSchema_1 = require("../../infra/databases/mongoose/schemas/UserSchema");
 var FakeUsersRepository = /** @class */ (function () {
     function FakeUsersRepository() {
         this.users = [];
@@ -98,8 +98,10 @@ var FakeUsersRepository = /** @class */ (function () {
     FakeUsersRepository.prototype.update = function (newUserData) {
         return __awaiter(this, void 0, void 0, function () {
             return __generator(this, function (_a) {
-                this.users.map(function (user) { return newUserData === user; });
-                return [2 /*return*/, newUserData];
+                if (this.users.find(function (element) { return element.id === newUserData.id; })) {
+                    this.users.map(function (user) { return newUserData === user; });
+                }
+                return [2 /*return*/, Object.assign(newUserData)];
             });
         });
     };

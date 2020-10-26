@@ -41,7 +41,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 var tsyringe_1 = require("tsyringe");
 var UsersRepository_1 = __importDefault(require("../repositories/UsersRepository"));
-var AuthenticateUserService_1 = __importDefault(require("../services/AuthenticateUserService"));
+var AuthenticateUserService_1 = __importDefault(require("../services/Authtenticate/AuthenticateUserService"));
 var SessionsController = /** @class */ (function () {
     function SessionsController() {
     }
@@ -62,9 +62,9 @@ var SessionsController = /** @class */ (function () {
     };
     SessionsController.prototype.create = function (req, res) {
         return __awaiter(this, void 0, void 0, function () {
-            var _a, email, password, authenticateUser, _b, user, token, name, address, cpf, id, phone;
-            return __generator(this, function (_c) {
-                switch (_c.label) {
+            var _a, email, password, authenticateUser, token;
+            return __generator(this, function (_b) {
+                switch (_b.label) {
                     case 0:
                         _a = req.body, email = _a.email, password = _a.password;
                         authenticateUser = tsyringe_1.container.resolve(AuthenticateUserService_1.default);
@@ -73,11 +73,8 @@ var SessionsController = /** @class */ (function () {
                                 password: password,
                             })];
                     case 1:
-                        _b = _c.sent(), user = _b.user, token = _b.token;
-                        name = user.name, address = user.address, cpf = user.cpf, id = user.id, phone = user.phone;
-                        return [2 /*return*/, res
-                                .status(200)
-                                .json({ id: id, name: name, email: email, address: address, cpf: cpf, phone: phone, token: token })];
+                        token = (_b.sent()).token;
+                        return [2 /*return*/, res.status(200).json({ token: token })];
                 }
             });
         });
