@@ -46,7 +46,7 @@ class FakeProductsRepository implements IProductProvider {
   public async update(newProductData: IProductDTO): Promise<Product | null> {
     this.products.map(product => newProductData === product);
 
-    return newProductData;
+    return Object.assign(newProductData);
   }
 
   public async delete(productToDelete: IProductDTO): Promise<void | null> {

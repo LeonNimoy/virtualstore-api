@@ -1,4 +1,5 @@
 import mongoose, { Document, Model } from 'mongoose';
+import { format } from 'date-fns';
 
 import Product from '../../entities/Product';
 
@@ -25,6 +26,15 @@ const schema = new mongoose.Schema(
     quantity: {
       type: Number,
       required: true,
+      min: [1, 'Minimum of one unit'],
+    },
+    created_at: {
+      type: String,
+      default: format(Date.now(), "dd/MM/yyyy '-' HH'h'mm'm'ss's'"),
+    },
+    updated_at: {
+      type: String,
+      default: format(new Date(), "dd/MM/yyyy '-' HH'h'mm'm'ss's'"),
     },
   },
   {

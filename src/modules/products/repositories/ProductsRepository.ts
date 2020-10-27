@@ -1,3 +1,4 @@
+import { format } from 'date-fns';
 import { ProductSchema } from '../infra/databases/mongoose/schemas/ProductSchema';
 import Product from '../infra/databases/entities/Product';
 import IProductDTO from '../dtos/IProductDTO';
@@ -39,6 +40,11 @@ export default class ProductsRepository implements IProductsProvider {
       newProductData.id,
       newProductData,
       { new: true },
+    );
+
+    productUpdated!.updated_at = format(
+      new Date(),
+      "dd/MM/yyyy '-' HH'h'mm'm'ss's'",
     );
 
     return productUpdated;

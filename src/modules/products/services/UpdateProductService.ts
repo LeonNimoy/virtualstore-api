@@ -43,7 +43,8 @@ class UpdateProductService {
     }
 
     if (productNewData.price) {
-      product.price = productNewData.price;
+      const priceFormatted = Number(productNewData.price.toFixed(2));
+      product.price = priceFormatted;
     }
 
     if (productNewData.quantity) {

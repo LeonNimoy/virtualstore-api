@@ -24,12 +24,13 @@ class CreateProductService {
     const checkName = await this.productRepository.checkName(name);
 
     if (checkName) {
+      const priceFormatted = Number(price.toFixed(2));
       const product = this.productRepository.save({
         name,
         tags,
         description,
         image,
-        price,
+        price: priceFormatted,
         quantity,
       });
       return product;
