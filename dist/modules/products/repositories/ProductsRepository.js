@@ -100,15 +100,23 @@ var ProductsRepository = /** @class */ (function () {
             });
         });
     };
-    ProductsRepository.prototype.update = function (newProductData) {
+    ProductsRepository.prototype.update = function (_a) {
+        var description = _a.description, image = _a.image, name = _a.name, price = _a.price, quantity = _a.quantity, tags = _a.tags, id = _a.id;
         return __awaiter(this, void 0, void 0, function () {
             var productUpdated;
-            return __generator(this, function (_a) {
-                switch (_a.label) {
-                    case 0: return [4 /*yield*/, ProductSchema_1.ProductSchema.findByIdAndUpdate(newProductData.id, newProductData, { new: true })];
+            return __generator(this, function (_b) {
+                switch (_b.label) {
+                    case 0: return [4 /*yield*/, ProductSchema_1.ProductSchema.findByIdAndUpdate(id, {
+                            description: description,
+                            image: image,
+                            name: name,
+                            price: price,
+                            quantity: quantity,
+                            tags: tags,
+                            updated_at: date_fns_1.format(new Date(), "dd/MM/yyyy '-' HH'h'mm'm'ss's'"),
+                        }, { new: true })];
                     case 1:
-                        productUpdated = _a.sent();
-                        productUpdated.updated_at = date_fns_1.format(new Date(), "dd/MM/yyyy '-' HH'h'mm'm'ss's'");
+                        productUpdated = _b.sent();
                         return [2 /*return*/, productUpdated];
                 }
             });
