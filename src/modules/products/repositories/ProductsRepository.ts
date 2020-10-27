@@ -35,16 +35,27 @@ export default class ProductsRepository implements IProductsProvider {
     return productCreated;
   }
 
-  public async update(newProductData: IProductDTO): Promise<Product | null> {
+  public async update({
+    description,
+    image,
+    name,
+    price,
+    quantity,
+    tags,
+    id,
+  }: IProductDTO): Promise<Product | null> {
     const productUpdated = await ProductSchema.findByIdAndUpdate(
-      newProductData.id,
-      newProductData,
+      id,
+      {
+        description,
+        image,
+        name,
+        price,
+        quantity,
+        tags,
+        updated_at: format(new Date(), "dd/MM/yyyy '-' HH'h'mm'm'ss's'"),
+      },
       { new: true },
-    );
-
-    productUpdated!.updated_at = format(
-      new Date(),
-      "dd/MM/yyyy '-' HH'h'mm'm'ss's'",
     );
 
     return productUpdated;
