@@ -61,19 +61,20 @@ var CreateProductService = /** @class */ (function () {
     CreateProductService.prototype.execute = function (_a) {
         var name = _a.name, tags = _a.tags, description = _a.description, image = _a.image, price = _a.price, quantity = _a.quantity;
         return __awaiter(this, void 0, void 0, function () {
-            var checkName, product;
+            var checkName, priceFormatted, product;
             return __generator(this, function (_b) {
                 switch (_b.label) {
                     case 0: return [4 /*yield*/, this.productRepository.checkName(name)];
                     case 1:
                         checkName = _b.sent();
                         if (checkName) {
+                            priceFormatted = Number(price.toFixed(2));
                             product = this.productRepository.save({
                                 name: name,
                                 tags: tags,
                                 description: description,
                                 image: image,
-                                price: price,
+                                price: priceFormatted,
                                 quantity: quantity,
                             });
                             return [2 /*return*/, product];

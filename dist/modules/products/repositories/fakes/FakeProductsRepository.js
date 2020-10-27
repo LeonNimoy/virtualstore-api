@@ -97,7 +97,7 @@ var FakeProductsRepository = /** @class */ (function () {
         return __awaiter(this, void 0, void 0, function () {
             return __generator(this, function (_a) {
                 this.products.map(function (product) { return newProductData === product; });
-                return [2 /*return*/, newProductData];
+                return [2 /*return*/, Object.assign(newProductData)];
             });
         });
     };

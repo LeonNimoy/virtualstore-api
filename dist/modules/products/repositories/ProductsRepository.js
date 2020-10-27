@@ -36,6 +36,7 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
     }
 };
 Object.defineProperty(exports, "__esModule", { value: true });
+var date_fns_1 = require("date-fns");
 var ProductSchema_1 = require("../infra/databases/mongoose/schemas/ProductSchema");
 var ProductsRepository = /** @class */ (function () {
     function ProductsRepository() {
@@ -107,6 +108,7 @@ var ProductsRepository = /** @class */ (function () {
                     case 0: return [4 /*yield*/, ProductSchema_1.ProductSchema.findByIdAndUpdate(newProductData.id, newProductData, { new: true })];
                     case 1:
                         productUpdated = _a.sent();
+                        productUpdated.updated_at = date_fns_1.format(new Date(), "dd/MM/yyyy '-' HH'h'mm'm'ss's'");
                         return [2 /*return*/, productUpdated];
                 }
             });
