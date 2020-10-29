@@ -12,7 +12,7 @@ var productsRouter = express_1.Router();
 var upload = multer_1.default(upload_1.default.multer);
 var productsController = new ProductsController_1.default();
 var productImageController = new ProductImageController_1.default();
-productsRouter.get('/:id?', productsController.list);
+productsRouter.get('/', productsController.list);
 productsRouter.post('/', productsController.create);
 productsRouter.put('/:id', productsController.update);
 productsRouter.delete('/:id', productsController.delete);

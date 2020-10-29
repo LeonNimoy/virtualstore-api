@@ -3,9 +3,9 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.ProductSchema = void 0;
 var mongoose_1 = __importDefault(require("mongoose"));
 var date_fns_1 = require("date-fns");
+var mongoose_paginate_v2_1 = __importDefault(require("mongoose-paginate-v2"));
 var schema = new mongoose_1.default.Schema({
     name: {
         type: String,
@@ -47,4 +47,6 @@ var schema = new mongoose_1.default.Schema({
         },
     },
 });
-exports.ProductSchema = mongoose_1.default.model('Product', schema);
+schema.plugin(mongoose_paginate_v2_1.default);
+var ProductSchema = mongoose_1.default.model('Product', schema);
+exports.default = ProductSchema;

@@ -43,39 +43,26 @@ var tsyringe_1 = require("tsyringe");
 var DeleteProductService_1 = __importDefault(require("../services/DeleteProductService"));
 var CreateProductService_1 = __importDefault(require("../services/CreateProductService"));
 var UpdateProductService_1 = __importDefault(require("../services/UpdateProductService"));
-var ProductsRepository_1 = __importDefault(require("../repositories/ProductsRepository"));
-var AppError_1 = __importDefault(require("../../../shared/errors/AppError"));
+// import ProductsRepository from '../repositories/ProductsRepository';
+// import AppError from '../../../shared/errors/AppError';
+var ModelPaginationProvider_1 = __importDefault(require("../../../shared/utils/ModelPaginationProvider"));
 var ProductsController = /** @class */ (function () {
     function ProductsController() {
     }
     ProductsController.prototype.list = function (req, res) {
         return __awaiter(this, void 0, void 0, function () {
-            var findProduct, productFound, products, productsFound;
-            return __generator(this, function (_a) {
-                switch (_a.label) {
+            var _a, page, _b, size, pageNumber, sizeNumber, ProductWithPagination, productsPaginated;
+            return __generator(this, function (_c) {
+                switch (_c.label) {
                     case 0:
-                        if (!req.params.id) return [3 /*break*/, 2];
-                        findProduct = new ProductsRepository_1.default();
-                        return [4 /*yield*/, findProduct.findById(req.params.id)];
+                        _a = req.query, page = _a.page, _b = _a.size, size = _b === void 0 ? 20 : _b;
+                        pageNumber = Number(page);
+                        sizeNumber = Number(size);
+                        ProductWithPagination = ModelPaginationProvider_1.default('Product');
+                        return [4 /*yield*/, ProductWithPagination.paginate({}, { page: pageNumber, limit: sizeNumber })];
                     case 1:
-                        productFound = _a.sent();
-                        switch (productFound) {
-                            case null:
-                                throw new AppError_1.default('Product not found', 404);
-                            case undefined:
-                                throw new AppError_1.default('Product not found', 400);
-                            default:
-                        }
-                        return [2 /*return*/, res.status(200).json(productFound)];
-                    case 2:
-                        products = new ProductsRepository_1.default();
-                        return [4 /*yield*/, products.find()];
-                    case 3:
-                        productsFound = _a.sent();
-                        if (products === null) {
-                            throw new AppError_1.default('Products not found!', 404);
-                        }
-                        return [2 /*return*/, res.status(200).json(productsFound)];
+                        productsPaginated = _c.sent();
+                        return [2 /*return*/, res.status(200).json(productsPaginated)];
                 }
             });
         });
