@@ -2,19 +2,9 @@ import IProductDTO from '../../dtos/IProductDTO';
 import ProductSchema from '../../infra/databases/mongoose/schemas/ProductSchema';
 import Product from '../../infra/databases/entities/Product';
 import IProductProvider from '../../providers/IProductsProvider';
-import AppError from '../../../../shared/errors/AppError';
 
 class FakeProductsRepository implements IProductProvider {
   private products: Product[] = [];
-
-  public async find(): Promise<Product[] | null> {
-    const products = await ProductSchema.find();
-
-    if (products === null) {
-      throw new AppError('Products not found!', 404);
-    }
-    return products;
-  }
 
   public async findById(id: string): Promise<Product | undefined> {
     const productId = this.products.find(product => product.id === id);
