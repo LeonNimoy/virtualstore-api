@@ -43,25 +43,33 @@ var tsyringe_1 = require("tsyringe");
 var DeleteProductService_1 = __importDefault(require("../services/DeleteProductService"));
 var CreateProductService_1 = __importDefault(require("../services/CreateProductService"));
 var UpdateProductService_1 = __importDefault(require("../services/UpdateProductService"));
-// import ProductsRepository from '../repositories/ProductsRepository';
-// import AppError from '../../../shared/errors/AppError';
 var ModelPaginationProvider_1 = __importDefault(require("../../../shared/utils/ModelPaginationProvider"));
 var ProductsController = /** @class */ (function () {
     function ProductsController() {
     }
     ProductsController.prototype.list = function (req, res) {
         return __awaiter(this, void 0, void 0, function () {
-            var _a, _b, page, _c, size, pageNumber, sizeNumber, ProductWithPagination, productsPaginated;
-            return __generator(this, function (_d) {
-                switch (_d.label) {
+            var _a, _b, page, _c, size, product_id, pageNumber, sizeNumber, ProductWithPagination, productsPaginated, _d;
+            return __generator(this, function (_e) {
+                switch (_e.label) {
                     case 0:
-                        _a = req.query, _b = _a.page, page = _b === void 0 ? 1 : _b, _c = _a.size, size = _c === void 0 ? 20 : _c;
+                        _a = req.query, _b = _a.page, page = _b === void 0 ? 1 : _b, _c = _a.size, size = _c === void 0 ? 20 : _c, product_id = _a.product_id;
                         pageNumber = Number(page);
                         sizeNumber = Number(size);
                         ProductWithPagination = ModelPaginationProvider_1.default('Product');
+                        if (!!product_id) return [3 /*break*/, 2];
                         return [4 /*yield*/, ProductWithPagination.paginate({}, { page: pageNumber, limit: sizeNumber })];
                     case 1:
-                        productsPaginated = _d.sent();
+                        _d = (productsPaginated = _e.sent());
+                        return [3 /*break*/, 4];
+                    case 2: return [4 /*yield*/, ProductWithPagination.paginate({
+                            _id: product_id,
+                        })];
+                    case 3:
+                        _d = (productsPaginated = _e.sent());
+                        _e.label = 4;
+                    case 4:
+                        _d;
                         return [2 /*return*/, res.status(200).json(productsPaginated)];
                 }
             });

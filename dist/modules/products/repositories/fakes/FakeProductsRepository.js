@@ -40,27 +40,10 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 var ProductSchema_1 = __importDefault(require("../../infra/databases/mongoose/schemas/ProductSchema"));
-var AppError_1 = __importDefault(require("../../../../shared/errors/AppError"));
 var FakeProductsRepository = /** @class */ (function () {
     function FakeProductsRepository() {
         this.products = [];
     }
-    FakeProductsRepository.prototype.find = function () {
-        return __awaiter(this, void 0, void 0, function () {
-            var products;
-            return __generator(this, function (_a) {
-                switch (_a.label) {
-                    case 0: return [4 /*yield*/, ProductSchema_1.default.find()];
-                    case 1:
-                        products = _a.sent();
-                        if (products === null) {
-                            throw new AppError_1.default('Products not found!', 404);
-                        }
-                        return [2 /*return*/, products];
-                }
-            });
-        });
-    };
     FakeProductsRepository.prototype.findById = function (id) {
         return __awaiter(this, void 0, void 0, function () {
             var productId;

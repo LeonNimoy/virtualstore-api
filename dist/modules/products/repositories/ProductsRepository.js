@@ -40,18 +40,10 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 var date_fns_1 = require("date-fns");
-// import { Response } from 'express';
 var ProductSchema_1 = __importDefault(require("../infra/databases/mongoose/schemas/ProductSchema"));
-// import TypedPaginateModel from '../../../shared/utils/ModelPaginationProvider';
 var ProductsRepository = /** @class */ (function () {
     function ProductsRepository() {
     }
-    // public async find(): Promise<Response> {
-    //   const ProductWithPagination = TypedPaginateModel('Product');
-    //   const productsPaginated = await ProductWithPagination.paginate();
-    //   // const products = await ProductSchema.find();
-    //   return productsPaginated;
-    // }
     ProductsRepository.prototype.findById = function (id) {
         return __awaiter(this, void 0, void 0, function () {
             var findProductId;
