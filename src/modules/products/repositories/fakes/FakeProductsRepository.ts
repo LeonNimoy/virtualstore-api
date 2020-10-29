@@ -1,5 +1,5 @@
 import IProductDTO from '../../dtos/IProductDTO';
-import { ProductSchema } from '../../infra/databases/mongoose/schemas/ProductSchema';
+import ProductSchema from '../../infra/databases/mongoose/schemas/ProductSchema';
 import Product from '../../infra/databases/entities/Product';
 import IProductProvider from '../../providers/IProductsProvider';
 import AppError from '../../../../shared/errors/AppError';

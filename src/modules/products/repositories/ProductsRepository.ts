@@ -1,15 +1,20 @@
 import { format } from 'date-fns';
-import { ProductSchema } from '../infra/databases/mongoose/schemas/ProductSchema';
+// import { Response } from 'express';
+import ProductSchema from '../infra/databases/mongoose/schemas/ProductSchema';
 import Product from '../infra/databases/entities/Product';
 import IProductDTO from '../dtos/IProductDTO';
 import IProductsProvider from '../providers/IProductsProvider';
+// import TypedPaginateModel from '../../../shared/utils/ModelPaginationProvider';
 
 export default class ProductsRepository implements IProductsProvider {
-  public async find(): Promise<Product[] | null> {
-    const products = await ProductSchema.find();
+  // public async find(): Promise<Response> {
+  //   const ProductWithPagination = TypedPaginateModel('Product');
+  //   const productsPaginated = await ProductWithPagination.paginate();
 
-    return products;
-  }
+  //   // const products = await ProductSchema.find();
+
+  //   return productsPaginated;
+  // }
 
   public async findById(id: string): Promise<Product | null | undefined> {
     const findProductId = await ProductSchema.findById(id);

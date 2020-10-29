@@ -4,34 +4,37 @@ import { Request, Response } from 'express';
 import DeleteProductService from '../services/DeleteProductService';
 import CreateProductService from '../services/CreateProductService';
 import UpdateProductService from '../services/UpdateProductService';
-import ProductsRepository from '../repositories/ProductsRepository';
-import AppError from '../../../shared/errors/AppError';
+// import ProductsRepository from '../repositories/ProductsRepository';
+// import AppError from '../../../shared/errors/AppError';
+import TypedPaginateModel from '../../../shared/utils/ModelPaginationProvider';
 
 export default class ProductsController {
   public async list(req: Request, res: Response): Promise<Response> {
-    if (req.params.id) {
-      const findProduct = new ProductsRepository();
-      const productFound = await findProduct.findById(req.params.id);
+    // if (req.params.id) {
+    //   const findProduct = new ProductsRepository();
+    //   const productFound = await findProduct.findById(req.params.id);
 
-      switch (productFound) {
-        case null:
-          throw new AppError('Product not found', 404);
-        case undefined:
-          throw new AppError('Product not found', 400);
-        default:
-      }
+    //   switch (productFound) {
+    //     case null:
+    //       throw new AppError('Product not found', 404);
+    //     case undefined:
+    //       throw new AppError('Product not found', 400);
+    //     default:
+    //   }
 
-      return res.status(200).json(productFound);
-    }
+    //   return res.status(200).json(productFound);
+    // }
 
-    const products = new ProductsRepository();
-    const productsFound = await products.find();
+    const { page, size = 20 } = req.query;
+    const pageNumber = Number(page);
+    const sizeNumber = Number(size);
+    const ProductWithPagination = TypedPaginateModel('Product');
+    const productsPaginated = await ProductWithPagination.paginate(
+      {},
+      { page: pageNumber, limit: sizeNumber },
+    );
 
-    if (products === null) {
-      throw new AppError('Products not found!', 404);
-    }
-
-    return res.status(200).json(productsFound);
+    return res.status(200).json(productsPaginated);
   }
 
   public async create(req: Request, res: Response): Promise<Response> {

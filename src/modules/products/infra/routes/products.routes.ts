@@ -10,7 +10,7 @@ const upload = multer(uploadConfig.multer);
 const productsController = new ProductsController();
 const productImageController = new ProductImageController();
 
-productsRouter.get('/:id?', productsController.list);
+productsRouter.get('/', productsController.list);
 
 productsRouter.post('/', productsController.create);
 

@@ -2,7 +2,7 @@ import IProductDTO from '../dtos/IProductDTO';
 import Product from '../infra/databases/entities/Product';
 
 export default interface IProductProvider {
-  find(): Promise<Product[] | null>;
+  // find(): Promise<Product[] | null>;
   findById(id: string | undefined): Promise<Product | null | undefined>;
   checkName(productName: string): Promise<boolean>;
   save(productData: IProductDTO): Promise<Product>;

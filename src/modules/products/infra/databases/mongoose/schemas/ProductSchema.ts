@@ -1,5 +1,6 @@
 import mongoose, { Document, Model } from 'mongoose';
 import { format } from 'date-fns';
+import mongoosePagination from 'mongoose-paginate-v2';
 
 import Product from '../../entities/Product';
 
@@ -48,8 +49,9 @@ const schema = new mongoose.Schema(
   },
 );
 
-interface IProductModel extends Omit<Product, 'id'>, Document {}
-export const ProductSchema: Model<IProductModel> = mongoose.model(
-  'Product',
-  schema,
-);
+schema.plugin(mongoosePagination);
+
+export interface IProductModel extends Omit<Product, 'id'>, Document {}
+const ProductSchema: Model<IProductModel> = mongoose.model('Product', schema);
+
+export default ProductSchema;
