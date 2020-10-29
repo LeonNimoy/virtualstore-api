@@ -25,7 +25,7 @@ export default class ProductsController {
     //   return res.status(200).json(productFound);
     // }
 
-    const { page, size = 20 } = req.query;
+    const { page = 1, size = 20 } = req.query;
     const pageNumber = Number(page);
     const sizeNumber = Number(size);
     const ProductWithPagination = TypedPaginateModel('Product');
