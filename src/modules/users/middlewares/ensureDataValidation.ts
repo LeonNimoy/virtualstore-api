@@ -9,16 +9,16 @@ export default function ensureDataValidation(
   res: Response,
   next: NextFunction,
 ): void {
-  const { email, password } = req.body;
+  const { name, email, password } = req.body;
 
-  if (!email || !password) {
-    throw new AppError('Email or Password  is missing!', 401);
+  if (!email || !password || !name) {
+    throw new AppError('Nome, Email e Senha devem ser informados ', 401);
   }
 
   const checkEmailFormat = validator.validate(email);
 
   if (!checkEmailFormat) {
-    throw new AppError('Email format invalid!');
+    throw new AppError('Email inválido!');
   }
 
   const passwordValidation = new RegExp(/^.{6,}$/);
@@ -26,7 +26,7 @@ export default function ensureDataValidation(
   const checkPasswordFormat = passwordValidation.test(password);
 
   if (!checkPasswordFormat) {
-    throw new AppError('The password must have a minimum of 6 characters!');
+    throw new AppError('A senha deve ter no mínimo de 6 caracteres!');
   }
 
   return next();
