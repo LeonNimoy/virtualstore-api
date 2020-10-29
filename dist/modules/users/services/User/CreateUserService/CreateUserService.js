@@ -53,7 +53,6 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 require("reflect-metadata");
 var tsyringe_1 = require("tsyringe");
-var CreateUserValidator_1 = __importDefault(require("../../../providers/Validators/CreateUserValidator"));
 var AppError_1 = __importDefault(require("../../../../../shared/errors/AppError"));
 var CreateUserService = /** @class */ (function () {
     function CreateUserService(userRepository, hashUser) {
@@ -63,35 +62,25 @@ var CreateUserService = /** @class */ (function () {
     CreateUserService.prototype.execute = function (_a) {
         var name = _a.name, email = _a.email, password = _a.password;
         return __awaiter(this, void 0, void 0, function () {
-            var createUserValidator, checkEmailValidation, checkEmailExistence, hashedPassword, user;
+            var checkEmailExistence, hashedPassword, user;
             return __generator(this, function (_b) {
                 switch (_b.label) {
-                    case 0:
-                        createUserValidator = new CreateUserValidator_1.default();
-                        return [4 /*yield*/, createUserValidator.emailValidator({
-                                email: email,
-                            })];
+                    case 0: return [4 /*yield*/, this.userRepository.checkEmail(email)];
                     case 1:
-                        checkEmailValidation = _b.sent();
-                        if (!checkEmailValidation) {
-                            throw new AppError_1.default('Email format invalid!');
-                        }
-                        return [4 /*yield*/, this.userRepository.checkEmail(email)];
-                    case 2:
                         checkEmailExistence = _b.sent();
-                        if (!checkEmailExistence) return [3 /*break*/, 5];
+                        if (!checkEmailExistence) return [3 /*break*/, 4];
                         return [4 /*yield*/, this.hashUser.generateHash(password)];
-                    case 3:
+                    case 2:
                         hashedPassword = _b.sent();
                         return [4 /*yield*/, this.userRepository.save({
                                 name: name,
                                 email: email,
                                 password: hashedPassword,
                             })];
-                    case 4:
+                    case 3:
                         user = _b.sent();
                         return [2 /*return*/, user];
-                    case 5: throw new AppError_1.default('Email already used!', 409);
+                    case 4: throw new AppError_1.default('Email already used!', 409);
                 }
             });
         });
