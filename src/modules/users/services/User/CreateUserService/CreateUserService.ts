@@ -4,7 +4,6 @@ import { inject, injectable } from 'tsyringe';
 import IUserDTO from '../../../dtos/IUserDTO';
 import User from '../../../infra/databases/entities/User';
 import IUsersProvider from '../../../providers/IUsersProvider';
-import CreateUserValidator from '../../../providers/Validators/CreateUserValidator';
 import IHashUser from '../../../providers/HashUser/models/IHashUser';
 import AppError from '../../../../../shared/errors/AppError';
 
@@ -19,16 +18,6 @@ class CreateUserService {
   ) {}
 
   public async execute({ name, email, password }: IUserDTO): Promise<User> {
-    const createUserValidator = new CreateUserValidator();
-
-    const checkEmailValidation = await createUserValidator.emailValidator({
-      email,
-    });
-
-    if (!checkEmailValidation) {
-      throw new AppError('Email format invalid!');
-    }
-
     const checkEmailExistence = await this.userRepository.checkEmail(email);
 
     if (checkEmailExistence) {
