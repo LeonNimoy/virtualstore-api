@@ -35,30 +35,21 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
         if (op[0] & 5) throw op[1]; return { value: op[0] ? op[1] : void 0, done: true };
     }
 };
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
 Object.defineProperty(exports, "__esModule", { value: true });
-var ProductSchema_1 = require("../databases/mongoose/schemas/ProductSchema");
+var date_fns_1 = require("date-fns");
+var ProductSchema_1 = __importDefault(require("../infra/databases/mongoose/schemas/ProductSchema"));
 var ProductsRepository = /** @class */ (function () {
     function ProductsRepository() {
     }
-    ProductsRepository.prototype.find = function () {
-        return __awaiter(this, void 0, void 0, function () {
-            var products;
-            return __generator(this, function (_a) {
-                switch (_a.label) {
-                    case 0: return [4 /*yield*/, ProductSchema_1.ProductSchema.find()];
-                    case 1:
-                        products = _a.sent();
-                        return [2 /*return*/, products];
-                }
-            });
-        });
-    };
     ProductsRepository.prototype.findById = function (id) {
         return __awaiter(this, void 0, void 0, function () {
             var findProductId;
             return __generator(this, function (_a) {
                 switch (_a.label) {
-                    case 0: return [4 /*yield*/, ProductSchema_1.ProductSchema.findById(id)];
+                    case 0: return [4 /*yield*/, ProductSchema_1.default.findById(id)];
                     case 1:
                         findProductId = _a.sent();
                         return [2 /*return*/, findProductId];
@@ -71,7 +62,7 @@ var ProductsRepository = /** @class */ (function () {
             var notAvailableName;
             return __generator(this, function (_a) {
                 switch (_a.label) {
-                    case 0: return [4 /*yield*/, ProductSchema_1.ProductSchema.findOne({
+                    case 0: return [4 /*yield*/, ProductSchema_1.default.findOne({
                             name: newProductName,
                         })];
                     case 1:
@@ -90,7 +81,7 @@ var ProductsRepository = /** @class */ (function () {
             return __generator(this, function (_a) {
                 switch (_a.label) {
                     case 0:
-                        productCreated = new ProductSchema_1.ProductSchema(productData);
+                        productCreated = new ProductSchema_1.default(productData);
                         return [4 /*yield*/, productCreated.save()];
                     case 1:
                         _a.sent();
@@ -99,14 +90,23 @@ var ProductsRepository = /** @class */ (function () {
             });
         });
     };
-    ProductsRepository.prototype.update = function (newProductData) {
+    ProductsRepository.prototype.update = function (_a) {
+        var description = _a.description, image = _a.image, name = _a.name, price = _a.price, quantity = _a.quantity, tags = _a.tags, id = _a.id;
         return __awaiter(this, void 0, void 0, function () {
             var productUpdated;
-            return __generator(this, function (_a) {
-                switch (_a.label) {
-                    case 0: return [4 /*yield*/, ProductSchema_1.ProductSchema.findByIdAndUpdate(newProductData.id, newProductData, { new: true })];
+            return __generator(this, function (_b) {
+                switch (_b.label) {
+                    case 0: return [4 /*yield*/, ProductSchema_1.default.findByIdAndUpdate(id, {
+                            description: description,
+                            image: image,
+                            name: name,
+                            price: price,
+                            quantity: quantity,
+                            tags: tags,
+                            updated_at: date_fns_1.format(new Date(), "dd/MM/yyyy '-' HH'h'mm'm'ss's'"),
+                        }, { new: true })];
                     case 1:
-                        productUpdated = _a.sent();
+                        productUpdated = _b.sent();
                         return [2 /*return*/, productUpdated];
                 }
             });
@@ -116,7 +116,7 @@ var ProductsRepository = /** @class */ (function () {
         return __awaiter(this, void 0, void 0, function () {
             return __generator(this, function (_a) {
                 switch (_a.label) {
-                    case 0: return [4 /*yield*/, ProductSchema_1.ProductSchema.findByIdAndDelete(product.id)];
+                    case 0: return [4 /*yield*/, ProductSchema_1.default.findByIdAndDelete(product.id)];
                     case 1:
                         _a.sent();
                         return [2 /*return*/];

@@ -1,6 +1,6 @@
 import { Router } from 'express';
 
-import productsRouter from '../../modules/products/routes/products.routes';
+import productsRouter from '../../modules/products/infra/routes/products.routes';
 import usersRouter from '../../modules/users/infra/routes/users.routes';
 import sessionsRouter from '../../modules/users/infra/routes/sessions.routes';
 import profilesRouter from '../../modules/users/infra/routes/profiles.routes';

@@ -3,10 +3,9 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.ProductSchema = void 0;
-/* eslint-disable no-param-reassign */
-/* eslint-disable no-underscore-dangle */
 var mongoose_1 = __importDefault(require("mongoose"));
+var date_fns_1 = require("date-fns");
+var mongoose_paginate_v2_1 = __importDefault(require("mongoose-paginate-v2"));
 var schema = new mongoose_1.default.Schema({
     name: {
         type: String,
@@ -29,6 +28,15 @@ var schema = new mongoose_1.default.Schema({
     quantity: {
         type: Number,
         required: true,
+        min: [1, 'Minimum of one unit'],
+    },
+    created_at: {
+        type: String,
+        default: date_fns_1.format(Date.now(), "dd/MM/yyyy '-' HH'h'mm'm'ss's'"),
+    },
+    updated_at: {
+        type: String,
+        default: date_fns_1.format(new Date(), "dd/MM/yyyy '-' HH'h'mm'm'ss's'"),
     },
 }, {
     toJSON: {
@@ -39,4 +47,6 @@ var schema = new mongoose_1.default.Schema({
         },
     },
 });
-exports.ProductSchema = mongoose_1.default.model('Product', schema);
+schema.plugin(mongoose_paginate_v2_1.default);
+var ProductSchema = mongoose_1.default.model('Product', schema);
+exports.default = ProductSchema;

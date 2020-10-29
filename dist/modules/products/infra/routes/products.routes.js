@@ -5,14 +5,14 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 var express_1 = require("express");
 var multer_1 = __importDefault(require("multer"));
-var ProductsController_1 = __importDefault(require("../controllers/ProductsController"));
-var ProductImageController_1 = __importDefault(require("../controllers/ProductImageController"));
-var upload_1 = __importDefault(require("../../../config/upload"));
+var ProductsController_1 = __importDefault(require("../../controllers/ProductsController"));
+var ProductImageController_1 = __importDefault(require("../../controllers/ProductImageController"));
+var upload_1 = __importDefault(require("../../../../config/upload"));
 var productsRouter = express_1.Router();
 var upload = multer_1.default(upload_1.default.multer);
 var productsController = new ProductsController_1.default();
 var productImageController = new ProductImageController_1.default();
-productsRouter.get('/:id?', productsController.list);
+productsRouter.get('/', productsController.list);
 productsRouter.post('/', productsController.create);
 productsRouter.put('/:id', productsController.update);
 productsRouter.delete('/:id', productsController.delete);

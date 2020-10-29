@@ -40,7 +40,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 var express_1 = require("express");
-var products_routes_1 = __importDefault(require("../../modules/products/routes/products.routes"));
+var products_routes_1 = __importDefault(require("../../modules/products/infra/routes/products.routes"));
 var users_routes_1 = __importDefault(require("../../modules/users/infra/routes/users.routes"));
 var sessions_routes_1 = __importDefault(require("../../modules/users/infra/routes/sessions.routes"));
 var profiles_routes_1 = __importDefault(require("../../modules/users/infra/routes/profiles.routes"));

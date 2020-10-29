@@ -39,28 +39,11 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-var ProductSchema_1 = require("../../databases/mongoose/schemas/ProductSchema");
-var AppError_1 = __importDefault(require("../../../../shared/errors/AppError"));
+var ProductSchema_1 = __importDefault(require("../../infra/databases/mongoose/schemas/ProductSchema"));
 var FakeProductsRepository = /** @class */ (function () {
     function FakeProductsRepository() {
         this.products = [];
     }
-    FakeProductsRepository.prototype.find = function () {
-        return __awaiter(this, void 0, void 0, function () {
-            var products;
-            return __generator(this, function (_a) {
-                switch (_a.label) {
-                    case 0: return [4 /*yield*/, ProductSchema_1.ProductSchema.find()];
-                    case 1:
-                        products = _a.sent();
-                        if (products === null) {
-                            throw new AppError_1.default('Products not found!', 404);
-                        }
-                        return [2 /*return*/, products];
-                }
-            });
-        });
-    };
     FakeProductsRepository.prototype.findById = function (id) {
         return __awaiter(this, void 0, void 0, function () {
             var productId;
@@ -86,7 +69,7 @@ var FakeProductsRepository = /** @class */ (function () {
         return __awaiter(this, void 0, void 0, function () {
             var product;
             return __generator(this, function (_a) {
-                product = new ProductSchema_1.ProductSchema(productData);
+                product = new ProductSchema_1.default(productData);
                 Object.assign(product, productData);
                 this.products.push(product);
                 return [2 /*return*/, product];
@@ -97,7 +80,7 @@ var FakeProductsRepository = /** @class */ (function () {
         return __awaiter(this, void 0, void 0, function () {
             return __generator(this, function (_a) {
                 this.products.map(function (product) { return newProductData === product; });
-                return [2 /*return*/, newProductData];
+                return [2 /*return*/, Object.assign(newProductData)];
             });
         });
     };

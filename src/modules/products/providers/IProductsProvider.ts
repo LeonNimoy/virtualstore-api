@@ -1,11 +1,10 @@
 import IProductDTO from '../dtos/IProductDTO';
-import IProductEntity from '../entities/IProductEntity';
+import Product from '../infra/databases/entities/Product';
 
 export default interface IProductProvider {
-  find(): Promise<IProductEntity[] | null>;
-  findById(id: string | undefined): Promise<IProductEntity | null | undefined>;
+  findById(id: string | undefined): Promise<Product | null | undefined>;
   checkName(productName: string): Promise<boolean>;
-  save(productData: IProductDTO): Promise<IProductEntity>;
-  update(newProductData: IProductDTO): Promise<IProductEntity | null>;
+  save(productData: IProductDTO): Promise<Product>;
+  update(newProductData: IProductDTO): Promise<Product | null>;
   delete(product: IProductDTO): Promise<void | null>;
 }

@@ -60,7 +60,7 @@ var UpdateProductService = /** @class */ (function () {
     }
     UpdateProductService.prototype.execute = function (productNewData) {
         return __awaiter(this, void 0, void 0, function () {
-            var product, productUpdated;
+            var product, priceFormatted, productUpdated;
             return __generator(this, function (_a) {
                 switch (_a.label) {
                     case 0: return [4 /*yield*/, this.productRepository.findById(productNewData.id)];
@@ -89,7 +89,8 @@ var UpdateProductService = /** @class */ (function () {
                             product.image = productNewData.image;
                         }
                         if (productNewData.price) {
-                            product.price = productNewData.price;
+                            priceFormatted = Number(productNewData.price.toFixed(2));
+                            product.price = priceFormatted;
                         }
                         if (productNewData.quantity) {
                             product.quantity = productNewData.quantity;

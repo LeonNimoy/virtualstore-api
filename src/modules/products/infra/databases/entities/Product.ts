@@ -1,4 +1,4 @@
-export default interface IProductEntity {
+export default interface Product {
   id?: string;
   name: string;
   tags: Array<string>;
@@ -6,4 +6,6 @@ export default interface IProductEntity {
   image: string;
   price: number;
   quantity: number;
+  created_at: string | number | Date;
+  updated_at: string | number | Date;
 }

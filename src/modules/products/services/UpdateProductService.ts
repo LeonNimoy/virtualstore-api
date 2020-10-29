@@ -3,7 +3,7 @@ import { inject, injectable } from 'tsyringe';
 import AppError from '../../../shared/errors/AppError';
 
 import IProductDTO from '../dtos/IProductDTO';
-import IProductEntity from '../entities/IProductEntity';
+import Product from '../infra/databases/entities/Product';
 import IProductsProvider from '../providers/IProductsProvider';
 
 @injectable()
@@ -13,7 +13,7 @@ class UpdateProductService {
     private productRepository: IProductsProvider,
   ) {}
 
-  public async execute(productNewData: IProductDTO): Promise<IProductEntity> {
+  public async execute(productNewData: IProductDTO): Promise<Product> {
     const product = await this.productRepository.findById(productNewData.id);
 
     switch (product) {
@@ -43,7 +43,8 @@ class UpdateProductService {
     }
 
     if (productNewData.price) {
-      product.price = productNewData.price;
+      const priceFormatted = Number(productNewData.price.toFixed(2));
+      product.price = priceFormatted;
     }
 
     if (productNewData.quantity) {
