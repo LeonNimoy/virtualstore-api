@@ -43,20 +43,24 @@ var FakeHashProvider_1 = __importDefault(require("../../../providers/HashUser/fa
 var CreateUserService_1 = __importDefault(require("./CreateUserService"));
 var FakeUsersRepository_1 = __importDefault(require("../../../repositories/fakes/FakeUsersRepository"));
 var AppError_1 = __importDefault(require("../../../../../shared/errors/AppError"));
+var fakeUsersRepository;
+var fakeHashPassword;
+var createUser;
 describe('CreateUser', function () {
+    beforeEach(function () {
+        fakeUsersRepository = new FakeUsersRepository_1.default();
+        fakeHashPassword = new FakeHashProvider_1.default();
+        createUser = new CreateUserService_1.default(fakeUsersRepository, fakeHashPassword);
+    });
     it('should be able to create a new user', function () { return __awaiter(void 0, void 0, void 0, function () {
-        var fakeUserRepository, hashPassword, createUserService, user;
+        var user;
         return __generator(this, function (_a) {
             switch (_a.label) {
-                case 0:
-                    fakeUserRepository = new FakeUsersRepository_1.default();
-                    hashPassword = new FakeHashProvider_1.default();
-                    createUserService = new CreateUserService_1.default(fakeUserRepository, hashPassword);
-                    return [4 /*yield*/, createUserService.execute({
-                            name: 'John Doe',
-                            email: 'john@gmail.com',
-                            password: '123456',
-                        })];
+                case 0: return [4 /*yield*/, createUser.execute({
+                        name: 'John Doe',
+                        email: 'john@gmail.com',
+                        password: '123456',
+                    })];
                 case 1:
                     user = _a.sent();
                     expect(user).toEqual(expect.objectContaining(user));
@@ -65,27 +69,42 @@ describe('CreateUser', function () {
         });
     }); });
     it('should not be able to create a new user with the same email of an another user', function () { return __awaiter(void 0, void 0, void 0, function () {
-        var fakeUserRepository, hashPassword, createUserService;
         return __generator(this, function (_a) {
             switch (_a.label) {
-                case 0:
-                    fakeUserRepository = new FakeUsersRepository_1.default();
-                    hashPassword = new FakeHashProvider_1.default();
-                    createUserService = new CreateUserService_1.default(fakeUserRepository, hashPassword);
-                    return [4 /*yield*/, createUserService.execute({
-                            name: 'John Doe',
-                            email: 'john@gmail.com',
-                            password: '123456',
-                        })];
+                case 0: return [4 /*yield*/, createUser.execute({
+                        name: 'John Doe',
+                        email: 'john@gmail.com',
+                        password: '123456',
+                    })];
                 case 1:
                     _a.sent();
-                    expect(createUserService.execute({
+                    expect(createUser.execute({
                         name: 'John Doe',
                         email: 'john@gmail.com',
                         password: '123456',
                     })).rejects.toBeInstanceOf(AppError_1.default);
                     return [2 /*return*/];
             }
+        });
+    }); });
+    it('should not be able to create a new user with an invalid email', function () { return __awaiter(void 0, void 0, void 0, function () {
+        return __generator(this, function (_a) {
+            expect(createUser.execute({
+                name: 'John Doe',
+                email: 'john@',
+                password: '123456',
+            })).rejects.toBeInstanceOf(AppError_1.default);
+            return [2 /*return*/];
+        });
+    }); });
+    it('should not be able to create a new user with a password that have less then 6 characters', function () { return __awaiter(void 0, void 0, void 0, function () {
+        return __generator(this, function (_a) {
+            expect(createUser.execute({
+                name: 'John Doe',
+                email: 'john@gmail.com',
+                password: '12345',
+            })).rejects.toBeInstanceOf(AppError_1.default);
+            return [2 /*return*/];
         });
     }); });
 });

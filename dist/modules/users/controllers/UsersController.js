@@ -97,18 +97,20 @@ var UsersController = /** @class */ (function () {
     };
     UsersController.prototype.update = function (req, res) {
         return __awaiter(this, void 0, void 0, function () {
-            var id, _a, name, email, password, updateUser, user;
+            var id, _a, name, email, password, phone, cpf, updateUser, user;
             return __generator(this, function (_b) {
                 switch (_b.label) {
                     case 0:
                         id = req.params.id;
-                        _a = req.body, name = _a.name, email = _a.email, password = _a.password;
+                        _a = req.body, name = _a.name, email = _a.email, password = _a.password, phone = _a.phone, cpf = _a.cpf;
                         updateUser = tsyringe_1.container.resolve(UpdateUserService_1.default);
                         return [4 /*yield*/, updateUser.execute({
                                 id: id,
                                 name: name,
                                 email: email,
                                 password: password,
+                                phone: phone,
+                                cpf: cpf,
                             })];
                     case 1:
                         user = _b.sent();

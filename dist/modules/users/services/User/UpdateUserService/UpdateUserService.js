@@ -54,6 +54,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 require("reflect-metadata");
 var tsyringe_1 = require("tsyringe");
 var AppError_1 = __importDefault(require("../../../../../shared/errors/AppError"));
+var UserDataValidatorProvider_1 = __importDefault(require("../../../providers/Validations/UserDataValidatorProvider"));
 var UpdateUserService = /** @class */ (function () {
     function UpdateUserService(userRepository, hashUser) {
         this.userRepository = userRepository;
@@ -61,7 +62,7 @@ var UpdateUserService = /** @class */ (function () {
     }
     UpdateUserService.prototype.execute = function (userNewData) {
         return __awaiter(this, void 0, void 0, function () {
-            var user, hashedPassword, userUpdated;
+            var user, userDataValidator, checkEmailFormat, checkPasswordFormat, hashedPassword, checkCpfFormat, userUpdated;
             return __generator(this, function (_a) {
                 switch (_a.label) {
                     case 0: return [4 /*yield*/, this.userRepository.findById(userNewData.id)];
@@ -69,29 +70,53 @@ var UpdateUserService = /** @class */ (function () {
                         user = _a.sent();
                         switch (user) {
                             case null:
-                                throw new AppError_1.default('User not found', 404);
+                                throw new AppError_1.default('Cadastro não encontrado', 404);
                             case undefined:
-                                throw new AppError_1.default('User not found', 400);
+                                throw new AppError_1.default('Cadastro não encontrado', 400);
                             default:
                         }
+                        userDataValidator = new UserDataValidatorProvider_1.default();
                         if (userNewData.name) {
                             user.name = userNewData.name;
                         }
-                        if (userNewData.email) {
-                            user.email = userNewData.email;
-                        }
-                        if (!userNewData.password) return [3 /*break*/, 3];
-                        return [4 /*yield*/, this.hashUser.generateHash(userNewData.password)];
+                        if (!userNewData.email) return [3 /*break*/, 3];
+                        return [4 /*yield*/, userDataValidator.validateEmail(userNewData.email)];
                     case 2:
+                        checkEmailFormat = _a.sent();
+                        if (!checkEmailFormat)
+                            throw new AppError_1.default('Email inválido');
+                        user.email = userNewData.email;
+                        _a.label = 3;
+                    case 3:
+                        if (!userNewData.password) return [3 /*break*/, 6];
+                        return [4 /*yield*/, userDataValidator.validatePassword(userNewData.password)];
+                    case 4:
+                        checkPasswordFormat = _a.sent();
+                        if (!checkPasswordFormat)
+                            throw new AppError_1.default('A senha deve ter no mínimo 6 caracteres');
+                        return [4 /*yield*/, this.hashUser.generateHash(userNewData.password)];
+                    case 5:
                         hashedPassword = _a.sent();
                         user.password = hashedPassword;
-                        _a.label = 3;
-                    case 3: return [4 /*yield*/, this.userRepository.update(user)];
-                    case 4:
+                        _a.label = 6;
+                    case 6:
+                        if (userNewData.phone) {
+                            user.phone = userNewData.phone;
+                        }
+                        if (!userNewData.cpf) return [3 /*break*/, 8];
+                        return [4 /*yield*/, userDataValidator.validateCpf(userNewData.cpf)];
+                    case 7:
+                        checkCpfFormat = _a.sent();
+                        if (!checkCpfFormat)
+                            throw new AppError_1.default('CPF inválido');
+                        user.cpf = userNewData.cpf;
+                        _a.label = 8;
+                    case 8: return [4 /*yield*/, this.userRepository.update(user)];
+                    case 9:
                         userUpdated = _a.sent();
                         switch (userUpdated) {
                             case null:
-                                throw new AppError_1.default('User not found', 404);
+                                throw new AppError_1.default('Cadastro não atualizado', 404);
                             default:
                         }
                         return [2 /*return*/, userUpdated];

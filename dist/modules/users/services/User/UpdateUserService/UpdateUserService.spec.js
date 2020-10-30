@@ -44,28 +44,35 @@ var FakeUsersRepository_1 = __importDefault(require("../../../repositories/fakes
 var CreateUserService_1 = __importDefault(require("../CreateUserService/CreateUserService"));
 var AppError_1 = __importDefault(require("../../../../../shared/errors/AppError"));
 var FakeHashProvider_1 = __importDefault(require("../../../providers/HashUser/fakes/FakeHashProvider"));
+var fakeUsersRepository;
+var fakeHashPassword;
+var createUser;
+var updateUser;
 describe('UpdateUser', function () {
+    beforeEach(function () {
+        fakeUsersRepository = new FakeUsersRepository_1.default();
+        fakeHashPassword = new FakeHashProvider_1.default();
+        createUser = new CreateUserService_1.default(fakeUsersRepository, fakeHashPassword);
+        updateUser = new UpdateUserService_1.default(fakeUsersRepository, fakeHashPassword);
+    });
     it('should be able to update a user', function () { return __awaiter(void 0, void 0, void 0, function () {
-        var fakeUserRepository, hashPassword, createUserService, oldUserData, updateUser, userUpdated;
+        var oldUserData, userUpdated;
         return __generator(this, function (_a) {
             switch (_a.label) {
-                case 0:
-                    fakeUserRepository = new FakeUsersRepository_1.default();
-                    hashPassword = new FakeHashProvider_1.default();
-                    createUserService = new CreateUserService_1.default(fakeUserRepository, hashPassword);
-                    return [4 /*yield*/, createUserService.execute({
-                            name: 'John Doe',
-                            email: 'john@gmail.com',
-                            password: '123456',
-                        })];
+                case 0: return [4 /*yield*/, createUser.execute({
+                        name: 'John Doe',
+                        email: 'john@gmail.com',
+                        password: '123456',
+                    })];
                 case 1:
                     oldUserData = _a.sent();
-                    updateUser = new UpdateUserService_1.default(fakeUserRepository, hashPassword);
                     return [4 /*yield*/, updateUser.execute({
                             id: oldUserData.id,
-                            name: 'John Doe',
-                            email: 'john@gmail.com',
+                            name: 'John Doe1',
+                            email: 'john1@gmail.com',
                             password: '123456',
+                            phone: 1134354676,
+                            cpf: 23423434576,
                         })];
                 case 2:
                     userUpdated = _a.sent();
@@ -75,11 +82,7 @@ describe('UpdateUser', function () {
         });
     }); });
     it("should not be able to update a user that doesn't exist", function () { return __awaiter(void 0, void 0, void 0, function () {
-        var fakeUserRepository, hashPassword, updateUser;
         return __generator(this, function (_a) {
-            fakeUserRepository = new FakeUsersRepository_1.default();
-            hashPassword = new FakeHashProvider_1.default();
-            updateUser = new UpdateUserService_1.default(fakeUserRepository, hashPassword);
             expect(updateUser.execute({
                 id: undefined,
                 name: 'John Doe',
@@ -90,21 +93,16 @@ describe('UpdateUser', function () {
         });
     }); });
     it('should not be able o change the property name, if the input is empty', function () { return __awaiter(void 0, void 0, void 0, function () {
-        var fakeUserRepository, hashPassword, createUserService, oldUserData, updateUser, userUpdated;
+        var oldUserData, userUpdated;
         return __generator(this, function (_a) {
             switch (_a.label) {
-                case 0:
-                    fakeUserRepository = new FakeUsersRepository_1.default();
-                    hashPassword = new FakeHashProvider_1.default();
-                    createUserService = new CreateUserService_1.default(fakeUserRepository, hashPassword);
-                    return [4 /*yield*/, createUserService.execute({
-                            name: 'John Doe',
-                            email: 'john@gmail.com',
-                            password: '123456',
-                        })];
+                case 0: return [4 /*yield*/, createUser.execute({
+                        name: 'John Doe',
+                        email: 'john@gmail.com',
+                        password: '123456',
+                    })];
                 case 1:
                     oldUserData = _a.sent();
-                    updateUser = new UpdateUserService_1.default(fakeUserRepository, hashPassword);
                     return [4 /*yield*/, updateUser.execute({
                             id: oldUserData.id,
                             name: '',
@@ -119,21 +117,16 @@ describe('UpdateUser', function () {
         });
     }); });
     it('should not be able o change the property password, if the input is empty', function () { return __awaiter(void 0, void 0, void 0, function () {
-        var fakeUserRepository, hashPassword, createUserService, oldUserData, updateUser, userUpdated;
+        var oldUserData, userUpdated;
         return __generator(this, function (_a) {
             switch (_a.label) {
-                case 0:
-                    fakeUserRepository = new FakeUsersRepository_1.default();
-                    hashPassword = new FakeHashProvider_1.default();
-                    createUserService = new CreateUserService_1.default(fakeUserRepository, hashPassword);
-                    return [4 /*yield*/, createUserService.execute({
-                            name: 'John Doe',
-                            email: 'john@gmail.com',
-                            password: '123456',
-                        })];
+                case 0: return [4 /*yield*/, createUser.execute({
+                        name: 'John Doe',
+                        email: 'john@gmail.com',
+                        password: '123456',
+                    })];
                 case 1:
                     oldUserData = _a.sent();
-                    updateUser = new UpdateUserService_1.default(fakeUserRepository, hashPassword);
                     return [4 /*yield*/, updateUser.execute({
                             id: oldUserData.id,
                             name: 'John Doe',
@@ -143,6 +136,95 @@ describe('UpdateUser', function () {
                 case 2:
                     userUpdated = _a.sent();
                     expect(userUpdated.password).toEqual('123456');
+                    return [2 /*return*/];
+            }
+        });
+    }); });
+    it('should not be able o change the property email, if the input have an invalid format', function () { return __awaiter(void 0, void 0, void 0, function () {
+        var oldUserData;
+        return __generator(this, function (_a) {
+            switch (_a.label) {
+                case 0: return [4 /*yield*/, createUser.execute({
+                        name: 'John Doe',
+                        email: 'john@gmail.com',
+                        password: '123456',
+                    })];
+                case 1:
+                    oldUserData = _a.sent();
+                    expect(updateUser.execute({
+                        id: oldUserData.id,
+                        name: 'John Doe',
+                        email: 'john@',
+                        password: '123456',
+                    })).rejects.toBeInstanceOf(AppError_1.default);
+                    return [2 /*return*/];
+            }
+        });
+    }); });
+    it('should not be able o change the property password, if the input have an invalid format', function () { return __awaiter(void 0, void 0, void 0, function () {
+        var oldUserData;
+        return __generator(this, function (_a) {
+            switch (_a.label) {
+                case 0: return [4 /*yield*/, createUser.execute({
+                        name: 'John Doe',
+                        email: 'john@gmail.com',
+                        password: '123456',
+                    })];
+                case 1:
+                    oldUserData = _a.sent();
+                    expect(updateUser.execute({
+                        id: oldUserData.id,
+                        name: 'John Doe',
+                        email: 'john@gmail.com',
+                        password: '12345',
+                    })).rejects.toBeInstanceOf(AppError_1.default);
+                    return [2 /*return*/];
+            }
+        });
+    }); });
+    it('should not be able o change the property cpf, if the input have an invalid format', function () { return __awaiter(void 0, void 0, void 0, function () {
+        var oldUserData;
+        return __generator(this, function (_a) {
+            switch (_a.label) {
+                case 0: return [4 /*yield*/, createUser.execute({
+                        name: 'John Doe',
+                        email: 'john@gmail.com',
+                        password: '123456',
+                    })];
+                case 1:
+                    oldUserData = _a.sent();
+                    expect(updateUser.execute({
+                        id: oldUserData.id,
+                        name: 'John Doe',
+                        email: 'john@gmail.com',
+                        password: '123123',
+                        cpf: 1231231235,
+                    })).rejects.toBeInstanceOf(AppError_1.default);
+                    return [2 /*return*/];
+            }
+        });
+    }); });
+    it('should not be able o change the property phone, if the input is empty', function () { return __awaiter(void 0, void 0, void 0, function () {
+        var oldUserData, userUpdated;
+        return __generator(this, function (_a) {
+            switch (_a.label) {
+                case 0: return [4 /*yield*/, createUser.execute({
+                        name: 'John Doe',
+                        email: 'john@gmail.com',
+                        password: '123456',
+                    })];
+                case 1:
+                    oldUserData = _a.sent();
+                    return [4 /*yield*/, updateUser.execute({
+                            id: oldUserData.id,
+                            name: 'John Doe',
+                            email: 'john@gmail.com',
+                            password: '123456',
+                            phone: 0,
+                        })];
+                case 2:
+                    userUpdated = _a.sent();
+                    expect(userUpdated.phone).toEqual(undefined);
                     return [2 /*return*/];
             }
         });

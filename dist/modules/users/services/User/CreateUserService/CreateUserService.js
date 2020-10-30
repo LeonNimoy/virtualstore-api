@@ -54,6 +54,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 require("reflect-metadata");
 var tsyringe_1 = require("tsyringe");
 var AppError_1 = __importDefault(require("../../../../../shared/errors/AppError"));
+var UserDataValidatorProvider_1 = __importDefault(require("../../../providers/Validations/UserDataValidatorProvider"));
 var CreateUserService = /** @class */ (function () {
     function CreateUserService(userRepository, hashUser) {
         this.userRepository = userRepository;
@@ -62,25 +63,37 @@ var CreateUserService = /** @class */ (function () {
     CreateUserService.prototype.execute = function (_a) {
         var name = _a.name, email = _a.email, password = _a.password;
         return __awaiter(this, void 0, void 0, function () {
-            var checkEmailExistence, hashedPassword, user;
+            var userDataValidator, checkEmailFormat, checkPasswordFormat, checkEmailExistence, hashedPassword, user;
             return __generator(this, function (_b) {
                 switch (_b.label) {
-                    case 0: return [4 /*yield*/, this.userRepository.checkEmail(email)];
+                    case 0:
+                        userDataValidator = new UserDataValidatorProvider_1.default();
+                        return [4 /*yield*/, userDataValidator.validateEmail(email)];
                     case 1:
-                        checkEmailExistence = _b.sent();
-                        if (!checkEmailExistence) return [3 /*break*/, 4];
-                        return [4 /*yield*/, this.hashUser.generateHash(password)];
+                        checkEmailFormat = _b.sent();
+                        if (!checkEmailFormat)
+                            throw new AppError_1.default('Email inválido');
+                        return [4 /*yield*/, userDataValidator.validatePassword(password)];
                     case 2:
+                        checkPasswordFormat = _b.sent();
+                        if (!checkPasswordFormat)
+                            throw new AppError_1.default('A senha deve ter no mínimo 6 caracteres');
+                        return [4 /*yield*/, this.userRepository.checkEmail(email)];
+                    case 3:
+                        checkEmailExistence = _b.sent();
+                        if (!checkEmailExistence) return [3 /*break*/, 6];
+                        return [4 /*yield*/, this.hashUser.generateHash(password)];
+                    case 4:
                         hashedPassword = _b.sent();
                         return [4 /*yield*/, this.userRepository.save({
                                 name: name,
                                 email: email,
                                 password: hashedPassword,
                             })];
-                    case 3:
+                    case 5:
                         user = _b.sent();
                         return [2 /*return*/, user];
-                    case 4: throw new AppError_1.default('Email already used!', 409);
+                    case 6: throw new AppError_1.default('Já existe uma conta com este email. Por favor, informar outro email', 409);
                 }
             });
         });
