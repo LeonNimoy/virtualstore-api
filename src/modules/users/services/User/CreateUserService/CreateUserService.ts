@@ -18,9 +18,9 @@ class CreateUserService {
   ) {}
 
   public async execute({ name, email, password }: IUserDTO): Promise<User> {
-    const checkEmail = await this.userRepository.checkEmail(email);
+    const checkEmailExistence = await this.userRepository.checkEmail(email);
 
-    if (checkEmail) {
+    if (checkEmailExistence) {
       const hashedPassword = await this.hashUser.generateHash(password);
 
       const user = await this.userRepository.save({

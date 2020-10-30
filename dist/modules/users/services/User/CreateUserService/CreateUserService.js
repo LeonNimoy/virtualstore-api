@@ -62,13 +62,13 @@ var CreateUserService = /** @class */ (function () {
     CreateUserService.prototype.execute = function (_a) {
         var name = _a.name, email = _a.email, password = _a.password;
         return __awaiter(this, void 0, void 0, function () {
-            var checkEmail, hashedPassword, user;
+            var checkEmailExistence, hashedPassword, user;
             return __generator(this, function (_b) {
                 switch (_b.label) {
                     case 0: return [4 /*yield*/, this.userRepository.checkEmail(email)];
                     case 1:
-                        checkEmail = _b.sent();
-                        if (!checkEmail) return [3 /*break*/, 4];
+                        checkEmailExistence = _b.sent();
+                        if (!checkEmailExistence) return [3 /*break*/, 4];
                         return [4 /*yield*/, this.hashUser.generateHash(password)];
                     case 2:
                         hashedPassword = _b.sent();
