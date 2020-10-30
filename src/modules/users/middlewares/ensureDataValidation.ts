@@ -18,7 +18,7 @@ export default function ensureDataValidation(
   const checkEmailFormat = validator.validate(email);
 
   if (!checkEmailFormat) {
-    throw new AppError('Email inválido!');
+    throw new AppError('Email inválido');
   }
 
   const passwordValidation = new RegExp(/^.{6,}$/);
@@ -26,7 +26,7 @@ export default function ensureDataValidation(
   const checkPasswordFormat = passwordValidation.test(password);
 
   if (!checkPasswordFormat) {
-    throw new AppError('A senha deve ter no mínimo de 6 caracteres!');
+    throw new AppError('A senha deve ter no mínimo 6 caracteres');
   }
 
   return next();
