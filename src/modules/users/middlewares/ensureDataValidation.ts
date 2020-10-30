@@ -12,7 +12,7 @@ export default function ensureDataValidation(
   const { name, email, password } = req.body;
 
   if (!email || !password || !name) {
-    throw new AppError('Nome, Email e Senha devem ser informados ', 401);
+    throw new AppError('Por favor, preencha todos os campos', 401);
   }
 
   const checkEmailFormat = validator.validate(email);
