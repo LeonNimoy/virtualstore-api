@@ -8,7 +8,7 @@ var AppError_1 = __importDefault(require("../../../shared/errors/AppError"));
 function ensureDataValidation(req, res, next) {
     var _a = req.body, name = _a.name, email = _a.email, password = _a.password;
     if (!email || !password || !name) {
-        throw new AppError_1.default('Nome, Email e Senha devem ser informados ', 401);
+        throw new AppError_1.default('Por favor, preencha todos os campos', 401);
     }
     var checkEmailFormat = email_validator_1.default.validate(email);
     if (!checkEmailFormat) {
