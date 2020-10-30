@@ -43,13 +43,15 @@ export default class UsersController {
 
   public async update(req: Request, res: Response): Promise<Response> {
     const { id } = req.params;
-    const { name, email, password } = req.body;
+    const { name, email, password, phone, cpf } = req.body;
     const updateUser = container.resolve(UpdateUserService);
     const user = await updateUser.execute({
       id,
       name,
       email,
       password,
+      phone,
+      cpf,
     });
 
     return res.status(200).json(user);

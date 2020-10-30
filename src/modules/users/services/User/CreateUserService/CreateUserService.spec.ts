@@ -3,16 +3,21 @@ import CreateUserService from './CreateUserService';
 import FakeUsersRepository from '../../../repositories/fakes/FakeUsersRepository';
 import AppError from '../../../../../shared/errors/AppError';
 
-describe('CreateUser', () => {
-  it('should be able to create a new user', async () => {
-    const fakeUserRepository = new FakeUsersRepository();
-    const hashPassword = new FakeHashProvider();
+let fakeUsersRepository: FakeUsersRepository;
+let fakeHashPassword: FakeHashProvider;
+let createUser: CreateUserService;
 
-    const createUserService = new CreateUserService(
-      fakeUserRepository,
-      hashPassword,
-    );
-    const user = await createUserService.execute({
+describe('CreateUser', () => {
+  beforeEach(() => {
+    fakeUsersRepository = new FakeUsersRepository();
+
+    fakeHashPassword = new FakeHashProvider();
+
+    createUser = new CreateUserService(fakeUsersRepository, fakeHashPassword);
+  });
+
+  it('should be able to create a new user', async () => {
+    const user = await createUser.execute({
       name: 'John Doe',
       email: 'john@gmail.com',
       password: '123456',
@@ -21,24 +26,37 @@ describe('CreateUser', () => {
   });
 
   it('should not be able to create a new user with the same email of an another user', async () => {
-    const fakeUserRepository = new FakeUsersRepository();
-    const hashPassword = new FakeHashProvider();
-
-    const createUserService = new CreateUserService(
-      fakeUserRepository,
-      hashPassword,
-    );
-    await createUserService.execute({
+    await createUser.execute({
       name: 'John Doe',
       email: 'john@gmail.com',
       password: '123456',
     });
 
     expect(
-      createUserService.execute({
+      createUser.execute({
         name: 'John Doe',
         email: 'john@gmail.com',
         password: '123456',
+      }),
+    ).rejects.toBeInstanceOf(AppError);
+  });
+
+  it('should not be able to create a new user with an invalid email', async () => {
+    expect(
+      createUser.execute({
+        name: 'John Doe',
+        email: 'john@',
+        password: '123456',
+      }),
+    ).rejects.toBeInstanceOf(AppError);
+  });
+
+  it('should not be able to create a new user with a password that have less then 6 characters', async () => {
+    expect(
+      createUser.execute({
+        name: 'John Doe',
+        email: 'john@gmail.com',
+        password: '12345',
       }),
     ).rejects.toBeInstanceOf(AppError);
   });
