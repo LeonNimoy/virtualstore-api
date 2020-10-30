@@ -12,12 +12,12 @@ function ensureDataValidation(req, res, next) {
     }
     var checkEmailFormat = email_validator_1.default.validate(email);
     if (!checkEmailFormat) {
-        throw new AppError_1.default('Email inválido!');
+        throw new AppError_1.default('Email inválido');
     }
     var passwordValidation = new RegExp(/^.{6,}$/);
     var checkPasswordFormat = passwordValidation.test(password);
     if (!checkPasswordFormat) {
-        throw new AppError_1.default('A senha deve ter no mínimo de 6 caracteres!');
+        throw new AppError_1.default('A senha deve ter no mínimo 6 caracteres');
     }
     return next();
 }
