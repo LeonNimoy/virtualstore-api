@@ -90,24 +90,15 @@ var AddressesController = /** @class */ (function () {
     };
     AddressesController.prototype.update = function (req, res) {
         return __awaiter(this, void 0, void 0, function () {
-            var _a, address_id, cep, address, address_complement, neighborhood, city, state, updateAddress, addressUpdated;
-            return __generator(this, function (_b) {
-                switch (_b.label) {
+            var updateAddress;
+            return __generator(this, function (_a) {
+                switch (_a.label) {
                     case 0:
-                        _a = req.body, address_id = _a.address_id, cep = _a.cep, address = _a.address, address_complement = _a.address_complement, neighborhood = _a.neighborhood, city = _a.city, state = _a.state;
                         updateAddress = tsyringe_1.container.resolve(UpdateAddressService_1.default);
-                        return [4 /*yield*/, updateAddress.execute({
-                                address_id: address_id,
-                                cep: cep,
-                                address: address,
-                                address_complement: address_complement,
-                                neighborhood: neighborhood,
-                                city: city,
-                                state: state,
-                            })];
+                        return [4 /*yield*/, updateAddress.execute(req.body)];
                     case 1:
-                        addressUpdated = _b.sent();
-                        return [2 /*return*/, res.status(200).json(addressUpdated)];
+                        _a.sent();
+                        return [2 /*return*/, res.status(200).json({ message: 'Endereço atualizado!' })];
                 }
             });
         });

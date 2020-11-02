@@ -91,24 +91,17 @@ var AddressesRepository = /** @class */ (function () {
             });
         });
     };
-    AddressesRepository.prototype.updateUserAddress = function (_a) {
-        var address = _a.address, address_complement = _a.address_complement, cep = _a.cep, city = _a.city, neighborhood = _a.neighborhood, state = _a.state, id = _a.id;
+    AddressesRepository.prototype.updateUserAddress = function (addressNewData) {
         return __awaiter(this, void 0, void 0, function () {
-            var addressUpdated;
-            return __generator(this, function (_b) {
-                switch (_b.label) {
-                    case 0: return [4 /*yield*/, AddressSchema_1.AddressSchema.findByIdAndUpdate(id, {
-                            address: address,
-                            address_complement: address_complement,
-                            cep: cep,
-                            city: city,
-                            neighborhood: neighborhood,
-                            state: state,
-                            updated_at: date_fns_1.format(new Date(), "dd/MM/yyyy '-' HH'h'mm'm'ss's'"),
-                        }, { new: true })];
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0: return [4 /*yield*/, AddressSchema_1.AddressSchema.findByIdAndUpdate(addressNewData.address_id, {
+                            $set: addressNewData,
+                            updated_at: date_fns_1.format(Date.now(), "dd/MM/yyyy '-' HH'h'mm'm'ss's'"),
+                        })];
                     case 1:
-                        addressUpdated = _b.sent();
-                        return [2 /*return*/, addressUpdated];
+                        _a.sent();
+                        return [2 /*return*/];
                 }
             });
         });

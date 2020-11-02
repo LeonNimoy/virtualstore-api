@@ -47,59 +47,21 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
         if (op[0] & 5) throw op[1]; return { value: op[0] ? op[1] : void 0, done: true };
     }
 };
-var __importDefault = (this && this.__importDefault) || function (mod) {
-    return (mod && mod.__esModule) ? mod : { "default": mod };
-};
 Object.defineProperty(exports, "__esModule", { value: true });
 require("reflect-metadata");
 var tsyringe_1 = require("tsyringe");
-var AppError_1 = __importDefault(require("../../../../../shared/errors/AppError"));
 var UpdateAddressService = /** @class */ (function () {
     function UpdateAddressService(addressesRepository) {
         this.addressesRepository = addressesRepository;
     }
     UpdateAddressService.prototype.execute = function (addressNewData) {
         return __awaiter(this, void 0, void 0, function () {
-            var addressFound, addressUpdated;
             return __generator(this, function (_a) {
                 switch (_a.label) {
-                    case 0: return [4 /*yield*/, this.addressesRepository.findAddressById(addressNewData.address_id)];
+                    case 0: return [4 /*yield*/, this.addressesRepository.updateUserAddress(addressNewData)];
                     case 1:
-                        addressFound = _a.sent();
-                        switch (addressFound) {
-                            case null:
-                                throw new AppError_1.default('Cadastro não encontrado', 404);
-                            case undefined:
-                                throw new AppError_1.default('Cadastro não encontrado', 400);
-                            default:
-                        }
-                        if (addressNewData.address) {
-                            addressFound.address = addressNewData.address;
-                        }
-                        if (addressNewData.cep) {
-                            addressFound.cep = addressNewData.cep;
-                        }
-                        if (addressNewData.address_complement) {
-                            addressFound.address_complement = addressNewData.address_complement;
-                        }
-                        if (addressNewData.neighborhood) {
-                            addressFound.neighborhood = addressNewData.neighborhood;
-                        }
-                        if (addressNewData.city) {
-                            addressFound.city = addressNewData.city;
-                        }
-                        if (addressNewData.state) {
-                            addressFound.state = addressNewData.state;
-                        }
-                        return [4 /*yield*/, this.addressesRepository.updateUserAddress(addressFound)];
-                    case 2:
-                        addressUpdated = _a.sent();
-                        switch (addressUpdated) {
-                            case null:
-                                throw new AppError_1.default('Cadastro não encontrado', 404);
-                            default:
-                        }
-                        return [2 /*return*/, addressUpdated];
+                        _a.sent();
+                        return [2 /*return*/];
                 }
             });
         });
