@@ -6,7 +6,9 @@ import { AddressSchema } from '../infra/databases/mongoose/schemas/AddressSchema
 import Address from '../infra/databases/entities/Address';
 
 export default class AddressesRepository implements IAddressesProvider {
-  public async findAllAddresses(user_id: string): Promise<Address[] | null> {
+  public async findAllAddresses(
+    user_id: string,
+  ): Promise<Address[] | null | undefined> {
     const userAddresses = await AddressSchema.find({ user_id });
 
     return userAddresses;
@@ -49,7 +51,11 @@ export default class AddressesRepository implements IAddressesProvider {
     });
   }
 
-  public async deleteUserAddress(addressData: IAddressDTO): Promise<void> {
-    await AddressSchema.deleteOne(addressData);
+  public async deleteUserAddress(userAddress: IAddressDTO): Promise<void> {
+    await AddressSchema.deleteOne(userAddress);
+  }
+
+  public async deleteAllUserAddresses(userId: string): Promise<void> {
+    await AddressSchema.deleteMany({ user_id: userId });
   }
 }

@@ -12,7 +12,7 @@ export default class UsersRepository implements IUsersProvider {
     return users;
   }
 
-  public async findById(id: string): Promise<User | undefined | null> {
+  public async findById(id: string): Promise<User | null | undefined> {
     const userId = await UserSchema.findById(id).select('-password');
 
     return userId;
@@ -72,7 +72,7 @@ export default class UsersRepository implements IUsersProvider {
     return userUpdated;
   }
 
-  public async delete(user: IUserDTO): Promise<void | null> {
+  public async delete(user: IUserDTO): Promise<void> {
     await UserSchema.deleteOne(user);
   }
 }
