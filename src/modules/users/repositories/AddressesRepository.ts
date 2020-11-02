@@ -42,31 +42,11 @@ export default class AddressesRepository implements IAddressesProvider {
     await createUserAddress.save();
   }
 
-  public async updateUserAddress({
-    address,
-    address_complement,
-    cep,
-    city,
-    neighborhood,
-    state,
-    id,
-  }: IAddressDTO): Promise<Address | null> {
-    const addressUpdated = await AddressSchema.findByIdAndUpdate(
-      id,
-      {
-        address,
-        address_complement,
-        cep,
-        city,
-        neighborhood,
-        state,
-        updated_at: format(new Date(), "dd/MM/yyyy '-' HH'h'mm'm'ss's'"),
-      },
-
-      { new: true },
-    );
-
-    return addressUpdated;
+  public async updateUserAddress(addressNewData: IAddressDTO): Promise<void> {
+    await AddressSchema.findByIdAndUpdate(addressNewData.address_id, {
+      $set: addressNewData,
+      updated_at: format(Date.now(), "dd/MM/yyyy '-' HH'h'mm'm'ss's'"),
+    });
   }
 
   public async deleteUserAddress(addressData: IAddressDTO): Promise<void> {

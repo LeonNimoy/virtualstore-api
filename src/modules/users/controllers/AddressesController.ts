@@ -41,27 +41,10 @@ export default class AddressesController {
   }
 
   public async update(req: Request, res: Response): Promise<Response> {
-    const {
-      address_id,
-      cep,
-      address,
-      address_complement,
-      neighborhood,
-      city,
-      state,
-    } = req.body;
     const updateAddress = container.resolve(UpdateAddressService);
-    const addressUpdated = await updateAddress.execute({
-      address_id,
-      cep,
-      address,
-      address_complement,
-      neighborhood,
-      city,
-      state,
-    });
+    await updateAddress.execute(req.body);
 
-    return res.status(200).json(addressUpdated);
+    return res.status(200).json({ message: 'Endereço atualizado!' });
   }
 
   public async delete(req: Request, res: Response): Promise<Response> {
