@@ -36,100 +36,72 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
     }
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-var date_fns_1 = require("date-fns");
-var AddressSchema_1 = require("../infra/databases/mongoose/schemas/AddressSchema");
-var AddressesRepository = /** @class */ (function () {
-    function AddressesRepository() {
+var AddressSchema_1 = require("../../infra/databases/mongoose/schemas/AddressSchema");
+var FakeAddressesRepository = /** @class */ (function () {
+    function FakeAddressesRepository() {
+        this.addresses = [];
     }
-    AddressesRepository.prototype.findAllAddresses = function (user_id) {
-        return __awaiter(this, void 0, void 0, function () {
-            var userAddresses;
-            return __generator(this, function (_a) {
-                switch (_a.label) {
-                    case 0: return [4 /*yield*/, AddressSchema_1.AddressSchema.find({ user_id: user_id })];
-                    case 1:
-                        userAddresses = _a.sent();
-                        return [2 /*return*/, userAddresses];
-                }
-            });
-        });
-    };
-    AddressesRepository.prototype.findAddressById = function (id) {
+    FakeAddressesRepository.prototype.findAllAddresses = function (user_id) {
         return __awaiter(this, void 0, void 0, function () {
             var userId;
             return __generator(this, function (_a) {
-                switch (_a.label) {
-                    case 0: return [4 /*yield*/, AddressSchema_1.AddressSchema.findById(id)];
-                    case 1:
-                        userId = _a.sent();
-                        return [2 /*return*/, userId];
-                }
+                userId = this.addresses.find(function (address) { return address.id === user_id; });
+                return [2 /*return*/, userId];
             });
         });
     };
-    AddressesRepository.prototype.saveAddress = function (_a) {
-        var cep = _a.cep, address = _a.address, address_complement = _a.address_complement, neighborhood = _a.neighborhood, city = _a.city, state = _a.state, id = _a.id;
+    FakeAddressesRepository.prototype.findAddressById = function (address_id) {
         return __awaiter(this, void 0, void 0, function () {
-            var createUserAddress;
-            return __generator(this, function (_b) {
-                switch (_b.label) {
-                    case 0:
-                        createUserAddress = new AddressSchema_1.AddressSchema({
-                            cep: cep,
-                            address: address,
-                            address_complement: address_complement,
-                            neighborhood: neighborhood,
-                            city: city,
-                            state: state,
-                            user_id: id,
-                        });
-                        return [4 /*yield*/, createUserAddress.save()];
-                    case 1:
-                        _b.sent();
-                        return [2 /*return*/];
-                }
+            var addressFound;
+            return __generator(this, function (_a) {
+                addressFound = this.addresses.find(function (address) { return address_id === address.id; });
+                return [2 /*return*/, addressFound];
             });
         });
     };
-    AddressesRepository.prototype.updateUserAddress = function (addressNewData) {
+    FakeAddressesRepository.prototype.saveAddress = function (addressData) {
+        return __awaiter(this, void 0, void 0, function () {
+            var address;
+            return __generator(this, function (_a) {
+                address = new AddressSchema_1.AddressSchema(addressData);
+                Object.assign(address, addressData);
+                this.addresses.push(address);
+                return [2 /*return*/];
+            });
+        });
+    };
+    FakeAddressesRepository.prototype.updateUserAddress = function (newAddressData) {
         return __awaiter(this, void 0, void 0, function () {
             return __generator(this, function (_a) {
-                switch (_a.label) {
-                    case 0: return [4 /*yield*/, AddressSchema_1.AddressSchema.findByIdAndUpdate(addressNewData.address_id, {
-                            $set: addressNewData,
-                            updated_at: date_fns_1.format(Date.now(), "dd/MM/yyyy '-' HH'h'mm'm'ss's'"),
-                        })];
-                    case 1:
-                        _a.sent();
-                        return [2 /*return*/];
-                }
+                this.addresses.map(function (address) { return newAddressData === address; });
+                return [2 /*return*/, Object.assign(newAddressData)];
             });
         });
     };
-    AddressesRepository.prototype.deleteUserAddress = function (userAddress) {
+    FakeAddressesRepository.prototype.deleteUserAddress = function (addressData) {
         return __awaiter(this, void 0, void 0, function () {
+            var address;
             return __generator(this, function (_a) {
-                switch (_a.label) {
-                    case 0: return [4 /*yield*/, AddressSchema_1.AddressSchema.deleteOne(userAddress)];
-                    case 1:
-                        _a.sent();
-                        return [2 /*return*/];
+                address = this.addresses.map(function (addressCreated) { return addressData.id === addressCreated.id; });
+                if (address) {
+                    this.addresses.splice(0, 1);
                 }
+                return [2 /*return*/];
             });
         });
     };
-    AddressesRepository.prototype.deleteAllUserAddresses = function (userId) {
+    FakeAddressesRepository.prototype.deleteAllUserAddresses = function (userID) {
         return __awaiter(this, void 0, void 0, function () {
+            var address;
             return __generator(this, function (_a) {
-                switch (_a.label) {
-                    case 0: return [4 /*yield*/, AddressSchema_1.AddressSchema.deleteMany({ user_id: userId })];
-                    case 1:
-                        _a.sent();
-                        return [2 /*return*/];
+                address = this.addresses.map(function (addressCreated) { return userID === addressCreated.user_id; });
+                if (address) {
+                    this.addresses.splice(0, 1);
                 }
+                return [2 /*return*/];
             });
         });
     };
-    return AddressesRepository;
+    return FakeAddressesRepository;
 }());
-exports.default = AddressesRepository;
+exports.default = FakeAddressesRepository;
