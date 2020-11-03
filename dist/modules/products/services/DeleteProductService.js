@@ -68,9 +68,9 @@ var DeleteProductService = /** @class */ (function () {
                         product = _b.sent();
                         switch (product) {
                             case null:
-                                throw new AppError_1.default('Product not found', 404);
+                                throw new AppError_1.default('Produto não encontrado', 404);
                             case undefined:
-                                throw new AppError_1.default('Product not found', 400);
+                                throw new AppError_1.default('Produto não identificado', 404);
                             default:
                         }
                         // const fileUploaded = new DiskStorageProvider();

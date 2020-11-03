@@ -79,7 +79,7 @@ var CreateProductService = /** @class */ (function () {
                             });
                             return [2 /*return*/, product];
                         }
-                        throw new AppError_1.default('Name for product already used!', 409);
+                        throw new AppError_1.default('Já existe um produto com este nome', 409);
                 }
             });
         });

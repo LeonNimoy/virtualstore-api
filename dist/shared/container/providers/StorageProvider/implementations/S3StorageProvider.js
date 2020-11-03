@@ -70,7 +70,7 @@ var DiskStorageProvider = /** @class */ (function () {
                         return [4 /*yield*/, fs_1.default.promises.unlink(originalPath)];
                     case 2:
                         _a.sent();
-                        throw new AppError_1.default('Type of file not valid', 403);
+                        throw new AppError_1.default('Formato de Arquivo inválido', 403);
                     case 3: return [4 /*yield*/, this.client
                             .putObject({
                             Bucket: upload_1.default.config.disk.bucket,

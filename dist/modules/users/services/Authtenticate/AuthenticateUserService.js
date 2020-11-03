@@ -72,13 +72,13 @@ var AuthenticateUserService = /** @class */ (function () {
                     case 1:
                         user = _c.sent();
                         if (!user) {
-                            throw new AppError_1.default('Invalid Email or Password!', 401);
+                            throw new AppError_1.default('Email ou Senha inválido', 401);
                         }
                         return [4 /*yield*/, this.hashUser.compareHash(password, user.password)];
                     case 2:
                         passwordMatched = _c.sent();
                         if (!passwordMatched) {
-                            throw new AppError_1.default('Incorrect email/password combination', 401);
+                            throw new AppError_1.default('Email ou Senha inválido', 401);
                         }
                         _b = auth_1.default.jwt, secret = _b.secret, expiresIn = _b.expiresIn;
                         token = jsonwebtoken_1.sign({}, secret, {

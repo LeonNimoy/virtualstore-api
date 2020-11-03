@@ -69,7 +69,7 @@ var UpdateProductImageService = /** @class */ (function () {
                     case 1:
                         fileUpdated = _b.sent();
                         if (!fileUpdated) {
-                            throw new AppError_1.default('Invalid file!', 400);
+                            throw new AppError_1.default('Formato de Arquivo inválido!', 400);
                         }
                         imageUrl = "https://" + upload_1.default.config.disk.bucket + ".s3.amazonaws.com/" + imageFilename;
                         return [2 /*return*/, imageUrl];

@@ -9,7 +9,7 @@ var AppError_1 = __importDefault(require("../../../shared/errors/AppError"));
 function ensureAuthenticated(req, res, next) {
     var authHeader = req.headers.authorization;
     if (!authHeader) {
-        throw new AppError_1.default('JWT token is missing', 401);
+        throw new AppError_1.default('Usuário não autenticado', 401);
     }
     var _a = authHeader.split(' '), token = _a[1];
     try {
@@ -21,7 +21,7 @@ function ensureAuthenticated(req, res, next) {
         return next();
     }
     catch (_b) {
-        throw new AppError_1.default('Invalid JWT token', 401);
+        throw new AppError_1.default('Token invalido', 401);
     }
 }
 exports.default = ensureAuthenticated;

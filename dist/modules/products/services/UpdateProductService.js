@@ -68,9 +68,9 @@ var UpdateProductService = /** @class */ (function () {
                         product = _a.sent();
                         switch (product) {
                             case null:
-                                throw new AppError_1.default('Product not found', 404);
+                                throw new AppError_1.default('Produto não encontrado', 404);
                             case undefined:
-                                throw new AppError_1.default('Product not found', 400);
+                                throw new AppError_1.default('Produto não encontrado', 404);
                             default:
                         }
                         if (productNewData.name) {
@@ -100,7 +100,7 @@ var UpdateProductService = /** @class */ (function () {
                         productUpdated = _a.sent();
                         switch (productUpdated) {
                             case null:
-                                throw new AppError_1.default('Product not found', 404);
+                                throw new AppError_1.default('Produto não foi identificado', 400);
                             default:
                         }
                         return [2 /*return*/, productUpdated];

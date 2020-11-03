@@ -61,7 +61,7 @@ var UsersController = /** @class */ (function () {
                         userFound = _a.sent();
                         switch (userFound) {
                             case undefined:
-                                throw new AppError_1.default('User not found', 400);
+                                throw new AppError_1.default('Usuário não foi encontrado', 400);
                             default:
                         }
                         return [2 /*return*/, res.status(200).json(userFound)];
@@ -130,7 +130,7 @@ var UsersController = /** @class */ (function () {
                         return [4 /*yield*/, userDeleted.execute({ id: id })];
                     case 1:
                         _a.sent();
-                        return [2 /*return*/, res.status(200).json({ message: 'user deleted!' })];
+                        return [2 /*return*/, res.status(200).json({ message: 'Cadastro removido!' })];
                 }
             });
         });
