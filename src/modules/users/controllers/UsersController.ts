@@ -15,7 +15,7 @@ export default class UsersController {
 
       switch (userFound) {
         case undefined:
-          throw new AppError('User not found', 400);
+          throw new AppError('Usuário não foi encontrado', 400);
         default:
       }
 
@@ -63,6 +63,6 @@ export default class UsersController {
     const userDeleted = container.resolve(DeleteUserService);
     await userDeleted.execute({ id });
 
-    return res.status(200).json({ message: 'user deleted!' });
+    return res.status(200).json({ message: 'Cadastro removido!' });
   }
 }

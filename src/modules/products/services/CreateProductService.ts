@@ -36,7 +36,7 @@ class CreateProductService {
       return product;
     }
 
-    throw new AppError('Name for product already used!', 409);
+    throw new AppError('Já existe um produto com este nome', 409);
   }
 }
 

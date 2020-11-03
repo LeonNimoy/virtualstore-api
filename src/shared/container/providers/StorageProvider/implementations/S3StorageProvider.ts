@@ -31,7 +31,7 @@ class DiskStorageProvider implements IStorageProvider {
 
     if (!ContentType || !filesChecker) {
       await fs.promises.unlink(originalPath);
-      throw new AppError('Type of file not valid', 403);
+      throw new AppError('Formato de Arquivo inválido', 403);
     }
 
     await this.client
