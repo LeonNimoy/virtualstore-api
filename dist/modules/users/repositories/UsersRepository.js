@@ -36,6 +36,7 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
     }
 };
 Object.defineProperty(exports, "__esModule", { value: true });
+var date_fns_1 = require("date-fns");
 var UserSchema_1 = require("../infra/databases/mongoose/schemas/UserSchema");
 var UsersRepository = /** @class */ (function () {
     function UsersRepository() {
@@ -114,16 +115,24 @@ var UsersRepository = /** @class */ (function () {
             });
         });
     };
-    UsersRepository.prototype.update = function (userData) {
+    UsersRepository.prototype.update = function (_a) {
+        var email = _a.email, name = _a.name, password = _a.password, cpf = _a.cpf, id = _a.id, phone = _a.phone;
         return __awaiter(this, void 0, void 0, function () {
             var userUpdated;
-            return __generator(this, function (_a) {
-                switch (_a.label) {
-                    case 0: return [4 /*yield*/, UserSchema_1.UserSchema.findByIdAndUpdate(userData.id, userData, {
+            return __generator(this, function (_b) {
+                switch (_b.label) {
+                    case 0: return [4 /*yield*/, UserSchema_1.UserSchema.findByIdAndUpdate(id, {
+                            phone: phone,
+                            email: email,
+                            name: name,
+                            password: password,
+                            cpf: cpf,
+                            updated_at: date_fns_1.format(new Date(), "dd/MM/yyyy '-' HH'h'mm'm'ss's'"),
+                        }, {
                             new: true,
                         }).select('-password')];
                     case 1:
-                        userUpdated = _a.sent();
+                        userUpdated = _b.sent();
                         return [2 /*return*/, userUpdated];
                 }
             });

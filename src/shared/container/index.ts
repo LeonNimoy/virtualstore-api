@@ -11,8 +11,8 @@ import IProductsProvider from '../../modules/products/providers/IProductsProvide
 import UsersRepository from '../../modules/users/repositories/UsersRepository';
 import IUsersProvider from '../../modules/users/providers/IUsersProvider';
 
-import ProfileRepository from '../../modules/users/repositories/ProfileRepository';
-import IProfileProvider from '../../modules/users/providers/IProfileProvider';
+import AddressesRepository from '../../modules/users/repositories/AddressesRepository';
+import IAddressesProvider from '../../modules/users/providers/IAddressesProvider';
 
 container.registerSingleton<IProductsProvider>(
   'ProductsRepository',
@@ -21,9 +21,9 @@ container.registerSingleton<IProductsProvider>(
 
 container.registerSingleton<IUsersProvider>('UsersRepository', UsersRepository);
 
-container.registerSingleton<IProfileProvider>(
-  'ProfileRepository',
-  ProfileRepository,
+container.registerSingleton<IAddressesProvider>(
+  'AddressesRepository',
+  AddressesRepository,
 );
 
 container.registerSingleton<IStorageProvider>(

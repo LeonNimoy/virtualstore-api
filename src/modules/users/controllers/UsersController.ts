@@ -15,7 +15,7 @@ export default class UsersController {
 
       switch (userFound) {
         case undefined:
-          throw new AppError('User not found', 400);
+          throw new AppError('Usuário não foi encontrado', 400);
         default:
       }
 
@@ -43,13 +43,15 @@ export default class UsersController {
 
   public async update(req: Request, res: Response): Promise<Response> {
     const { id } = req.params;
-    const { name, email, password } = req.body;
+    const { name, email, password, phone, cpf } = req.body;
     const updateUser = container.resolve(UpdateUserService);
     const user = await updateUser.execute({
       id,
       name,
       email,
       password,
+      phone,
+      cpf,
     });
 
     return res.status(200).json(user);
@@ -61,6 +63,6 @@ export default class UsersController {
     const userDeleted = container.resolve(DeleteUserService);
     await userDeleted.execute({ id });
 
-    return res.status(200).json({ message: 'user deleted!' });
+    return res.status(200).json({ message: 'Cadastro removido!' });
   }
 }

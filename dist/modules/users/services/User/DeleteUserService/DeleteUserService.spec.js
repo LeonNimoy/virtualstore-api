@@ -44,14 +44,16 @@ var CreateUserService_1 = __importDefault(require("../CreateUserService/CreateUs
 var DeleteUserService_1 = __importDefault(require("./DeleteUserService"));
 var AppError_1 = __importDefault(require("../../../../../shared/errors/AppError"));
 var FakeHashProvider_1 = __importDefault(require("../../../providers/HashUser/fakes/FakeHashProvider"));
+var FakeAddressesRepository_1 = __importDefault(require("../../../repositories/fakes/FakeAddressesRepository"));
 describe('DeleteUser', function () {
     it('should be able to delete a user', function () { return __awaiter(void 0, void 0, void 0, function () {
-        var fakeUserRepository, hashedPassword, createUser, userData, deleteUser, _a;
+        var fakeUserRepository, hashedPassword, fakeAddressRepository, createUser, userData, deleteUser, _a;
         return __generator(this, function (_b) {
             switch (_b.label) {
                 case 0:
                     fakeUserRepository = new FakeUsersRepository_1.default();
                     hashedPassword = new FakeHashProvider_1.default();
+                    fakeAddressRepository = new FakeAddressesRepository_1.default();
                     createUser = new CreateUserService_1.default(fakeUserRepository, hashedPassword);
                     return [4 /*yield*/, createUser.execute({
                             name: 'John Doe',
@@ -60,7 +62,7 @@ describe('DeleteUser', function () {
                         })];
                 case 1:
                     userData = _b.sent();
-                    deleteUser = new DeleteUserService_1.default(fakeUserRepository);
+                    deleteUser = new DeleteUserService_1.default(fakeUserRepository, fakeAddressRepository);
                     _a = expect;
                     return [4 /*yield*/, deleteUser.execute({
                             id: userData.id,
@@ -72,10 +74,11 @@ describe('DeleteUser', function () {
         });
     }); });
     it("should not be able to delete a user that doesn't exist", function () { return __awaiter(void 0, void 0, void 0, function () {
-        var fakeUserRepository, deleteUser;
+        var fakeUserRepository, fakeAddressRepository, deleteUser;
         return __generator(this, function (_a) {
             fakeUserRepository = new FakeUsersRepository_1.default();
-            deleteUser = new DeleteUserService_1.default(fakeUserRepository);
+            fakeAddressRepository = new FakeAddressesRepository_1.default();
+            deleteUser = new DeleteUserService_1.default(fakeUserRepository, fakeAddressRepository);
             expect(deleteUser.execute({
                 id: undefined,
             })).rejects.toBeInstanceOf(AppError_1.default);

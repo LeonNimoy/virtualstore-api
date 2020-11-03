@@ -1,4 +1,5 @@
 import mongoose, { Document, Model } from 'mongoose';
+import { format } from 'date-fns';
 
 import User from '../../entities/User';
 
@@ -21,49 +22,16 @@ const schema = new mongoose.Schema(
       type: Number,
     },
 
-    addresses: [
-      {
-        cep: {
-          type: String,
-        },
-        address: {
-          type: String,
-        },
-        address_2: {
-          type: String,
-        },
-        neighborhood: {
-          type: String,
-        },
-        city: {
-          type: String,
-        },
-        state: {
-          type: String,
-        },
-      },
-    ],
-
-    payment: [
-      {
-        card_number: {
-          type: Number,
-        },
-        expire_date: {
-          type: Date,
-        },
-        security_code: {
-          type: Number,
-        },
-        owner_name: {
-          type: String,
-        },
-      },
-    ],
+    created_at: {
+      type: String,
+      default: format(Date.now(), "dd/MM/yyyy '-' HH'h'mm'm'ss's'"),
+    },
+    updated_at: {
+      type: String,
+    },
   },
 
   {
-    timestamps: { createdAt: 'created_at' },
     toJSON: {
       transform: (_, ret): void => {
         ret.id = ret._id;

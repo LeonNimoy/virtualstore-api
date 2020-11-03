@@ -5,6 +5,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.UserSchema = void 0;
 var mongoose_1 = __importDefault(require("mongoose"));
+var date_fns_1 = require("date-fns");
 var schema = new mongoose_1.default.Schema({
     name: {
         type: String,
@@ -22,46 +23,14 @@ var schema = new mongoose_1.default.Schema({
     cpf: {
         type: Number,
     },
-    addresses: [
-        {
-            cep: {
-                type: String,
-            },
-            address: {
-                type: String,
-            },
-            address_2: {
-                type: String,
-            },
-            neighborhood: {
-                type: String,
-            },
-            city: {
-                type: String,
-            },
-            state: {
-                type: String,
-            },
-        },
-    ],
-    payment: [
-        {
-            card_number: {
-                type: Number,
-            },
-            expire_date: {
-                type: Date,
-            },
-            security_code: {
-                type: Number,
-            },
-            owner_name: {
-                type: String,
-            },
-        },
-    ],
+    created_at: {
+        type: String,
+        default: date_fns_1.format(Date.now(), "dd/MM/yyyy '-' HH'h'mm'm'ss's'"),
+    },
+    updated_at: {
+        type: String,
+    },
 }, {
-    timestamps: { createdAt: 'created_at' },
     toJSON: {
         transform: function (_, ret) {
             ret.id = ret._id;

@@ -6,6 +6,7 @@ import User from '../../../infra/databases/entities/User';
 import IUsersProvider from '../../../providers/IUsersProvider';
 import IHashUser from '../../../providers/HashUser/models/IHashUser';
 import AppError from '../../../../../shared/errors/AppError';
+import UserDataValidatorProvider from '../../../providers/Validations/UserDataValidatorProvider';
 
 @injectable()
 class CreateUserService {
@@ -18,6 +19,19 @@ class CreateUserService {
   ) {}
 
   public async execute({ name, email, password }: IUserDTO): Promise<User> {
+    const userDataValidator = new UserDataValidatorProvider();
+
+    const checkEmailFormat = await userDataValidator.validateEmail(email);
+
+    if (!checkEmailFormat) throw new AppError('Email inválido');
+
+    const checkPasswordFormat = await userDataValidator.validatePassword(
+      password,
+    );
+
+    if (!checkPasswordFormat)
+      throw new AppError('A senha deve ter no mínimo 6 caracteres');
+
     const checkEmailExistence = await this.userRepository.checkEmail(email);
 
     if (checkEmailExistence) {
@@ -32,7 +46,10 @@ class CreateUserService {
       return user;
     }
 
-    throw new AppError('Email already used!', 409);
+    throw new AppError(
+      'Já existe uma conta com este email. Por favor, informar outro email',
+      409,
+    );
   }
 }
 

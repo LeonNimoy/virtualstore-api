@@ -19,9 +19,9 @@ class DeleteProductService {
 
     switch (product) {
       case null:
-        throw new AppError('Product not found', 404);
+        throw new AppError('Produto não encontrado', 404);
       case undefined:
-        throw new AppError('Product not found', 400);
+        throw new AppError('Produto não identificado', 404);
       default:
     }
 

@@ -54,8 +54,9 @@ Object.defineProperty(exports, "__esModule", { value: true });
 var tsyringe_1 = require("tsyringe");
 var AppError_1 = __importDefault(require("../../../../../shared/errors/AppError"));
 var DeleteUserService = /** @class */ (function () {
-    function DeleteUserService(userRepository) {
+    function DeleteUserService(userRepository, addressRepository) {
         this.userRepository = userRepository;
+        this.addressRepository = addressRepository;
     }
     DeleteUserService.prototype.execute = function (_a) {
         var id = _a.id;
@@ -68,13 +69,16 @@ var DeleteUserService = /** @class */ (function () {
                         user = _b.sent();
                         switch (user) {
                             case null:
-                                throw new AppError_1.default('User not found', 404);
+                                throw new AppError_1.default('Usuário não encontrado!', 404);
                             case undefined:
-                                throw new AppError_1.default('User not found', 400);
+                                throw new AppError_1.default('Usuário não identificado!', 404);
                             default:
                         }
-                        return [4 /*yield*/, this.userRepository.delete(user)];
+                        return [4 /*yield*/, this.addressRepository.deleteAllUserAddresses(user.id)];
                     case 2:
+                        _b.sent();
+                        return [4 /*yield*/, this.userRepository.delete(user)];
+                    case 3:
                         _b.sent();
                         return [2 /*return*/];
                 }
@@ -84,7 +88,8 @@ var DeleteUserService = /** @class */ (function () {
     DeleteUserService = __decorate([
         tsyringe_1.injectable(),
         __param(0, tsyringe_1.inject('UsersRepository')),
-        __metadata("design:paramtypes", [Object])
+        __param(1, tsyringe_1.inject('AddressesRepository')),
+        __metadata("design:paramtypes", [Object, Object])
     ], DeleteUserService);
     return DeleteUserService;
 }());

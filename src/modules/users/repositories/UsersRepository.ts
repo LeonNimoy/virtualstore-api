@@ -1,3 +1,5 @@
+import { format } from 'date-fns';
+
 import { UserSchema } from '../infra/databases/mongoose/schemas/UserSchema';
 import User from '../infra/databases/entities/User';
 import IUserDTO from '../dtos/IUserDTO';
@@ -10,7 +12,7 @@ export default class UsersRepository implements IUsersProvider {
     return users;
   }
 
-  public async findById(id: string): Promise<User | undefined | null> {
+  public async findById(id: string): Promise<User | null | undefined> {
     const userId = await UserSchema.findById(id).select('-password');
 
     return userId;
@@ -44,10 +46,24 @@ export default class UsersRepository implements IUsersProvider {
     return userCreated.id;
   }
 
-  public async update(userData: IUserDTO): Promise<User | null> {
+  public async update({
+    email,
+    name,
+    password,
+    cpf,
+    id,
+    phone,
+  }: IUserDTO): Promise<User | null> {
     const userUpdated = await UserSchema.findByIdAndUpdate(
-      userData.id,
-      userData,
+      id,
+      {
+        phone,
+        email,
+        name,
+        password,
+        cpf,
+        updated_at: format(new Date(), "dd/MM/yyyy '-' HH'h'mm'm'ss's'"),
+      },
       {
         new: true,
       },
@@ -56,7 +72,7 @@ export default class UsersRepository implements IUsersProvider {
     return userUpdated;
   }
 
-  public async delete(user: IUserDTO): Promise<void | null> {
+  public async delete(user: IUserDTO): Promise<void> {
     await UserSchema.deleteOne(user);
   }
 }

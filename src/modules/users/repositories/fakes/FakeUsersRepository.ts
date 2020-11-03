@@ -12,7 +12,9 @@ class FakeUsersRepository implements IUsersProvider {
     return users;
   }
 
-  public async findById(id: string | undefined): Promise<User | undefined> {
+  public async findById(
+    id: string | undefined,
+  ): Promise<User | null | undefined> {
     const userId = this.users.find(user => user.id === id);
 
     return userId;
@@ -54,7 +56,7 @@ class FakeUsersRepository implements IUsersProvider {
     return Object.assign(newUserData);
   }
 
-  public async delete(userToDelete: IUserDTO): Promise<void | null> {
+  public async delete(userToDelete: IUserDTO): Promise<void> {
     const findUser = this.users.map(user => userToDelete.id === user.id);
 
     if (findUser) {

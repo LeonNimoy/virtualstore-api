@@ -47,58 +47,30 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
         if (op[0] & 5) throw op[1]; return { value: op[0] ? op[1] : void 0, done: true };
     }
 };
-var __importDefault = (this && this.__importDefault) || function (mod) {
-    return (mod && mod.__esModule) ? mod : { "default": mod };
-};
 Object.defineProperty(exports, "__esModule", { value: true });
 require("reflect-metadata");
 var tsyringe_1 = require("tsyringe");
-var AppError_1 = __importDefault(require("../../../../../shared/errors/AppError"));
-var UpdateProfileService = /** @class */ (function () {
-    function UpdateProfileService(userRepository, profileRepository) {
-        this.userRepository = userRepository;
-        this.profileRepository = profileRepository;
+var UpdateAddressService = /** @class */ (function () {
+    function UpdateAddressService(addressesRepository) {
+        this.addressesRepository = addressesRepository;
     }
-    UpdateProfileService.prototype.execute = function (_a) {
-        var id = _a.id, cpf = _a.cpf, phone = _a.phone, cep = _a.cep, address = _a.address, address_2 = _a.address_2, neighborhood = _a.neighborhood, city = _a.city, state = _a.state;
+    UpdateAddressService.prototype.execute = function (addressNewData) {
         return __awaiter(this, void 0, void 0, function () {
-            var findValidUser;
-            return __generator(this, function (_b) {
-                switch (_b.label) {
-                    case 0: return [4 /*yield*/, this.userRepository.findById(id)];
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0: return [4 /*yield*/, this.addressesRepository.updateUserAddress(addressNewData)];
                     case 1:
-                        findValidUser = _b.sent();
-                        switch (findValidUser) {
-                            case null:
-                                throw new AppError_1.default('User not found', 404);
-                            case undefined:
-                                throw new AppError_1.default('Invalid Registration', 400);
-                            default:
-                        }
-                        return [4 /*yield*/, this.profileRepository.save({
-                                id: id,
-                                cpf: cpf,
-                                phone: phone,
-                                cep: cep,
-                                address: address,
-                                address_2: address_2,
-                                neighborhood: neighborhood,
-                                city: city,
-                                state: state,
-                            })];
-                    case 2:
-                        _b.sent();
+                        _a.sent();
                         return [2 /*return*/];
                 }
             });
         });
     };
-    UpdateProfileService = __decorate([
+    UpdateAddressService = __decorate([
         tsyringe_1.injectable(),
-        __param(0, tsyringe_1.inject('UsersRepository')),
-        __param(1, tsyringe_1.inject('ProfileRepository')),
-        __metadata("design:paramtypes", [Object, Object])
-    ], UpdateProfileService);
-    return UpdateProfileService;
+        __param(0, tsyringe_1.inject('AddressesRepository')),
+        __metadata("design:paramtypes", [Object])
+    ], UpdateAddressService);
+    return UpdateAddressService;
 }());
-exports.default = UpdateProfileService;
+exports.default = UpdateAddressService;

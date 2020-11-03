@@ -19,7 +19,7 @@ class UpdateProductImageService {
     const fileUpdated = await this.s3StorageProvider.saveFile(imageFilename);
 
     if (!fileUpdated) {
-      throw new AppError('Invalid file!', 400);
+      throw new AppError('Formato de Arquivo inválido!', 400);
     }
 
     const imageUrl = `https://${uploadConfig.config.disk.bucket}.s3.amazonaws.com/${imageFilename}`;

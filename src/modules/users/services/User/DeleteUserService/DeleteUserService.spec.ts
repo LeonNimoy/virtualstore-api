@@ -3,11 +3,13 @@ import CreateUserService from '../CreateUserService/CreateUserService';
 import DeleteUserService from './DeleteUserService';
 import AppError from '../../../../../shared/errors/AppError';
 import FakeHashProvider from '../../../providers/HashUser/fakes/FakeHashProvider';
+import FakeAddressesRepository from '../../../repositories/fakes/FakeAddressesRepository';
 
 describe('DeleteUser', () => {
   it('should be able to delete a user', async () => {
     const fakeUserRepository = new FakeUsersRepository();
     const hashedPassword = new FakeHashProvider();
+    const fakeAddressRepository = new FakeAddressesRepository();
 
     const createUser = new CreateUserService(
       fakeUserRepository,
@@ -20,7 +22,10 @@ describe('DeleteUser', () => {
       password: '123456',
     });
 
-    const deleteUser = new DeleteUserService(fakeUserRepository);
+    const deleteUser = new DeleteUserService(
+      fakeUserRepository,
+      fakeAddressRepository,
+    );
 
     expect(
       await deleteUser.execute({
@@ -31,8 +36,12 @@ describe('DeleteUser', () => {
 
   it("should not be able to delete a user that doesn't exist", async () => {
     const fakeUserRepository = new FakeUsersRepository();
+    const fakeAddressRepository = new FakeAddressesRepository();
 
-    const deleteUser = new DeleteUserService(fakeUserRepository);
+    const deleteUser = new DeleteUserService(
+      fakeUserRepository,
+      fakeAddressRepository,
+    );
 
     expect(
       deleteUser.execute({
