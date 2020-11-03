@@ -3,7 +3,7 @@ import FakeHashProvider from '../../../providers/HashUser/fakes/FakeHashProvider
 import CreateUserService from '../../User/CreateUserService/CreateUserService';
 import FakeAddressesRepository from '../../../repositories/fakes/FakeAddressesRepository';
 import FakeUsersRepository from '../../../repositories/fakes/FakeUsersRepository';
-// import AppError from '../../../../../shared/errors/AppError';
+import AppError from '../../../../../shared/errors/AppError';
 
 let fakeAddressesRepository: FakeAddressesRepository;
 let fakeUsersRepository: FakeUsersRepository;
@@ -43,5 +43,19 @@ describe('CreateProduct', () => {
       state: 'Some State',
     });
     expect(createAddressForAnUser).toEqual(undefined);
+  });
+
+  it('should not be able to create a new address for an invalid user', async () => {
+    expect(
+      createAddressService.execute({
+        id: undefined,
+        cep: '34810786',
+        address: 'foo street',
+        address_complement: 'number 123',
+        neighborhood: 'baa',
+        city: 'Some City',
+        state: 'Some State',
+      }),
+    ).rejects.toBeInstanceOf(AppError);
   });
 });
