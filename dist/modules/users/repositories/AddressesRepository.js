@@ -70,7 +70,7 @@ var AddressesRepository = /** @class */ (function () {
     AddressesRepository.prototype.saveAddress = function (_a) {
         var cep = _a.cep, address = _a.address, address_complement = _a.address_complement, neighborhood = _a.neighborhood, city = _a.city, state = _a.state, id = _a.id;
         return __awaiter(this, void 0, void 0, function () {
-            var createUserAddress;
+            var createUserAddress, addressCreated;
             return __generator(this, function (_b) {
                 switch (_b.label) {
                     case 0:
@@ -85,8 +85,8 @@ var AddressesRepository = /** @class */ (function () {
                         });
                         return [4 /*yield*/, createUserAddress.save()];
                     case 1:
-                        _b.sent();
-                        return [2 /*return*/];
+                        addressCreated = _b.sent();
+                        return [2 /*return*/, addressCreated];
                 }
             });
         });
@@ -106,11 +106,11 @@ var AddressesRepository = /** @class */ (function () {
             });
         });
     };
-    AddressesRepository.prototype.deleteUserAddress = function (userAddress) {
+    AddressesRepository.prototype.deleteUserAddress = function (userAddressId) {
         return __awaiter(this, void 0, void 0, function () {
             return __generator(this, function (_a) {
                 switch (_a.label) {
-                    case 0: return [4 /*yield*/, AddressSchema_1.AddressSchema.deleteOne(userAddress)];
+                    case 0: return [4 /*yield*/, AddressSchema_1.AddressSchema.deleteOne({ id: userAddressId })];
                     case 1:
                         _a.sent();
                         return [2 /*return*/];

@@ -39,36 +39,39 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-var CreateAddressService_1 = __importDefault(require("./CreateAddressService"));
-var FakeHashProvider_1 = __importDefault(require("../../../providers/HashUser/fakes/FakeHashProvider"));
-var CreateUserService_1 = __importDefault(require("../../User/CreateUserService/CreateUserService"));
+var CreateAddressService_1 = __importDefault(require("../CreateAddressService/CreateAddressService"));
 var FakeAddressesRepository_1 = __importDefault(require("../../../repositories/fakes/FakeAddressesRepository"));
-var FakeUsersRepository_1 = __importDefault(require("../../../repositories/fakes/FakeUsersRepository"));
+var DeleteAddressService_1 = __importDefault(require("./DeleteAddressService"));
 var AppError_1 = __importDefault(require("../../../../../shared/errors/AppError"));
+var FakeHashProvider_1 = __importDefault(require("../../../providers/HashUser/fakes/FakeHashProvider"));
+var FakeUsersRepository_1 = __importDefault(require("../../../repositories/fakes/FakeUsersRepository"));
+var CreateUserService_1 = __importDefault(require("../../User/CreateUserService/CreateUserService"));
 var fakeAddressesRepository;
 var fakeUsersRepository;
 var fakeHashProvider;
 var createUserService;
 var createAddressService;
-describe('CreateProduct', function () {
+var deleteAddressService;
+describe('DeleteProduct', function () {
     beforeEach(function () {
         fakeAddressesRepository = new FakeAddressesRepository_1.default();
         fakeUsersRepository = new FakeUsersRepository_1.default();
         fakeHashProvider = new FakeHashProvider_1.default();
         createUserService = new CreateUserService_1.default(fakeUsersRepository, fakeHashProvider);
         createAddressService = new CreateAddressService_1.default(fakeUsersRepository, fakeAddressesRepository);
+        deleteAddressService = new DeleteAddressService_1.default(fakeAddressesRepository);
     });
-    it('should be able to create a new address for an user', function () { return __awaiter(void 0, void 0, void 0, function () {
-        var user, createAddressForAnUser;
-        return __generator(this, function (_a) {
-            switch (_a.label) {
+    it('should be able to delete an address', function () { return __awaiter(void 0, void 0, void 0, function () {
+        var user, addressCreated, _a;
+        return __generator(this, function (_b) {
+            switch (_b.label) {
                 case 0: return [4 /*yield*/, createUserService.execute({
                         name: 'John Doe',
                         email: 'john@gmail.com',
                         password: '123456',
                     })];
                 case 1:
-                    user = _a.sent();
+                    user = _b.sent();
                     return [4 /*yield*/, createAddressService.execute({
                             id: user.id,
                             cep: '34810786',
@@ -79,22 +82,21 @@ describe('CreateProduct', function () {
                             state: 'Some State',
                         })];
                 case 2:
-                    createAddressForAnUser = _a.sent();
-                    expect(createAddressForAnUser).toEqual(Object.assign(createAddressForAnUser));
+                    addressCreated = _b.sent();
+                    _a = expect;
+                    return [4 /*yield*/, deleteAddressService.execute({
+                            address_id: addressCreated.id,
+                        })];
+                case 3:
+                    _a.apply(void 0, [_b.sent()]).toBe(undefined);
                     return [2 /*return*/];
             }
         });
     }); });
-    it('should not be able to create a new address for an invalid user', function () { return __awaiter(void 0, void 0, void 0, function () {
+    it("should not be able to delete an address that doesn't exist", function () { return __awaiter(void 0, void 0, void 0, function () {
         return __generator(this, function (_a) {
-            expect(createAddressService.execute({
-                id: undefined,
-                cep: '34810786',
-                address: 'foo street',
-                address_complement: 'number 123',
-                neighborhood: 'baa',
-                city: 'Some City',
-                state: 'Some State',
+            expect(deleteAddressService.execute({
+                address_id: undefined,
             })).rejects.toBeInstanceOf(AppError_1.default);
             return [2 /*return*/];
         });

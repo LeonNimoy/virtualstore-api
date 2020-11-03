@@ -39,27 +39,29 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-var CreateAddressService_1 = __importDefault(require("./CreateAddressService"));
+var UpdateAddressService_1 = __importDefault(require("./UpdateAddressService"));
 var FakeHashProvider_1 = __importDefault(require("../../../providers/HashUser/fakes/FakeHashProvider"));
-var CreateUserService_1 = __importDefault(require("../../User/CreateUserService/CreateUserService"));
 var FakeAddressesRepository_1 = __importDefault(require("../../../repositories/fakes/FakeAddressesRepository"));
+var CreateAddressService_1 = __importDefault(require("../CreateAddressService/CreateAddressService"));
 var FakeUsersRepository_1 = __importDefault(require("../../../repositories/fakes/FakeUsersRepository"));
-var AppError_1 = __importDefault(require("../../../../../shared/errors/AppError"));
+var CreateUserService_1 = __importDefault(require("../../User/CreateUserService/CreateUserService"));
 var fakeAddressesRepository;
 var fakeUsersRepository;
 var fakeHashProvider;
 var createUserService;
 var createAddressService;
-describe('CreateProduct', function () {
+var updateAddressService;
+describe('UpdateProduct', function () {
     beforeEach(function () {
         fakeAddressesRepository = new FakeAddressesRepository_1.default();
         fakeUsersRepository = new FakeUsersRepository_1.default();
         fakeHashProvider = new FakeHashProvider_1.default();
         createUserService = new CreateUserService_1.default(fakeUsersRepository, fakeHashProvider);
         createAddressService = new CreateAddressService_1.default(fakeUsersRepository, fakeAddressesRepository);
+        updateAddressService = new UpdateAddressService_1.default(fakeAddressesRepository);
     });
-    it('should be able to create a new address for an user', function () { return __awaiter(void 0, void 0, void 0, function () {
-        var user, createAddressForAnUser;
+    it('should be able to update an address', function () { return __awaiter(void 0, void 0, void 0, function () {
+        var user, addressNewData;
         return __generator(this, function (_a) {
             switch (_a.label) {
                 case 0: return [4 /*yield*/, createUserService.execute({
@@ -71,6 +73,7 @@ describe('CreateProduct', function () {
                     user = _a.sent();
                     return [4 /*yield*/, createAddressService.execute({
                             id: user.id,
+                            address_id: '12345A',
                             cep: '34810786',
                             address: 'foo street',
                             address_complement: 'number 123',
@@ -79,24 +82,19 @@ describe('CreateProduct', function () {
                             state: 'Some State',
                         })];
                 case 2:
-                    createAddressForAnUser = _a.sent();
-                    expect(createAddressForAnUser).toEqual(Object.assign(createAddressForAnUser));
+                    _a.sent();
+                    addressNewData = updateAddressService.execute({
+                        address_id: '12345A',
+                        cep: '34810786',
+                        address: 'foo1 street',
+                        address_complement: 'number 123',
+                        neighborhood: 'baa',
+                        city: 'Some City',
+                        state: 'Some State',
+                    });
+                    expect(addressNewData).toEqual(expect.objectContaining(addressNewData));
                     return [2 /*return*/];
             }
-        });
-    }); });
-    it('should not be able to create a new address for an invalid user', function () { return __awaiter(void 0, void 0, void 0, function () {
-        return __generator(this, function (_a) {
-            expect(createAddressService.execute({
-                id: undefined,
-                cep: '34810786',
-                address: 'foo street',
-                address_complement: 'number 123',
-                neighborhood: 'baa',
-                city: 'Some City',
-                state: 'Some State',
-            })).rejects.toBeInstanceOf(AppError_1.default);
-            return [2 /*return*/];
         });
     }); });
 });

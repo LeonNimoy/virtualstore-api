@@ -62,7 +62,7 @@ var CreateAddressService = /** @class */ (function () {
     CreateAddressService.prototype.execute = function (_a) {
         var id = _a.id, cep = _a.cep, address = _a.address, address_complement = _a.address_complement, neighborhood = _a.neighborhood, city = _a.city, state = _a.state;
         return __awaiter(this, void 0, void 0, function () {
-            var findAValidUser;
+            var findAValidUser, addressCreated;
             return __generator(this, function (_b) {
                 switch (_b.label) {
                     case 0: return [4 /*yield*/, this.userRepository.findById(id)];
@@ -85,8 +85,8 @@ var CreateAddressService = /** @class */ (function () {
                                 state: state,
                             })];
                     case 2:
-                        _b.sent();
-                        return [2 /*return*/];
+                        addressCreated = _b.sent();
+                        return [2 /*return*/, addressCreated];
                 }
             });
         });

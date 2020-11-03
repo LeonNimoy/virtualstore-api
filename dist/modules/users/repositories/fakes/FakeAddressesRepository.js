@@ -66,23 +66,25 @@ var FakeAddressesRepository = /** @class */ (function () {
                 address = new AddressSchema_1.AddressSchema(addressData);
                 Object.assign(address, addressData);
                 this.addresses.push(address);
-                return [2 /*return*/];
+                return [2 /*return*/, address];
             });
         });
     };
     FakeAddressesRepository.prototype.updateUserAddress = function (newAddressData) {
         return __awaiter(this, void 0, void 0, function () {
             return __generator(this, function (_a) {
-                this.addresses.map(function (address) { return newAddressData === address; });
+                if (this.addresses.map(function (address) { return newAddressData.address_id === address.id; })) {
+                    this.addresses.map(function (address) { return newAddressData === address; });
+                }
                 return [2 /*return*/, Object.assign(newAddressData)];
             });
         });
     };
-    FakeAddressesRepository.prototype.deleteUserAddress = function (addressData) {
+    FakeAddressesRepository.prototype.deleteUserAddress = function (addressId) {
         return __awaiter(this, void 0, void 0, function () {
             var address;
             return __generator(this, function (_a) {
-                address = this.addresses.map(function (addressCreated) { return addressData.id === addressCreated.id; });
+                address = this.addresses.map(function (addressCreated) { return addressId.address_id === addressCreated.id; });
                 if (address) {
                     this.addresses.splice(0, 1);
                 }
