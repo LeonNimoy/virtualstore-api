@@ -1,17 +1,19 @@
-import CreateAddressService from './CreateAddressService';
-import FakeHashProvider from '../../../providers/HashUser/fakes/FakeHashProvider';
-import CreateUserService from '../../User/CreateUserService/CreateUserService';
+import CreateAddressService from '../CreateAddressService/CreateAddressService';
 import FakeAddressesRepository from '../../../repositories/fakes/FakeAddressesRepository';
-import FakeUsersRepository from '../../../repositories/fakes/FakeUsersRepository';
+import DeleteAddressService from './DeleteAddressService';
 import AppError from '../../../../../shared/errors/AppError';
+import FakeHashProvider from '../../../providers/HashUser/fakes/FakeHashProvider';
+import FakeUsersRepository from '../../../repositories/fakes/FakeUsersRepository';
+import CreateUserService from '../../User/CreateUserService/CreateUserService';
 
 let fakeAddressesRepository: FakeAddressesRepository;
 let fakeUsersRepository: FakeUsersRepository;
 let fakeHashProvider: FakeHashProvider;
 let createUserService: CreateUserService;
 let createAddressService: CreateAddressService;
+let deleteAddressService: DeleteAddressService;
 
-describe('CreateProduct', () => {
+describe('DeleteProduct', () => {
   beforeEach(() => {
     fakeAddressesRepository = new FakeAddressesRepository();
     fakeUsersRepository = new FakeUsersRepository();
@@ -24,16 +26,18 @@ describe('CreateProduct', () => {
       fakeUsersRepository,
       fakeAddressesRepository,
     );
+
+    deleteAddressService = new DeleteAddressService(fakeAddressesRepository);
   });
 
-  it('should be able to create a new address for an user', async () => {
+  it('should be able to delete an address', async () => {
     const user = await createUserService.execute({
       name: 'John Doe',
       email: 'john@gmail.com',
       password: '123456',
     });
 
-    const createAddressForAnUser = await createAddressService.execute({
+    const addressCreated = await createAddressService.execute({
       id: user.id,
       cep: '34810786',
       address: 'foo street',
@@ -42,21 +46,18 @@ describe('CreateProduct', () => {
       city: 'Some City',
       state: 'Some State',
     });
-    expect(createAddressForAnUser).toEqual(
-      Object.assign(createAddressForAnUser),
-    );
+
+    expect(
+      await deleteAddressService.execute({
+        address_id: addressCreated.id,
+      }),
+    ).toBe(undefined);
   });
 
-  it('should not be able to create a new address for an invalid user', async () => {
+  it("should not be able to delete an address that doesn't exist", async () => {
     expect(
-      createAddressService.execute({
-        id: undefined,
-        cep: '34810786',
-        address: 'foo street',
-        address_complement: 'number 123',
-        neighborhood: 'baa',
-        city: 'Some City',
-        state: 'Some State',
+      deleteAddressService.execute({
+        address_id: undefined,
       }),
     ).rejects.toBeInstanceOf(AppError);
   });

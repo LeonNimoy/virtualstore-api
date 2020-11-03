@@ -8,7 +8,7 @@ export default interface IAddressesProvider {
   findAddressById(
     address_id: string | undefined,
   ): Promise<Address | undefined | null>;
-  saveAddress(addressData: IAddressDTO): Promise<void>;
+  saveAddress(addressData: IAddressDTO): Promise<Address>;
   updateUserAddress(newAddressData: IAddressDTO): Promise<void>;
   deleteUserAddress(addressData: IAddressDTO): Promise<void>;
   deleteAllUserAddresses(userId: string | undefined): Promise<void>;

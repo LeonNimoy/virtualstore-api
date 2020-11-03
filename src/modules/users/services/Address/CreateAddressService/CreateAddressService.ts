@@ -5,6 +5,7 @@ import IAddressesProvider from '../../../providers/IAddressesProvider';
 import AppError from '../../../../../shared/errors/AppError';
 import IAddressDTO from '../../../dtos/IAddressDTO';
 import IUsersProvider from '../../../providers/IUsersProvider';
+import Address from '../../../infra/databases/entities/Address';
 
 @injectable()
 class CreateAddressService {
@@ -24,7 +25,7 @@ class CreateAddressService {
     neighborhood,
     city,
     state,
-  }: IAddressDTO): Promise<void> {
+  }: IAddressDTO): Promise<Address> {
     const findAValidUser = await this.userRepository.findById(id);
 
     switch (findAValidUser) {
@@ -35,7 +36,7 @@ class CreateAddressService {
       default:
     }
 
-    await this.addressesRepository.saveAddress({
+    const addressCreated = await this.addressesRepository.saveAddress({
       id,
       cep,
       address,
@@ -44,6 +45,8 @@ class CreateAddressService {
       city,
       state,
     });
+
+    return addressCreated;
   }
 }
 

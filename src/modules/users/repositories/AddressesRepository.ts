@@ -30,7 +30,7 @@ export default class AddressesRepository implements IAddressesProvider {
     city,
     state,
     id,
-  }: IAddressDTO): Promise<void> {
+  }: IAddressDTO): Promise<Address> {
     const createUserAddress = new AddressSchema({
       cep,
       address,
@@ -41,7 +41,9 @@ export default class AddressesRepository implements IAddressesProvider {
       user_id: id,
     });
 
-    await createUserAddress.save();
+    const addressCreated = await createUserAddress.save();
+
+    return addressCreated;
   }
 
   public async updateUserAddress(addressNewData: IAddressDTO): Promise<void> {
@@ -51,8 +53,8 @@ export default class AddressesRepository implements IAddressesProvider {
     });
   }
 
-  public async deleteUserAddress(userAddress: IAddressDTO): Promise<void> {
-    await AddressSchema.deleteOne(userAddress);
+  public async deleteUserAddress(userAddressId: IAddressDTO): Promise<void> {
+    await AddressSchema.deleteOne({ id: userAddressId });
   }
 
   public async deleteAllUserAddresses(userId: string): Promise<void> {

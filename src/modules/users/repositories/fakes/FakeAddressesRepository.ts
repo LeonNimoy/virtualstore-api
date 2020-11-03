@@ -24,23 +24,29 @@ class FakeAddressesRepository implements IAddressesProvider {
     return addressFound;
   }
 
-  public async saveAddress(addressData: IAddressDTO): Promise<void> {
+  public async saveAddress(addressData: IAddressDTO): Promise<Address> {
     const address = new AddressSchema(addressData);
 
     Object.assign(address, addressData);
 
     this.addresses.push(address);
+
+    return address;
   }
 
   public async updateUserAddress(newAddressData: IAddressDTO): Promise<void> {
-    this.addresses.map(address => newAddressData === address);
+    if (
+      this.addresses.map(address => newAddressData.address_id === address.id)
+    ) {
+      this.addresses.map(address => newAddressData === address);
+    }
 
     return Object.assign(newAddressData);
   }
 
-  public async deleteUserAddress(addressData: IAddressDTO): Promise<void> {
+  public async deleteUserAddress(addressId: IAddressDTO): Promise<void> {
     const address = this.addresses.map(
-      addressCreated => addressData.id === addressCreated.id,
+      addressCreated => addressId.address_id === addressCreated.id,
     );
 
     if (address) {
