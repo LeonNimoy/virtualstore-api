@@ -44,7 +44,7 @@ var FakeHashProvider_1 = __importDefault(require("../../../providers/HashUser/fa
 var CreateUserService_1 = __importDefault(require("../../User/CreateUserService/CreateUserService"));
 var FakeAddressesRepository_1 = __importDefault(require("../../../repositories/fakes/FakeAddressesRepository"));
 var FakeUsersRepository_1 = __importDefault(require("../../../repositories/fakes/FakeUsersRepository"));
-// import AppError from '../../../../../shared/errors/AppError';
+var AppError_1 = __importDefault(require("../../../../../shared/errors/AppError"));
 var fakeAddressesRepository;
 var fakeUsersRepository;
 var fakeHashProvider;
@@ -83,6 +83,20 @@ describe('CreateProduct', function () {
                     expect(createAddressForAnUser).toEqual(undefined);
                     return [2 /*return*/];
             }
+        });
+    }); });
+    it('should not be able to create a new address for an invalid user', function () { return __awaiter(void 0, void 0, void 0, function () {
+        return __generator(this, function (_a) {
+            expect(createAddressService.execute({
+                id: undefined,
+                cep: '34810786',
+                address: 'foo street',
+                address_complement: 'number 123',
+                neighborhood: 'baa',
+                city: 'Some City',
+                state: 'Some State',
+            })).rejects.toBeInstanceOf(AppError_1.default);
+            return [2 /*return*/];
         });
     }); });
 });
