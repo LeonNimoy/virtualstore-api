@@ -58,13 +58,11 @@ var ProductsController = /** @class */ (function () {
                         sizeNumber = Number(size);
                         ProductWithPagination = ModelPaginationProvider_1.default('Product');
                         if (!!product_id) return [3 /*break*/, 2];
-                        return [4 /*yield*/, ProductWithPagination.paginate({}, { page: pageNumber, limit: sizeNumber })];
+                        return [4 /*yield*/, ProductWithPagination.paginate({}, { page: pageNumber, limit: sizeNumber, sort: { _id: '-1' } })];
                     case 1:
                         _d = (productsPaginated = _e.sent());
                         return [3 /*break*/, 4];
-                    case 2: return [4 /*yield*/, ProductWithPagination.paginate({
-                            _id: product_id,
-                        })];
+                    case 2: return [4 /*yield*/, ProductWithPagination.paginate({}, { sort: { _id: '-1' } })];
                     case 3:
                         _d = (productsPaginated = _e.sent());
                         _e.label = 4;
