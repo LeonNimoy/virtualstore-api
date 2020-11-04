@@ -5,7 +5,6 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.AddressSchema = void 0;
 var mongoose_1 = __importDefault(require("mongoose"));
-var date_fns_1 = require("date-fns");
 var schema = new mongoose_1.default.Schema({
     user_id: {
         type: String,
@@ -31,7 +30,6 @@ var schema = new mongoose_1.default.Schema({
     },
     created_at: {
         type: String,
-        default: date_fns_1.format(Date.now(), "dd/MM/yyyy '-' HH'h'mm'm'ss's'"),
     },
     updated_at: {
         type: String,
