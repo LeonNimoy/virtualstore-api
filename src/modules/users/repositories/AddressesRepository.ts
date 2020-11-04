@@ -53,8 +53,8 @@ export default class AddressesRepository implements IAddressesProvider {
     });
   }
 
-  public async deleteUserAddress(userAddressId: IAddressDTO): Promise<void> {
-    await AddressSchema.deleteOne({ id: userAddressId });
+  public async deleteUserAddress(userAddressId: string): Promise<void> {
+    await AddressSchema.findByIdAndDelete(userAddressId);
   }
 
   public async deleteAllUserAddresses(userId: string): Promise<void> {

@@ -44,9 +44,9 @@ class FakeAddressesRepository implements IAddressesProvider {
     return Object.assign(newAddressData);
   }
 
-  public async deleteUserAddress(addressId: IAddressDTO): Promise<void> {
+  public async deleteUserAddress(addressId: string): Promise<void> {
     const address = this.addresses.map(
-      addressCreated => addressId.address_id === addressCreated.id,
+      addressCreated => addressId === addressCreated.id,
     );
 
     if (address) {

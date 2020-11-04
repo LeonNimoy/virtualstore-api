@@ -27,7 +27,7 @@ class DeleteAddressService {
       default:
     }
 
-    await this.addressRepository.deleteUserAddress(addressFound);
+    await this.addressRepository.deleteUserAddress(addressFound.id);
   }
 }
 
