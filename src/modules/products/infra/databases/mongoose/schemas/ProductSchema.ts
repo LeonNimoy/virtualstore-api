@@ -1,5 +1,4 @@
 import mongoose, { Document, Model } from 'mongoose';
-import { format } from 'date-fns';
 import mongoosePagination from 'mongoose-paginate-v2';
 
 import Product from '../../entities/Product';
@@ -31,11 +30,9 @@ const schema = new mongoose.Schema(
     },
     created_at: {
       type: String,
-      default: format(Date.now(), "dd/MM/yyyy '-' HH'h'mm'm'ss's'"),
     },
     updated_at: {
       type: String,
-      default: format(new Date(), "dd/MM/yyyy '-' HH'h'mm'm'ss's'"),
     },
   },
   {

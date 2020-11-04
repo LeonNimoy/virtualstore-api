@@ -1,4 +1,5 @@
 import { format } from 'date-fns';
+import { utcToZonedTime } from 'date-fns-tz';
 
 import { UserSchema } from '../infra/databases/mongoose/schemas/UserSchema';
 import User from '../infra/databases/entities/User';
@@ -40,8 +41,16 @@ export default class UsersRepository implements IUsersProvider {
     return findUser;
   }
 
-  public async save(userData: IUserDTO): Promise<User> {
-    const userCreated = new UserSchema(userData);
+  public async save({ email, name, password }: IUserDTO): Promise<User> {
+    const newDate = new Date();
+    const timeZone = 'America/Sao_Paulo';
+    const dateWithTimeZone = utcToZonedTime(newDate, timeZone);
+    const userCreated = new UserSchema({
+      email,
+      name,
+      password,
+      created_at: format(dateWithTimeZone, "dd/MM/yyyy '-' HH'h'mm'm'ss's'"),
+    });
     await userCreated.save();
     return userCreated.id;
   }
@@ -54,6 +63,9 @@ export default class UsersRepository implements IUsersProvider {
     id,
     phone,
   }: IUserDTO): Promise<User | null> {
+    const newDate = new Date();
+    const timeZone = 'America/Sao_Paulo';
+    const dateWithTimeZone = utcToZonedTime(newDate, timeZone);
     const userUpdated = await UserSchema.findByIdAndUpdate(
       id,
       {
@@ -62,7 +74,7 @@ export default class UsersRepository implements IUsersProvider {
         name,
         password,
         cpf,
-        updated_at: format(new Date(), "dd/MM/yyyy '-' HH'h'mm'm'ss's'"),
+        updated_at: format(dateWithTimeZone, "dd/MM/yyyy '-' HH'h'mm'm'ss's'"),
       },
       {
         new: true,

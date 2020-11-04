@@ -1,5 +1,4 @@
 import mongoose, { Document, Model } from 'mongoose';
-import { format } from 'date-fns';
 
 import Address from '../../entities/Address';
 
@@ -30,7 +29,6 @@ const schema = new mongoose.Schema(
     },
     created_at: {
       type: String,
-      default: format(Date.now(), "dd/MM/yyyy '-' HH'h'mm'm'ss's'"),
     },
     updated_at: {
       type: String,
