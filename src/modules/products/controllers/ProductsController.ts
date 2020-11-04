@@ -17,11 +17,12 @@ export default class ProductsController {
     !product_id
       ? (productsPaginated = await ProductWithPagination.paginate(
           {},
-          { page: pageNumber, limit: sizeNumber },
+          { page: pageNumber, limit: sizeNumber, sort: { _id: '-1' } },
         ))
-      : (productsPaginated = await ProductWithPagination.paginate({
-          _id: product_id,
-        }));
+      : (productsPaginated = await ProductWithPagination.paginate(
+          {},
+          { sort: { _id: '-1' } },
+        ));
 
     return res.status(200).json(productsPaginated);
   }
