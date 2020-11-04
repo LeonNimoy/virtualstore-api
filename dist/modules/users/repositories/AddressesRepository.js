@@ -37,6 +37,7 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 var date_fns_1 = require("date-fns");
+var date_fns_tz_1 = require("date-fns-tz");
 var AddressSchema_1 = require("../infra/databases/mongoose/schemas/AddressSchema");
 var AddressesRepository = /** @class */ (function () {
     function AddressesRepository() {
@@ -70,10 +71,13 @@ var AddressesRepository = /** @class */ (function () {
     AddressesRepository.prototype.saveAddress = function (_a) {
         var cep = _a.cep, address = _a.address, address_complement = _a.address_complement, neighborhood = _a.neighborhood, city = _a.city, state = _a.state, id = _a.id;
         return __awaiter(this, void 0, void 0, function () {
-            var createUserAddress, addressCreated;
+            var newDate, timeZone, dateWithTimeZone, createUserAddress, addressCreated;
             return __generator(this, function (_b) {
                 switch (_b.label) {
                     case 0:
+                        newDate = new Date();
+                        timeZone = 'America/Sao_Paulo';
+                        dateWithTimeZone = date_fns_tz_1.utcToZonedTime(newDate, timeZone);
                         createUserAddress = new AddressSchema_1.AddressSchema({
                             cep: cep,
                             address: address,
@@ -82,6 +86,7 @@ var AddressesRepository = /** @class */ (function () {
                             city: city,
                             state: state,
                             user_id: id,
+                            created_at: date_fns_1.format(dateWithTimeZone, "dd/MM/yyyy '-' HH'h'mm'm'ss's'"),
                         });
                         return [4 /*yield*/, createUserAddress.save()];
                     case 1:
@@ -93,12 +98,17 @@ var AddressesRepository = /** @class */ (function () {
     };
     AddressesRepository.prototype.updateUserAddress = function (addressNewData) {
         return __awaiter(this, void 0, void 0, function () {
+            var newDate, timeZone, dateWithTimeZone;
             return __generator(this, function (_a) {
                 switch (_a.label) {
-                    case 0: return [4 /*yield*/, AddressSchema_1.AddressSchema.findByIdAndUpdate(addressNewData.address_id, {
-                            $set: addressNewData,
-                            updated_at: date_fns_1.format(Date.now(), "dd/MM/yyyy '-' HH'h'mm'm'ss's'"),
-                        })];
+                    case 0:
+                        newDate = new Date();
+                        timeZone = 'America/Sao_Paulo';
+                        dateWithTimeZone = date_fns_tz_1.utcToZonedTime(newDate, timeZone);
+                        return [4 /*yield*/, AddressSchema_1.AddressSchema.findByIdAndUpdate(addressNewData.address_id, {
+                                $set: addressNewData,
+                                updated_at: date_fns_1.format(dateWithTimeZone, "dd/MM/yyyy '-' HH'h'mm'm'ss's'"),
+                            })];
                     case 1:
                         _a.sent();
                         return [2 /*return*/];

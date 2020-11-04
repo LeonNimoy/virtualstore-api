@@ -1,4 +1,6 @@
 import { format } from 'date-fns';
+import { utcToZonedTime } from 'date-fns-tz';
+
 import ProductSchema from '../infra/databases/mongoose/schemas/ProductSchema';
 import Product from '../infra/databases/entities/Product';
 import IProductDTO from '../dtos/IProductDTO';
@@ -23,8 +25,27 @@ export default class ProductsRepository implements IProductsProvider {
     return false;
   }
 
-  public async save(productData: IProductDTO): Promise<Product> {
-    const productCreated = new ProductSchema(productData);
+  public async save({
+    description,
+    image,
+    name,
+    price,
+    quantity,
+    tags,
+  }: IProductDTO): Promise<Product> {
+    const newDate = new Date();
+    const timeZone = 'America/Sao_Paulo';
+    const dateWithTimeZone = utcToZonedTime(newDate, timeZone);
+
+    const productCreated = new ProductSchema({
+      description,
+      image,
+      name,
+      price,
+      quantity,
+      tags,
+      created_at: format(dateWithTimeZone, "dd/MM/yyyy '-' HH'h'mm'm'ss's'"),
+    });
     await productCreated.save();
     return productCreated;
   }
@@ -38,6 +59,10 @@ export default class ProductsRepository implements IProductsProvider {
     tags,
     id,
   }: IProductDTO): Promise<Product | null> {
+    const newDate = new Date();
+    const timeZone = 'America/Sao_Paulo';
+    const dateWithTimeZone = utcToZonedTime(newDate, timeZone);
+
     const productUpdated = await ProductSchema.findByIdAndUpdate(
       id,
       {
@@ -47,7 +72,7 @@ export default class ProductsRepository implements IProductsProvider {
         price,
         quantity,
         tags,
-        updated_at: format(new Date(), "dd/MM/yyyy '-' HH'h'mm'm'ss's'"),
+        updated_at: format(dateWithTimeZone, "dd/MM/yyyy '-' HH'h'mm'm'ss's'"),
       },
       { new: true },
     );

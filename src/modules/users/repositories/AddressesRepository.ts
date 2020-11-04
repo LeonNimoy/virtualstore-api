@@ -1,4 +1,5 @@
 import { format } from 'date-fns';
+import { utcToZonedTime } from 'date-fns-tz';
 
 import IAddressDTO from '../dtos/IAddressDTO';
 import IAddressesProvider from '../providers/IAddressesProvider';
@@ -31,6 +32,10 @@ export default class AddressesRepository implements IAddressesProvider {
     state,
     id,
   }: IAddressDTO): Promise<Address> {
+    const newDate = new Date();
+    const timeZone = 'America/Sao_Paulo';
+    const dateWithTimeZone = utcToZonedTime(newDate, timeZone);
+
     const createUserAddress = new AddressSchema({
       cep,
       address,
@@ -39,6 +44,7 @@ export default class AddressesRepository implements IAddressesProvider {
       city,
       state,
       user_id: id,
+      created_at: format(dateWithTimeZone, "dd/MM/yyyy '-' HH'h'mm'm'ss's'"),
     });
 
     const addressCreated = await createUserAddress.save();
@@ -47,9 +53,13 @@ export default class AddressesRepository implements IAddressesProvider {
   }
 
   public async updateUserAddress(addressNewData: IAddressDTO): Promise<void> {
+    const newDate = new Date();
+    const timeZone = 'America/Sao_Paulo';
+    const dateWithTimeZone = utcToZonedTime(newDate, timeZone);
+
     await AddressSchema.findByIdAndUpdate(addressNewData.address_id, {
       $set: addressNewData,
-      updated_at: format(Date.now(), "dd/MM/yyyy '-' HH'h'mm'm'ss's'"),
+      updated_at: format(dateWithTimeZone, "dd/MM/yyyy '-' HH'h'mm'm'ss's'"),
     });
   }
 

@@ -40,6 +40,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 var date_fns_1 = require("date-fns");
+var date_fns_tz_1 = require("date-fns-tz");
 var ProductSchema_1 = __importDefault(require("../infra/databases/mongoose/schemas/ProductSchema"));
 var ProductsRepository = /** @class */ (function () {
     function ProductsRepository() {
@@ -75,16 +76,28 @@ var ProductsRepository = /** @class */ (function () {
             });
         });
     };
-    ProductsRepository.prototype.save = function (productData) {
+    ProductsRepository.prototype.save = function (_a) {
+        var description = _a.description, image = _a.image, name = _a.name, price = _a.price, quantity = _a.quantity, tags = _a.tags;
         return __awaiter(this, void 0, void 0, function () {
-            var productCreated;
-            return __generator(this, function (_a) {
-                switch (_a.label) {
+            var newDate, timeZone, dateWithTimeZone, productCreated;
+            return __generator(this, function (_b) {
+                switch (_b.label) {
                     case 0:
-                        productCreated = new ProductSchema_1.default(productData);
+                        newDate = new Date();
+                        timeZone = 'America/Sao_Paulo';
+                        dateWithTimeZone = date_fns_tz_1.utcToZonedTime(newDate, timeZone);
+                        productCreated = new ProductSchema_1.default({
+                            description: description,
+                            image: image,
+                            name: name,
+                            price: price,
+                            quantity: quantity,
+                            tags: tags,
+                            created_at: date_fns_1.format(dateWithTimeZone, "dd/MM/yyyy '-' HH'h'mm'm'ss's'"),
+                        });
                         return [4 /*yield*/, productCreated.save()];
                     case 1:
-                        _a.sent();
+                        _b.sent();
                         return [2 /*return*/, productCreated];
                 }
             });
@@ -93,18 +106,22 @@ var ProductsRepository = /** @class */ (function () {
     ProductsRepository.prototype.update = function (_a) {
         var description = _a.description, image = _a.image, name = _a.name, price = _a.price, quantity = _a.quantity, tags = _a.tags, id = _a.id;
         return __awaiter(this, void 0, void 0, function () {
-            var productUpdated;
+            var newDate, timeZone, dateWithTimeZone, productUpdated;
             return __generator(this, function (_b) {
                 switch (_b.label) {
-                    case 0: return [4 /*yield*/, ProductSchema_1.default.findByIdAndUpdate(id, {
-                            description: description,
-                            image: image,
-                            name: name,
-                            price: price,
-                            quantity: quantity,
-                            tags: tags,
-                            updated_at: date_fns_1.format(new Date(), "dd/MM/yyyy '-' HH'h'mm'm'ss's'"),
-                        }, { new: true })];
+                    case 0:
+                        newDate = new Date();
+                        timeZone = 'America/Sao_Paulo';
+                        dateWithTimeZone = date_fns_tz_1.utcToZonedTime(newDate, timeZone);
+                        return [4 /*yield*/, ProductSchema_1.default.findByIdAndUpdate(id, {
+                                description: description,
+                                image: image,
+                                name: name,
+                                price: price,
+                                quantity: quantity,
+                                tags: tags,
+                                updated_at: date_fns_1.format(dateWithTimeZone, "dd/MM/yyyy '-' HH'h'mm'm'ss's'"),
+                            }, { new: true })];
                     case 1:
                         productUpdated = _b.sent();
                         return [2 /*return*/, productUpdated];
