@@ -73,7 +73,7 @@ var DeleteAddressService = /** @class */ (function () {
                                 throw new AppError_1.default('Endereço não identificado', 404);
                             default:
                         }
-                        return [4 /*yield*/, this.addressRepository.deleteUserAddress(addressFound)];
+                        return [4 /*yield*/, this.addressRepository.deleteUserAddress(addressFound.id)];
                     case 2:
                         _b.sent();
                         return [2 /*return*/];
