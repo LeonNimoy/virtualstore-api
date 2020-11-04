@@ -84,7 +84,7 @@ var FakeAddressesRepository = /** @class */ (function () {
         return __awaiter(this, void 0, void 0, function () {
             var address;
             return __generator(this, function (_a) {
-                address = this.addresses.map(function (addressCreated) { return addressId.address_id === addressCreated.id; });
+                address = this.addresses.map(function (addressCreated) { return addressId === addressCreated.id; });
                 if (address) {
                     this.addresses.splice(0, 1);
                 }

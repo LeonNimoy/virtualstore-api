@@ -10,6 +10,6 @@ export default interface IAddressesProvider {
   ): Promise<Address | undefined | null>;
   saveAddress(addressData: IAddressDTO): Promise<Address>;
   updateUserAddress(newAddressData: IAddressDTO): Promise<void>;
-  deleteUserAddress(addressData: IAddressDTO): Promise<void>;
+  deleteUserAddress(addressId: string | undefined): Promise<void>;
   deleteAllUserAddresses(userId: string | undefined): Promise<void>;
 }
