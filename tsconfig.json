@@ -13,10 +13,15 @@
             "@config/*": ["config/*"],
             "@shared/*": ["shared/*"]
         },
-		"esModuleInterop": true,
-		"experimentalDecorators": true,
+    "esModuleInterop": true,
+    "experimentalDecorators": true,
 		"emitDecoratorMetadata": true,
 		"skipLibCheck": true,
 		"forceConsistentCasingInFileNames": true
-	}
+  },
+
+  "include": [
+    "node_modules/pagarme-js-types/index.d.ts"
+  ]
+
 }
