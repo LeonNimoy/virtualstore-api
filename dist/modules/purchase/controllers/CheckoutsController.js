@@ -35,31 +35,28 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
         if (op[0] & 5) throw op[1]; return { value: op[0] ? op[1] : void 0, done: true };
     }
 };
-var __importDefault = (this && this.__importDefault) || function (mod) {
-    return (mod && mod.__esModule) ? mod : { "default": mod };
-};
 Object.defineProperty(exports, "__esModule", { value: true });
-var express_1 = require("express");
-var products_routes_1 = __importDefault(require("../../modules/products/infra/routes/products.routes"));
-var users_routes_1 = __importDefault(require("../../modules/users/infra/routes/users.routes"));
-var sessions_routes_1 = __importDefault(require("../../modules/users/infra/routes/sessions.routes"));
-var addresses_routes_1 = __importDefault(require("../../modules/users/infra/routes/addresses.routes"));
-var checkout_routes_1 = __importDefault(require("../../modules/purchase/routes/checkout.routes"));
-var routes = express_1.Router();
-routes.use('/products', products_routes_1.default);
-routes.use('/users', users_routes_1.default);
-routes.use('/sessions', sessions_routes_1.default);
-routes.use('/addresses', addresses_routes_1.default);
-routes.use('/checkouts', checkout_routes_1.default);
-routes.use('/', function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
-    return __generator(this, function (_a) {
-        try {
-            res.status(200).send('API is working!!!');
-        }
-        catch (error) {
-            res.status(500).json({ error: 'Something went wrong' });
-        }
-        return [2 /*return*/];
-    });
-}); });
-exports.default = routes;
+// import CreateCheckoutService from '../services/CreateCheckoutService';
+var CheckoutsController = /** @class */ (function () {
+    function CheckoutsController() {
+    }
+    CheckoutsController.prototype.store = function (req, res) {
+        return __awaiter(this, void 0, void 0, function () {
+            return __generator(this, function (_a) {
+                // const { id } = req.params;
+                // const { cardHash, amount, addressId, productsId } = req.body;
+                // const createCheckout = container.resolve(CreateCheckoutService);
+                // await createCheckout.execute({
+                //   customerId: id,
+                //   cardHash,
+                //   productsId,
+                //   amount,
+                //   addressId,
+                // });
+                return [2 /*return*/, res.status(200).json({ message: 'Compra realizada com sucesso' })];
+            });
+        });
+    };
+    return CheckoutsController;
+}());
+exports.default = CheckoutsController;
