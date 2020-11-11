@@ -1,13 +1,21 @@
 "use strict";
-var __importDefault = (this && this.__importDefault) || function (mod) {
-    return (mod && mod.__esModule) ? mod : { "default": mod };
-};
-Object.defineProperty(exports, "__esModule", { value: true });
-var express_1 = require("express");
-var SessionsController_1 = __importDefault(require("../../controllers/SessionsController"));
-var ensureAuthenticated_1 = __importDefault(require("../../middlewares/ensureAuthenticated"));
-var sessionsRouter = express_1.Router();
-var sessionController = new SessionsController_1.default();
-sessionsRouter.get('/', ensureAuthenticated_1.default, sessionController.list);
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = void 0;
+
+var _express = require("express");
+
+var _SessionsController = _interopRequireDefault(require("../../controllers/SessionsController"));
+
+var _ensureAuthenticated = _interopRequireDefault(require("../../middlewares/ensureAuthenticated"));
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+const sessionsRouter = (0, _express.Router)();
+const sessionController = new _SessionsController.default();
+sessionsRouter.get('/', _ensureAuthenticated.default, sessionController.list);
 sessionsRouter.post('/', sessionController.create);
-exports.default = sessionsRouter;
+var _default = sessionsRouter;
+exports.default = _default;

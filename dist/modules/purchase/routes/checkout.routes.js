@@ -1,12 +1,20 @@
 "use strict";
-var __importDefault = (this && this.__importDefault) || function (mod) {
-    return (mod && mod.__esModule) ? mod : { "default": mod };
-};
-Object.defineProperty(exports, "__esModule", { value: true });
-var express_1 = require("express");
-var CheckoutsController_1 = __importDefault(require("../controllers/CheckoutsController"));
-var ensureAuthenticated_1 = __importDefault(require("../../users/middlewares/ensureAuthenticated"));
-var checkoutsRouter = express_1.Router();
-var checkoutsController = new CheckoutsController_1.default();
-checkoutsRouter.post('/', ensureAuthenticated_1.default, checkoutsController.store);
-exports.default = checkoutsRouter;
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = void 0;
+
+var _express = require("express");
+
+var _CheckoutsController = _interopRequireDefault(require("../controllers/CheckoutsController"));
+
+var _ensureAuthenticated = _interopRequireDefault(require("../../users/middlewares/ensureAuthenticated"));
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+const checkoutsRouter = (0, _express.Router)();
+const checkoutsController = new _CheckoutsController.default();
+checkoutsRouter.post('/', _ensureAuthenticated.default, checkoutsController.store);
+var _default = checkoutsRouter;
+exports.default = _default;
