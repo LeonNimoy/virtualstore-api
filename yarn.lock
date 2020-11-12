@@ -5445,11 +5445,6 @@ p-try@^2.0.0:
   resolved "https://registry.yarnpkg.com/p-try/-/p-try-2.2.0.tgz#cb2868540e313d61de58fafbe35ce9004d5540e6"
   integrity sha512-R4nPAVTAU0B9D35/Gk3uJf/7XYbQcyohSKdvAxIRSNghFl4e71hVoGnBNQz9cWaXxO2I10KTC+3jMdvvoKw6dQ==
 
-pagarme-js-types@^2.4.1:
-  version "2.4.1"
-  resolved "https://registry.yarnpkg.com/pagarme-js-types/-/pagarme-js-types-2.4.1.tgz#8e4df94e6726bc25d2a1cf012470ac940e0bc13d"
-  integrity sha512-lORZaTQLk4ucDt8BzamRinDwYrHPyC2ZTeYHVGSoz3BIeMj1QwFzQqi1eHy1YZEBPrzqd4tbqhWexyFhOMngAw==
-
 pagarme@^4.13.0:
   version "4.13.0"
   resolved "https://registry.yarnpkg.com/pagarme/-/pagarme-4.13.0.tgz#f15cd9186f5df6072acc82ce12834e7fef2f5b0e"

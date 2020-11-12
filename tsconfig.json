@@ -19,5 +19,6 @@
     "allowJs": true,
 		"skipLibCheck": true,
 		"forceConsistentCasingInFileNames": true
-	}
+  },
+  "file": "./src/modules/purchase/@types/index.d.ts"
 }
