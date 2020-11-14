@@ -8,7 +8,7 @@ import TypedPaginateModel from '../../../shared/utils/ModelPaginationProvider';
 
 export default class ProductsController {
   public async list(req: Request, res: Response): Promise<Response> {
-    const { page = 1, size = 20, product_id } = req.query;
+    const { page = 1, size = 12, product_id } = req.query;
     const pageNumber = Number(page);
     const sizeNumber = Number(size);
     const ProductWithPagination = TypedPaginateModel('Product');
