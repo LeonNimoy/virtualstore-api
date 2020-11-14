@@ -53,7 +53,7 @@ var ProductsController = /** @class */ (function () {
             return __generator(this, function (_e) {
                 switch (_e.label) {
                     case 0:
-                        _a = req.query, _b = _a.page, page = _b === void 0 ? 1 : _b, _c = _a.size, size = _c === void 0 ? 20 : _c, product_id = _a.product_id;
+                        _a = req.query, _b = _a.page, page = _b === void 0 ? 1 : _b, _c = _a.size, size = _c === void 0 ? 12 : _c, product_id = _a.product_id;
                         pageNumber = Number(page);
                         sizeNumber = Number(size);
                         ProductWithPagination = ModelPaginationProvider_1.default('Product');
