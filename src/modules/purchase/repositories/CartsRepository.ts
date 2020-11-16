@@ -50,9 +50,10 @@ export default class CartsRepository implements ICartProvider {
   }: ICartDTO): Promise<void> {
     const userCart = await CartSchema.findOne({ user_id });
 
-    // userCart?.products.map(product => product.product_id === product_id);
-    userCart?.products.splice(
-      userCart.products.findIndex(product => product.product_id === product_id),
+    userCart!.products.splice(
+      userCart!.products.findIndex(
+        product => product.product_id === product_id,
+      ),
       1,
     );
   }

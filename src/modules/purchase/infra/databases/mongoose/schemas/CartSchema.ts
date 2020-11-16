@@ -12,7 +12,7 @@ const schema = new mongoose.Schema(
     products: [{ product_id: String, quantity: Number, price: Number }],
 
     status: {
-      type: 'active' || 'inactive',
+      type: String,
     },
     created_at: {
       type: String,
