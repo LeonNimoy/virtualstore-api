@@ -21,7 +21,7 @@ const schema = new _mongoose.default.Schema({
     price: Number
   }],
   status: {
-    type: 'active' || 'inactive'
+    type: String
   },
   created_at: {
     type: String

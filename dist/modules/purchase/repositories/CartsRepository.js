@@ -51,9 +51,8 @@ class CartsRepository {
   }) {
     const userCart = await _CartSchema.default.findOne({
       user_id
-    }); // userCart?.products.map(product => product.product_id === product_id);
-
-    userCart?.products.splice(userCart.products.findIndex(product => product.product_id === product_id), 1);
+    });
+    userCart.products.splice(userCart.products.findIndex(product => product.product_id === product_id), 1);
   }
 
   async deleteCart({
