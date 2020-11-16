@@ -1,11 +1,11 @@
-// import { Router } from 'express';
+import { Router } from 'express';
 
-// import ensureAuthenticated from '@modules/users/middlewares/ensureAuthenticated';
-// import CartsController from '../../controllers/CartsController';
+import ensureAuthenticated from '@modules/users/middlewares/ensureAuthenticated';
+import CartsController from '../../controllers/CartsController';
 
-// const cartsRouter = Router();
-// const cartsController = new CartsController();
+const cartsRouter = Router();
+const cartsController = new CartsController();
 
-// cartsRouter.put('/', ensureAuthenticated, cartsController.update);
+cartsRouter.put('/', ensureAuthenticated, cartsController.update);
 
-// export default cartsRouter;
+export default cartsRouter;

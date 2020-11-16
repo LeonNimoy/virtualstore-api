@@ -5,6 +5,9 @@ import '../../modules/users/providers';
 // import CheckoutsRepository from '@modules/purchase/repositories/CheckoutsRepository';
 // import ICheckoutProvider from '@modules/purchase/providers/ICheckoutProvider';
 
+import CartsRepository from '@modules/purchase/repositories/CartsRepository';
+import ICartProvider from '@modules/purchase/providers/ICartProvider';
+
 import IPaymentProvider from '@modules/purchase/providers/PaymentProvider/entities/IPaymentProvider';
 import PagarmeProvider from '@modules/purchase/providers/PaymentProvider/implementations/PagarmeProvider';
 
@@ -40,6 +43,8 @@ container.registerSingleton<IPaymentProvider>(
   'PagarmeProvider',
   PagarmeProvider,
 );
+
+container.registerSingleton<ICartProvider>('CartsRepository', CartsRepository);
 
 // container.registerSingleton<ICheckoutProvider>(
 //   'CheckoutsRepository',
