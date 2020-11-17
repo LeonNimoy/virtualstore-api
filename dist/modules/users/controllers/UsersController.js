@@ -7,6 +7,10 @@ exports.default = void 0;
 
 var _tsyringe = require("tsyringe");
 
+var _CreateCartService = _interopRequireDefault(require("../../purchase/services/Cart/CreateCartService"));
+
+var _DeleteCartService = _interopRequireDefault(require("../../purchase/services/Cart/DeleteCartService"));
+
 var _UsersRepository = _interopRequireDefault(require("../repositories/UsersRepository"));
 
 var _CreateUserService = _interopRequireDefault(require("../services/User/CreateUserService/CreateUserService"));
@@ -54,6 +58,12 @@ class UsersController {
       email,
       password
     });
+
+    const createUserCart = _tsyringe.container.resolve(_CreateCartService.default);
+
+    await createUserCart.execute({
+      user_id: userId
+    });
     return res.status(201).json({
       id: userId
     });
@@ -94,6 +104,10 @@ class UsersController {
     await userDeleted.execute({
       id
     });
+
+    const deleteUserCart = _tsyringe.container.resolve(_DeleteCartService.default);
+
+    await deleteUserCart.execute(id);
     return res.status(200).json({
       message: 'Cadastro removido!'
     });

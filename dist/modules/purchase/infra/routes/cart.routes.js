@@ -15,6 +15,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 
 const cartsRouter = (0, _express.Router)();
 const cartsController = new _CartsController.default();
+cartsRouter.get('/', _ensureAuthenticated.default, cartsController.list);
 cartsRouter.put('/', _ensureAuthenticated.default, cartsController.update);
 var _default = cartsRouter;
 exports.default = _default;

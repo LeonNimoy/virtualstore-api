@@ -45,19 +45,7 @@ class CartsRepository {
     return cartUpdated;
   }
 
-  async deleteProductFromCart({
-    product_id,
-    user_id
-  }) {
-    const userCart = await _CartSchema.default.findOne({
-      user_id
-    });
-    userCart.products.splice(userCart.products.findIndex(product => product.product_id === product_id), 1);
-  }
-
-  async deleteCart({
-    user_id
-  }) {
+  async deleteCart(user_id) {
     await _CartSchema.default.findOneAndDelete({
       user_id
     });
