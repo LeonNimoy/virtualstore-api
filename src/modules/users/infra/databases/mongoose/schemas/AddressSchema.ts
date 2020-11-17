@@ -15,6 +15,10 @@ const schema = new mongoose.Schema(
     address: {
       type: String,
     },
+
+    address_number: {
+      type: Number,
+    },
     address_complement: {
       type: String,
     },

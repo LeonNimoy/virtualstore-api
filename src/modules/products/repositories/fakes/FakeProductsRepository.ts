@@ -6,13 +6,15 @@ import IProductProvider from '../../providers/IProductsProvider';
 class FakeProductsRepository implements IProductProvider {
   private products: Product[] = [];
 
-  public async findById(id: string): Promise<Product | undefined> {
+  public async findProductById(id: string): Promise<Product | undefined> {
     const productId = this.products.find(product => product.id === id);
 
     return productId;
   }
 
-  public async checkName(newProductName: string): Promise<boolean> {
+  public async checkExistentNameProduct(
+    newProductName: string,
+  ): Promise<boolean> {
     const notAvailableName = this.products.find(
       product => product.name === newProductName,
     );
@@ -24,7 +26,7 @@ class FakeProductsRepository implements IProductProvider {
     return false;
   }
 
-  public async save(productData: IProductDTO): Promise<Product> {
+  public async saveProduct(productData: IProductDTO): Promise<Product> {
     const product = new ProductSchema(productData);
 
     Object.assign(product, productData);
@@ -33,13 +35,17 @@ class FakeProductsRepository implements IProductProvider {
     return product;
   }
 
-  public async update(newProductData: IProductDTO): Promise<Product | null> {
+  public async updateProduct(
+    newProductData: IProductDTO,
+  ): Promise<Product | null> {
     this.products.map(product => newProductData === product);
 
     return Object.assign(newProductData);
   }
 
-  public async delete(productToDelete: IProductDTO): Promise<void | null> {
+  public async deleteProduct(
+    productToDelete: IProductDTO,
+  ): Promise<void | null> {
     const findProduct = this.products.map(
       product => productToDelete.id === product.id,
     );

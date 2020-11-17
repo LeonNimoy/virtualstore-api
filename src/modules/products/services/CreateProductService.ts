@@ -21,11 +21,13 @@ class CreateProductService {
     price,
     quantity,
   }: IProductDTO): Promise<Product> {
-    const checkName = await this.productRepository.checkName(name);
+    const checkName = await this.productRepository.checkExistentNameProduct(
+      name,
+    );
 
     if (checkName) {
       const priceFormatted = Number(price.toFixed(2));
-      const product = this.productRepository.save({
+      const product = await this.productRepository.saveProduct({
         name,
         tags,
         description,
@@ -33,6 +35,7 @@ class CreateProductService {
         price: priceFormatted,
         quantity,
       });
+
       return product;
     }
 

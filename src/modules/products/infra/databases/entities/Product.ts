@@ -6,6 +6,6 @@ export default interface Product {
   image: string;
   price: number;
   quantity: number;
-  created_at: string | number | Date;
-  updated_at: string | number | Date;
+  created_at: string | Date;
+  updated_at: string | Date;
 }
