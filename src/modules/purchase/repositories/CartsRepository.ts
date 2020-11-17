@@ -44,21 +44,7 @@ export default class CartsRepository implements ICartProvider {
     return cartUpdated;
   }
 
-  public async deleteProductFromCart({
-    product_id,
-    user_id,
-  }: ICartDTO): Promise<void> {
-    const userCart = await CartSchema.findOne({ user_id });
-
-    userCart!.products.splice(
-      userCart!.products.findIndex(
-        product => product.product_id === product_id,
-      ),
-      1,
-    );
-  }
-
-  public async deleteCart({ user_id }: ICartDTO): Promise<void> {
+  public async deleteCart(user_id: string): Promise<void> {
     await CartSchema.findOneAndDelete({ user_id });
   }
 }

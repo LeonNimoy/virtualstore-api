@@ -14,13 +14,15 @@ class UpdateCartService {
   ) {}
 
   public async execute(cartNewData: ICartDTO): Promise<Cart> {
-    const findCart = await this.cartRepository.updateCartProducts(cartNewData);
+    const cartUpdated = await this.cartRepository.updateCartProducts(
+      cartNewData,
+    );
 
-    switch (findCart) {
+    switch (cartUpdated) {
       case null:
         throw new AppError('Carrinho não encontrado', 404);
       default:
-        return findCart;
+        return cartUpdated;
     }
   }
 }
