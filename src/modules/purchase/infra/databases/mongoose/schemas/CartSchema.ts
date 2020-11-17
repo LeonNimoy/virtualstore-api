@@ -9,7 +9,7 @@ const schema = new mongoose.Schema(
       unique: true,
       required: true,
     },
-    products: [String],
+    products: [{ product_id: String, quantity: Number }],
 
     status: {
       type: String,
