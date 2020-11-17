@@ -25,7 +25,7 @@ let UpdateProductService = (_dec = (0, _tsyringe.injectable)(), _dec2 = function
   }
 
   async execute(productNewData) {
-    const product = await this.productRepository.findById(productNewData.id);
+    const product = await this.productRepository.findProductById(productNewData.id);
 
     switch (product) {
       case null:
@@ -64,7 +64,7 @@ let UpdateProductService = (_dec = (0, _tsyringe.injectable)(), _dec2 = function
       product.quantity = productNewData.quantity;
     }
 
-    const productUpdated = await this.productRepository.update(product);
+    const productUpdated = await this.productRepository.updateProduct(product);
 
     switch (productUpdated) {
       case null:

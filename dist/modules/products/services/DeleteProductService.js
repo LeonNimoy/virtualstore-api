@@ -25,7 +25,7 @@ let DeleteProductService = (_dec = (0, _tsyringe.injectable)(), _dec2 = function
   async execute({
     id
   }) {
-    const product = await this.productRepository.findById(id);
+    const product = await this.productRepository.findProductById(id);
 
     switch (product) {
       case null:
@@ -39,7 +39,7 @@ let DeleteProductService = (_dec = (0, _tsyringe.injectable)(), _dec2 = function
     // await fileUploaded.deleteFile(product.image);
 
 
-    await this.productRepository.delete(product);
+    await this.productRepository.deleteProduct(product);
   }
 
 }) || _class) || _class) || _class) || _class);

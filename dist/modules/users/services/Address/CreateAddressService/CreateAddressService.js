@@ -34,6 +34,7 @@ let CreateAddressService = (_dec = (0, _tsyringe.injectable)(), _dec2 = function
     cep,
     address,
     address_complement,
+    address_number,
     neighborhood,
     city,
     state
@@ -55,6 +56,7 @@ let CreateAddressService = (_dec = (0, _tsyringe.injectable)(), _dec2 = function
       cep,
       address,
       address_complement,
+      address_number,
       neighborhood,
       city,
       state

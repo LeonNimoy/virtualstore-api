@@ -32,11 +32,11 @@ let CreateProductService = (_dec = (0, _tsyringe.injectable)(), _dec2 = function
     price,
     quantity
   }) {
-    const checkName = await this.productRepository.checkName(name);
+    const checkName = await this.productRepository.checkExistentNameProduct(name);
 
     if (checkName) {
       const priceFormatted = Number(price.toFixed(2));
-      const product = this.productRepository.save({
+      const product = await this.productRepository.saveProduct({
         name,
         tags,
         description,

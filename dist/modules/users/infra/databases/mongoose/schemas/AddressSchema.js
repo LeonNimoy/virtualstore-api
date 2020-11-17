@@ -20,6 +20,9 @@ const schema = new _mongoose.default.Schema({
   address: {
     type: String
   },
+  address_number: {
+    type: Number
+  },
   address_complement: {
     type: String
   },

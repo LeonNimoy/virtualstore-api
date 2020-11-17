@@ -14,12 +14,12 @@ var _ProductSchema = _interopRequireDefault(require("../infra/databases/mongoose
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 class ProductsRepository {
-  async findById(id) {
-    const findProductId = await _ProductSchema.default.findById(id);
-    return findProductId;
+  async findProductById(product_id) {
+    const findProduct = await _ProductSchema.default.findById(product_id);
+    return findProduct;
   }
 
-  async checkName(newProductName) {
+  async checkExistentNameProduct(newProductName) {
     const notAvailableName = await _ProductSchema.default.findOne({
       name: newProductName
     });
@@ -31,11 +31,11 @@ class ProductsRepository {
     return false;
   }
 
-  async save({
+  async saveProduct({
     description,
     image,
-    name,
     price,
+    name,
     quantity,
     tags
   }) {
@@ -55,7 +55,7 @@ class ProductsRepository {
     return productCreated;
   }
 
-  async update({
+  async updateProduct({
     description,
     image,
     name,
@@ -81,7 +81,7 @@ class ProductsRepository {
     return productUpdated;
   }
 
-  async delete(product) {
+  async deleteProduct(product) {
     await _ProductSchema.default.findByIdAndDelete(product.id);
   }
 

@@ -35,6 +35,7 @@ class AddressesController {
       cep,
       address,
       address_complement,
+      address_number,
       neighborhood,
       city,
       state
@@ -46,6 +47,7 @@ class AddressesController {
       id,
       cep,
       address,
+      address_number,
       address_complement,
       neighborhood,
       city,

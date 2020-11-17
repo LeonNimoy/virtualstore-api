@@ -40,7 +40,8 @@ describe('UpdateProduct', () => {
       address_id: '12345A',
       cep: '34810786',
       address: 'foo street',
-      address_complement: 'number 123',
+      address_number: 123,
+      address_complement: 'Some complement',
       neighborhood: 'baa',
       city: 'Some City',
       state: 'Some State'
@@ -49,7 +50,8 @@ describe('UpdateProduct', () => {
       address_id: '12345A',
       cep: '34810786',
       address: 'foo1 street',
-      address_complement: 'number 123',
+      address_number: 123,
+      address_complement: 'Some complement',
       neighborhood: 'baa',
       city: 'Some City',
       state: 'Some State'

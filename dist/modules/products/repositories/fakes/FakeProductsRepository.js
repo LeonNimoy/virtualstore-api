@@ -14,12 +14,12 @@ class FakeProductsRepository {
     this.products = [];
   }
 
-  async findById(id) {
+  async findProductById(id) {
     const productId = this.products.find(product => product.id === id);
     return productId;
   }
 
-  async checkName(newProductName) {
+  async checkExistentNameProduct(newProductName) {
     const notAvailableName = this.products.find(product => product.name === newProductName);
 
     if (!notAvailableName) {
@@ -29,19 +29,19 @@ class FakeProductsRepository {
     return false;
   }
 
-  async save(productData) {
+  async saveProduct(productData) {
     const product = new _ProductSchema.default(productData);
     Object.assign(product, productData);
     this.products.push(product);
     return product;
   }
 
-  async update(newProductData) {
+  async updateProduct(newProductData) {
     this.products.map(product => newProductData === product);
     return Object.assign(newProductData);
   }
 
-  async delete(productToDelete) {
+  async deleteProduct(productToDelete) {
     const findProduct = this.products.map(product => productToDelete.id === product.id);
 
     if (findProduct) {
