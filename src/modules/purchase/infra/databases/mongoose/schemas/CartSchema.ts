@@ -10,7 +10,13 @@ const schema = new mongoose.Schema(
       required: true,
     },
     products: [
-      { product_id: String, name: String, quantity: Number, price: Number },
+      {
+        id: String,
+        title: String,
+        unit_price: Number,
+        quantity: Number,
+        tangible: Boolean,
+      },
     ],
 
     status: {

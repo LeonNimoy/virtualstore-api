@@ -9,8 +9,13 @@ import ICartProvider from '../providers/ICartProvider';
 export default class CartsRepository implements ICartProvider {
   public async findCartByUserId(user_id: string): Promise<Cart | null> {
     const userCart = await CartSchema.findOne({ user_id });
-
     return userCart;
+  }
+
+  public async findProductsByUserId(user_id: string): Promise<Cart | null> {
+    const userProductsCart = await CartSchema.findOne({ user_id });
+
+    return userProductsCart;
   }
 
   public async createACart(user_id: string): Promise<void> {
