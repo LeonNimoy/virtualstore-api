@@ -15,17 +15,18 @@ var _sessions = _interopRequireDefault(require("../../modules/users/infra/routes
 
 var _addresses = _interopRequireDefault(require("../../modules/users/infra/routes/addresses.routes"));
 
+var _checkout = _interopRequireDefault(require("../../modules/purchase/infra/routes/checkout.routes"));
+
 var _cart = _interopRequireDefault(require("../../modules/purchase/infra/routes/cart.routes"));
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-// import checkoutsRouter from '@modules/purchase/infra/routes/checkout.routes';
 const routes = (0, _express.Router)();
 routes.use('/products', _products.default);
 routes.use('/users', _users.default);
 routes.use('/sessions', _sessions.default);
-routes.use('/addresses', _addresses.default); // routes.use('/checkouts', checkoutsRouter);
-
+routes.use('/addresses', _addresses.default);
+routes.use('/checkouts', _checkout.default);
 routes.use('/carts', _cart.default);
 routes.use('/', async (req, res) => {
   try {

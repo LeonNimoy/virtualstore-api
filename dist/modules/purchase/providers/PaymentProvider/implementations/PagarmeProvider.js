@@ -17,16 +17,17 @@ class PagarmeProvider {
     cardHash,
     userData,
     addressData,
-    productData
+    products
   }) {
     const client = await _pagarme.default.client.connect({
       api_key: process.env.PAGARME_API_KEY
     });
-    if (amount === undefined) throw new _AppError.default('Valor inválido para transação', 400);
-    if (userData === undefined) throw new _AppError.default('Usuário inválido para transação', 400);
-    if (addressData === undefined) throw new _AppError.default('Endereço inválido para transação', 400);
-    if (productData === undefined) throw new _AppError.default('Produto inválido para transação', 400);
-    await client.transactions.create({
+    if (amount === undefined) throw new _AppError.default('Valor inválido para transação');
+    if (userData === undefined) throw new _AppError.default('Usuário inválido para transação');
+    if (addressData === undefined) throw new _AppError.default('Endereço inválido para transação');
+    if (cardHash === undefined) throw new _AppError.default('Dados do cartão inválidos para transação');
+    if (products === undefined) throw new _AppError.default('Dados do carrinho inválidos para transação');
+    const pagarmeTransaction = await client.transactions.create({
       amount,
       card_hash: cardHash,
       customer: {
@@ -40,7 +41,7 @@ class PagarmeProvider {
           number: String(userData.cpf)
         }],
         phone_numbers: [`+5531${userData.phone}`],
-        birthday: '2000-07-23'
+        birthday: '1965-01-01'
       },
       billing: {
         name: userData.name,
@@ -50,6 +51,7 @@ class PagarmeProvider {
           city: addressData.city,
           neighborhood: addressData.neighborhood,
           street: addressData.address,
+          street_number: String(addressData.address_number),
           complementary: addressData.address_complement,
           zipcode: addressData.cep
         }
@@ -65,24 +67,14 @@ class PagarmeProvider {
           city: addressData.city,
           neighborhood: addressData.neighborhood,
           street: addressData.address,
+          street_number: String(addressData.address_number),
           complementary: addressData.address_complement,
           zipcode: addressData.cep
         }
       },
-      items: [{
-        id: productData.id,
-        title: productData.name,
-        unit_price: 10000,
-        quantity: 1,
-        tangible: true
-      }, {
-        id: 'b123',
-        title: 'Blue pill',
-        unit_price: 10000,
-        quantity: 1,
-        tangible: true
-      }]
+      items: products
     });
+    console.log(pagarmeTransaction);
   }
 
 }

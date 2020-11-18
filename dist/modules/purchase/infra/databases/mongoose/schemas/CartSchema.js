@@ -16,10 +16,11 @@ const schema = new _mongoose.default.Schema({
     required: true
   },
   products: [{
-    product_id: String,
-    name: String,
+    id: String,
+    title: String,
+    unit_price: Number,
     quantity: Number,
-    price: Number
+    tangible: Boolean
   }],
   status: {
     type: String
