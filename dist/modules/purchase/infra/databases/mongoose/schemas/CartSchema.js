@@ -17,7 +17,8 @@ const schema = new _mongoose.default.Schema({
   },
   products: [{
     product_id: String,
-    quantity: Number
+    quantity: Number,
+    price: Number
   }],
   status: {
     type: String
