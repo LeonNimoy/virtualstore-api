@@ -18,7 +18,9 @@ const schema = new mongoose.Schema(
         tangible: Boolean,
       },
     ],
-
+    image: {
+      type: String,
+    },
     status: {
       type: String,
     },

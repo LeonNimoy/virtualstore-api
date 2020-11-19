@@ -43,7 +43,6 @@ class PagarmeProvider implements IPaymentProvider {
           },
         ],
         phone_numbers: [`+5531${userData.phone}`],
-        birthday: '1965-01-01',
       },
       billing: {
         name: userData.name,

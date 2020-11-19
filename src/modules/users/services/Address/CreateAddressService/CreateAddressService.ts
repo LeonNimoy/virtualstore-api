@@ -1,8 +1,9 @@
 import 'reflect-metadata';
 import { inject, injectable } from 'tsyringe';
 
-import IAddressesProvider from '../../../providers/IAddressesProvider';
-import AppError from '../../../../../shared/errors/AppError';
+// import AddressDataValidatorProvider from '@modules/users/providers/Validations/AddressDataValidatorProvider';
+import AppError from '@shared/errors/AppError';
+import IAddressesProvider from '@modules/users/providers/IAddressesProvider';
 import IAddressDTO from '../../../dtos/IAddressDTO';
 import IUsersProvider from '../../../providers/IUsersProvider';
 import Address from '../../../infra/databases/entities/Address';
@@ -36,6 +37,15 @@ class CreateAddressService {
         throw new AppError('Cadastro não encontrado', 400);
       default:
     }
+
+    // const addressDataValidator = new AddressDataValidatorProvider();
+
+    // const checkAddressNumberFormat = await addressDataValidator.validateAddressNumber(
+    //   address_number,
+    // );
+
+    // if (!checkAddressNumberFormat)
+    //   throw new AppError('Número de endereço inválido');
 
     const addressCreated = await this.addressesRepository.saveAddress({
       id,

@@ -12,5 +12,6 @@ export default interface Cart {
       tangible: boolean;
     },
   ];
+  image: string;
   status?: 'active' | 'inactive';
 }

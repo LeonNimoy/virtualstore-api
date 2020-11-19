@@ -11,4 +11,5 @@ export default interface ICartDTO {
       tangible: boolean;
     },
   ];
+  image: string;
 }
