@@ -40,8 +40,7 @@ class PagarmeProvider {
           type: 'cpf',
           number: String(userData.cpf)
         }],
-        phone_numbers: [`+5531${userData.phone}`],
-        birthday: '1965-01-01'
+        phone_numbers: [`+5531${userData.phone}`]
       },
       billing: {
         name: userData.name,

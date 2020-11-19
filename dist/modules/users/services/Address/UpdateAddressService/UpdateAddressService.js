@@ -9,6 +9,10 @@ require("reflect-metadata");
 
 var _tsyringe = require("tsyringe");
 
+var _AddressDataValidatorProvider = _interopRequireDefault(require("../../../providers/Validations/AddressDataValidatorProvider"));
+
+var _AppError = _interopRequireDefault(require("../../../../../shared/errors/AppError"));
+
 var _IAddressesProvider = _interopRequireDefault(require("../../../providers/IAddressesProvider"));
 
 var _dec, _dec2, _dec3, _dec4, _class;
@@ -23,6 +27,11 @@ let UpdateAddressService = (_dec = (0, _tsyringe.injectable)(), _dec2 = function
   }
 
   async execute(addressNewData) {
+    const addressDataValidator = new _AddressDataValidatorProvider.default();
+    const checkAddressNumberFormat = await addressDataValidator.validateAddressNumber(addressNewData.address_number);
+    if (!checkAddressNumberFormat) throw new _AppError.default('Número de endereço inválido');
+    const checkCepFormat = await addressDataValidator.validateCep(addressNewData.cep);
+    if (!checkCepFormat) throw new _AppError.default('Cep de endereço inválido');
     await this.addressesRepository.updateUserAddress(addressNewData);
   }
 

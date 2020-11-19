@@ -9,9 +9,9 @@ require("reflect-metadata");
 
 var _tsyringe = require("tsyringe");
 
-var _IAddressesProvider = _interopRequireDefault(require("../../../providers/IAddressesProvider"));
-
 var _AppError = _interopRequireDefault(require("../../../../../shared/errors/AppError"));
+
+var _IAddressesProvider = _interopRequireDefault(require("../../../providers/IAddressesProvider"));
 
 var _IUsersProvider = _interopRequireDefault(require("../../../providers/IUsersProvider"));
 
@@ -49,7 +49,13 @@ let CreateAddressService = (_dec = (0, _tsyringe.injectable)(), _dec2 = function
         throw new _AppError.default('Cadastro não encontrado', 400);
 
       default:
-    }
+    } // const addressDataValidator = new AddressDataValidatorProvider();
+    // const checkAddressNumberFormat = await addressDataValidator.validateAddressNumber(
+    //   address_number,
+    // );
+    // if (!checkAddressNumberFormat)
+    //   throw new AppError('Número de endereço inválido');
+
 
     const addressCreated = await this.addressesRepository.saveAddress({
       id,

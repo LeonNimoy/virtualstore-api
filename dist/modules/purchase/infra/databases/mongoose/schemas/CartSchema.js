@@ -22,6 +22,9 @@ const schema = new _mongoose.default.Schema({
     quantity: Number,
     tangible: Boolean
   }],
+  image: {
+    type: String
+  },
   status: {
     type: String
   },
