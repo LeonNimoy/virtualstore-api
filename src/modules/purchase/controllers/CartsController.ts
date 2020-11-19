@@ -21,13 +21,12 @@ export default class CartsController {
 
   public async update(req: Request, res: Response): Promise<Response> {
     const { id } = req.params;
-    const { products, image } = req.body;
+    const { products } = req.body;
 
     const updateCart = container.resolve(UpdateCartService);
     await updateCart.execute({
       user_id: id,
       products,
-      image,
     });
 
     return res.status(200).json({ message: 'Carrinho atualizado' });

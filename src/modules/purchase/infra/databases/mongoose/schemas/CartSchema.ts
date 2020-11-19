@@ -16,11 +16,9 @@ const schema = new mongoose.Schema(
         unit_price: Number,
         quantity: Number,
         tangible: Boolean,
+        image: String,
       },
     ],
-    image: {
-      type: String,
-    },
     status: {
       type: String,
     },

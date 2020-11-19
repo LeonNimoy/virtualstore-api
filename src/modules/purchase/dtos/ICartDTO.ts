@@ -9,7 +9,7 @@ export default interface ICartDTO {
       unit_price: number;
       quantity: number;
       tangible: boolean;
+      image: string;
     },
   ];
-  image: string;
 }

@@ -10,8 +10,8 @@ export default interface Cart {
       unit_price: number;
       quantity: number;
       tangible: boolean;
+      image: string;
     },
   ];
-  image: string;
   status?: 'active' | 'inactive';
 }
