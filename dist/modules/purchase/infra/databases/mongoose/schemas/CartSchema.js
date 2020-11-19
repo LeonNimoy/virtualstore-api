@@ -20,11 +20,9 @@ const schema = new _mongoose.default.Schema({
     title: String,
     unit_price: Number,
     quantity: Number,
-    tangible: Boolean
+    tangible: Boolean,
+    image: String
   }],
-  image: {
-    type: String
-  },
   status: {
     type: String
   },

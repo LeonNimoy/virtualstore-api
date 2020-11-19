@@ -37,16 +37,14 @@ class CartsController {
       id
     } = req.params;
     const {
-      products,
-      image
+      products
     } = req.body;
 
     const updateCart = _tsyringe.container.resolve(_UpdateCartService.default);
 
     await updateCart.execute({
       user_id: id,
-      products,
-      image
+      products
     });
     return res.status(200).json({
       message: 'Carrinho atualizado'
