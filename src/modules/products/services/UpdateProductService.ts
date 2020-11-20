@@ -14,7 +14,9 @@ class UpdateProductService {
   ) {}
 
   public async execute(productNewData: IProductDTO): Promise<Product> {
-    const product = await this.productRepository.findById(productNewData.id);
+    const product = await this.productRepository.findProductById(
+      productNewData.id,
+    );
 
     switch (product) {
       case null:
@@ -51,7 +53,7 @@ class UpdateProductService {
       product.quantity = productNewData.quantity;
     }
 
-    const productUpdated = await this.productRepository.update(product);
+    const productUpdated = await this.productRepository.updateProduct(product);
 
     switch (productUpdated) {
       case null:

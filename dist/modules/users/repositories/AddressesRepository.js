@@ -1,145 +1,77 @@
 "use strict";
-var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
-    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
-    return new (P || (P = Promise))(function (resolve, reject) {
-        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
-        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
-        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
-        step((generator = generator.apply(thisArg, _arguments || [])).next());
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = void 0;
+
+var _dateFns = require("date-fns");
+
+var _dateFnsTz = require("date-fns-tz");
+
+var _AddressSchema = require("../infra/databases/mongoose/schemas/AddressSchema");
+
+class AddressesRepository {
+  async findAllAddresses(user_id) {
+    const userAddresses = await _AddressSchema.AddressSchema.find({
+      user_id
     });
-};
-var __generator = (this && this.__generator) || function (thisArg, body) {
-    var _ = { label: 0, sent: function() { if (t[0] & 1) throw t[1]; return t[1]; }, trys: [], ops: [] }, f, y, t, g;
-    return g = { next: verb(0), "throw": verb(1), "return": verb(2) }, typeof Symbol === "function" && (g[Symbol.iterator] = function() { return this; }), g;
-    function verb(n) { return function (v) { return step([n, v]); }; }
-    function step(op) {
-        if (f) throw new TypeError("Generator is already executing.");
-        while (_) try {
-            if (f = 1, y && (t = op[0] & 2 ? y["return"] : op[0] ? y["throw"] || ((t = y["return"]) && t.call(y), 0) : y.next) && !(t = t.call(y, op[1])).done) return t;
-            if (y = 0, t) op = [op[0] & 2, t.value];
-            switch (op[0]) {
-                case 0: case 1: t = op; break;
-                case 4: _.label++; return { value: op[1], done: false };
-                case 5: _.label++; y = op[1]; op = [0]; continue;
-                case 7: op = _.ops.pop(); _.trys.pop(); continue;
-                default:
-                    if (!(t = _.trys, t = t.length > 0 && t[t.length - 1]) && (op[0] === 6 || op[0] === 2)) { _ = 0; continue; }
-                    if (op[0] === 3 && (!t || (op[1] > t[0] && op[1] < t[3]))) { _.label = op[1]; break; }
-                    if (op[0] === 6 && _.label < t[1]) { _.label = t[1]; t = op; break; }
-                    if (t && _.label < t[2]) { _.label = t[2]; _.ops.push(op); break; }
-                    if (t[2]) _.ops.pop();
-                    _.trys.pop(); continue;
-            }
-            op = body.call(thisArg, _);
-        } catch (e) { op = [6, e]; y = 0; } finally { f = t = 0; }
-        if (op[0] & 5) throw op[1]; return { value: op[0] ? op[1] : void 0, done: true };
-    }
-};
-Object.defineProperty(exports, "__esModule", { value: true });
-var date_fns_1 = require("date-fns");
-var date_fns_tz_1 = require("date-fns-tz");
-var AddressSchema_1 = require("../infra/databases/mongoose/schemas/AddressSchema");
-var AddressesRepository = /** @class */ (function () {
-    function AddressesRepository() {
-    }
-    AddressesRepository.prototype.findAllAddresses = function (user_id) {
-        return __awaiter(this, void 0, void 0, function () {
-            var userAddresses;
-            return __generator(this, function (_a) {
-                switch (_a.label) {
-                    case 0: return [4 /*yield*/, AddressSchema_1.AddressSchema.find({ user_id: user_id })];
-                    case 1:
-                        userAddresses = _a.sent();
-                        return [2 /*return*/, userAddresses];
-                }
-            });
-        });
-    };
-    AddressesRepository.prototype.findAddressById = function (id) {
-        return __awaiter(this, void 0, void 0, function () {
-            var userId;
-            return __generator(this, function (_a) {
-                switch (_a.label) {
-                    case 0: return [4 /*yield*/, AddressSchema_1.AddressSchema.findById(id)];
-                    case 1:
-                        userId = _a.sent();
-                        return [2 /*return*/, userId];
-                }
-            });
-        });
-    };
-    AddressesRepository.prototype.saveAddress = function (_a) {
-        var cep = _a.cep, address = _a.address, address_complement = _a.address_complement, neighborhood = _a.neighborhood, city = _a.city, state = _a.state, id = _a.id;
-        return __awaiter(this, void 0, void 0, function () {
-            var newDate, timeZone, dateWithTimeZone, createUserAddress, addressCreated;
-            return __generator(this, function (_b) {
-                switch (_b.label) {
-                    case 0:
-                        newDate = new Date();
-                        timeZone = 'America/Sao_Paulo';
-                        dateWithTimeZone = date_fns_tz_1.utcToZonedTime(newDate, timeZone);
-                        createUserAddress = new AddressSchema_1.AddressSchema({
-                            cep: cep,
-                            address: address,
-                            address_complement: address_complement,
-                            neighborhood: neighborhood,
-                            city: city,
-                            state: state,
-                            user_id: id,
-                            created_at: date_fns_1.format(dateWithTimeZone, "dd/MM/yyyy '-' HH'h'mm'm'ss's'"),
-                        });
-                        return [4 /*yield*/, createUserAddress.save()];
-                    case 1:
-                        addressCreated = _b.sent();
-                        return [2 /*return*/, addressCreated];
-                }
-            });
-        });
-    };
-    AddressesRepository.prototype.updateUserAddress = function (addressNewData) {
-        return __awaiter(this, void 0, void 0, function () {
-            var newDate, timeZone, dateWithTimeZone;
-            return __generator(this, function (_a) {
-                switch (_a.label) {
-                    case 0:
-                        newDate = new Date();
-                        timeZone = 'America/Sao_Paulo';
-                        dateWithTimeZone = date_fns_tz_1.utcToZonedTime(newDate, timeZone);
-                        return [4 /*yield*/, AddressSchema_1.AddressSchema.findByIdAndUpdate(addressNewData.address_id, {
-                                $set: addressNewData,
-                                updated_at: date_fns_1.format(dateWithTimeZone, "dd/MM/yyyy '-' HH'h'mm'm'ss's'"),
-                            })];
-                    case 1:
-                        _a.sent();
-                        return [2 /*return*/];
-                }
-            });
-        });
-    };
-    AddressesRepository.prototype.deleteUserAddress = function (userAddressId) {
-        return __awaiter(this, void 0, void 0, function () {
-            return __generator(this, function (_a) {
-                switch (_a.label) {
-                    case 0: return [4 /*yield*/, AddressSchema_1.AddressSchema.findByIdAndDelete(userAddressId)];
-                    case 1:
-                        _a.sent();
-                        return [2 /*return*/];
-                }
-            });
-        });
-    };
-    AddressesRepository.prototype.deleteAllUserAddresses = function (userId) {
-        return __awaiter(this, void 0, void 0, function () {
-            return __generator(this, function (_a) {
-                switch (_a.label) {
-                    case 0: return [4 /*yield*/, AddressSchema_1.AddressSchema.deleteMany({ user_id: userId })];
-                    case 1:
-                        _a.sent();
-                        return [2 /*return*/];
-                }
-            });
-        });
-    };
-    return AddressesRepository;
-}());
+    return userAddresses;
+  }
+
+  async findAddressById(id) {
+    const userId = await _AddressSchema.AddressSchema.findById(id);
+    return userId;
+  }
+
+  async saveAddress({
+    cep,
+    address,
+    address_complement,
+    address_number,
+    neighborhood,
+    city,
+    state,
+    id
+  }) {
+    const newDate = new Date();
+    const timeZone = 'America/Sao_Paulo';
+    const dateWithTimeZone = (0, _dateFnsTz.utcToZonedTime)(newDate, timeZone);
+    const createUserAddress = new _AddressSchema.AddressSchema({
+      cep,
+      address,
+      address_complement,
+      address_number,
+      neighborhood,
+      city,
+      state,
+      user_id: id,
+      created_at: (0, _dateFns.format)(dateWithTimeZone, "dd/MM/yyyy '-' HH'h'mm'm'ss's'")
+    });
+    const addressCreated = await createUserAddress.save();
+    return addressCreated;
+  }
+
+  async updateUserAddress(addressNewData) {
+    const newDate = new Date();
+    const timeZone = 'America/Sao_Paulo';
+    const dateWithTimeZone = (0, _dateFnsTz.utcToZonedTime)(newDate, timeZone);
+    await _AddressSchema.AddressSchema.findByIdAndUpdate(addressNewData.address_id, {
+      $set: addressNewData,
+      updated_at: (0, _dateFns.format)(dateWithTimeZone, "dd/MM/yyyy '-' HH'h'mm'm'ss's'")
+    });
+  }
+
+  async deleteUserAddress(userAddressId) {
+    await _AddressSchema.AddressSchema.findByIdAndDelete(userAddressId);
+  }
+
+  async deleteAllUserAddresses(userId) {
+    await _AddressSchema.AddressSchema.deleteMany({
+      user_id: userId
+    });
+  }
+
+}
+
 exports.default = AddressesRepository;

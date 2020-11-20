@@ -26,7 +26,6 @@ const schema = new mongoose.Schema(
     quantity: {
       type: Number,
       required: true,
-      min: [1, 'Minimum of one unit'],
     },
     created_at: {
       type: String,

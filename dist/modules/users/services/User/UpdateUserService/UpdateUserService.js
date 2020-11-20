@@ -1,135 +1,90 @@
 "use strict";
-var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
-    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
-    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
-    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
-    return c > 3 && r && Object.defineProperty(target, key, r), r;
-};
-var __metadata = (this && this.__metadata) || function (k, v) {
-    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
-};
-var __param = (this && this.__param) || function (paramIndex, decorator) {
-    return function (target, key) { decorator(target, key, paramIndex); }
-};
-var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
-    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
-    return new (P || (P = Promise))(function (resolve, reject) {
-        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
-        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
-        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
-        step((generator = generator.apply(thisArg, _arguments || [])).next());
-    });
-};
-var __generator = (this && this.__generator) || function (thisArg, body) {
-    var _ = { label: 0, sent: function() { if (t[0] & 1) throw t[1]; return t[1]; }, trys: [], ops: [] }, f, y, t, g;
-    return g = { next: verb(0), "throw": verb(1), "return": verb(2) }, typeof Symbol === "function" && (g[Symbol.iterator] = function() { return this; }), g;
-    function verb(n) { return function (v) { return step([n, v]); }; }
-    function step(op) {
-        if (f) throw new TypeError("Generator is already executing.");
-        while (_) try {
-            if (f = 1, y && (t = op[0] & 2 ? y["return"] : op[0] ? y["throw"] || ((t = y["return"]) && t.call(y), 0) : y.next) && !(t = t.call(y, op[1])).done) return t;
-            if (y = 0, t) op = [op[0] & 2, t.value];
-            switch (op[0]) {
-                case 0: case 1: t = op; break;
-                case 4: _.label++; return { value: op[1], done: false };
-                case 5: _.label++; y = op[1]; op = [0]; continue;
-                case 7: op = _.ops.pop(); _.trys.pop(); continue;
-                default:
-                    if (!(t = _.trys, t = t.length > 0 && t[t.length - 1]) && (op[0] === 6 || op[0] === 2)) { _ = 0; continue; }
-                    if (op[0] === 3 && (!t || (op[1] > t[0] && op[1] < t[3]))) { _.label = op[1]; break; }
-                    if (op[0] === 6 && _.label < t[1]) { _.label = t[1]; t = op; break; }
-                    if (t && _.label < t[2]) { _.label = t[2]; _.ops.push(op); break; }
-                    if (t[2]) _.ops.pop();
-                    _.trys.pop(); continue;
-            }
-            op = body.call(thisArg, _);
-        } catch (e) { op = [6, e]; y = 0; } finally { f = t = 0; }
-        if (op[0] & 5) throw op[1]; return { value: op[0] ? op[1] : void 0, done: true };
-    }
-};
-var __importDefault = (this && this.__importDefault) || function (mod) {
-    return (mod && mod.__esModule) ? mod : { "default": mod };
-};
-Object.defineProperty(exports, "__esModule", { value: true });
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = void 0;
+
 require("reflect-metadata");
-var tsyringe_1 = require("tsyringe");
-var AppError_1 = __importDefault(require("../../../../../shared/errors/AppError"));
-var UserDataValidatorProvider_1 = __importDefault(require("../../../providers/Validations/UserDataValidatorProvider"));
-var UpdateUserService = /** @class */ (function () {
-    function UpdateUserService(userRepository, hashUser) {
-        this.userRepository = userRepository;
-        this.hashUser = hashUser;
+
+var _tsyringe = require("tsyringe");
+
+var _IUsersProvider = _interopRequireDefault(require("../../../providers/IUsersProvider"));
+
+var _IHashUser = _interopRequireDefault(require("../../../providers/HashUser/models/IHashUser"));
+
+var _AppError = _interopRequireDefault(require("../../../../../shared/errors/AppError"));
+
+var _UserDataValidatorProvider = _interopRequireDefault(require("../../../providers/Validations/UserDataValidatorProvider"));
+
+var _dec, _dec2, _dec3, _dec4, _dec5, _class;
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+let UpdateUserService = (_dec = (0, _tsyringe.injectable)(), _dec2 = function (target, key) {
+  return (0, _tsyringe.inject)('UsersRepository')(target, undefined, 0);
+}, _dec3 = function (target, key) {
+  return (0, _tsyringe.inject)('HashUser')(target, undefined, 1);
+}, _dec4 = Reflect.metadata("design:type", Function), _dec5 = Reflect.metadata("design:paramtypes", [typeof _IUsersProvider.default === "undefined" ? Object : _IUsersProvider.default, typeof _IHashUser.default === "undefined" ? Object : _IHashUser.default]), _dec(_class = _dec2(_class = _dec3(_class = _dec4(_class = _dec5(_class = class UpdateUserService {
+  constructor(userRepository, hashUser) {
+    this.userRepository = userRepository;
+    this.hashUser = hashUser;
+  }
+
+  async execute(userNewData) {
+    const user = await this.userRepository.findById(userNewData.id);
+
+    switch (user) {
+      case null:
+        throw new _AppError.default('Cadastro não encontrado', 404);
+
+      case undefined:
+        throw new _AppError.default('Cadastro não encontrado', 400);
+
+      default:
     }
-    UpdateUserService.prototype.execute = function (userNewData) {
-        return __awaiter(this, void 0, void 0, function () {
-            var user, userDataValidator, checkEmailFormat, checkPasswordFormat, hashedPassword, checkCpfFormat, userUpdated;
-            return __generator(this, function (_a) {
-                switch (_a.label) {
-                    case 0: return [4 /*yield*/, this.userRepository.findById(userNewData.id)];
-                    case 1:
-                        user = _a.sent();
-                        switch (user) {
-                            case null:
-                                throw new AppError_1.default('Cadastro não encontrado', 404);
-                            case undefined:
-                                throw new AppError_1.default('Cadastro não encontrado', 400);
-                            default:
-                        }
-                        userDataValidator = new UserDataValidatorProvider_1.default();
-                        if (userNewData.name) {
-                            user.name = userNewData.name;
-                        }
-                        if (!userNewData.email) return [3 /*break*/, 3];
-                        return [4 /*yield*/, userDataValidator.validateEmail(userNewData.email)];
-                    case 2:
-                        checkEmailFormat = _a.sent();
-                        if (!checkEmailFormat)
-                            throw new AppError_1.default('Email inválido');
-                        user.email = userNewData.email;
-                        _a.label = 3;
-                    case 3:
-                        if (!userNewData.password) return [3 /*break*/, 6];
-                        return [4 /*yield*/, userDataValidator.validatePassword(userNewData.password)];
-                    case 4:
-                        checkPasswordFormat = _a.sent();
-                        if (!checkPasswordFormat)
-                            throw new AppError_1.default('A senha deve ter no mínimo 6 caracteres');
-                        return [4 /*yield*/, this.hashUser.generateHash(userNewData.password)];
-                    case 5:
-                        hashedPassword = _a.sent();
-                        user.password = hashedPassword;
-                        _a.label = 6;
-                    case 6:
-                        if (userNewData.phone) {
-                            user.phone = userNewData.phone;
-                        }
-                        if (!userNewData.cpf) return [3 /*break*/, 8];
-                        return [4 /*yield*/, userDataValidator.validateCpf(userNewData.cpf)];
-                    case 7:
-                        checkCpfFormat = _a.sent();
-                        if (!checkCpfFormat)
-                            throw new AppError_1.default('CPF inválido');
-                        user.cpf = userNewData.cpf;
-                        _a.label = 8;
-                    case 8: return [4 /*yield*/, this.userRepository.update(user)];
-                    case 9:
-                        userUpdated = _a.sent();
-                        switch (userUpdated) {
-                            case null:
-                                throw new AppError_1.default('Cadastro não atualizado', 404);
-                            default:
-                        }
-                        return [2 /*return*/, userUpdated];
-                }
-            });
-        });
-    };
-    UpdateUserService = __decorate([
-        tsyringe_1.injectable(),
-        __param(0, tsyringe_1.inject('UsersRepository')),
-        __param(1, tsyringe_1.inject('HashUser')),
-        __metadata("design:paramtypes", [Object, Object])
-    ], UpdateUserService);
-    return UpdateUserService;
-}());
-exports.default = UpdateUserService;
+
+    const userDataValidator = new _UserDataValidatorProvider.default();
+
+    if (userNewData.name) {
+      user.name = userNewData.name;
+    }
+
+    if (userNewData.email) {
+      const checkEmailFormat = await userDataValidator.validateEmail(userNewData.email);
+      if (!checkEmailFormat) throw new _AppError.default('Email inválido');
+      user.email = userNewData.email;
+    }
+
+    if (userNewData.password) {
+      const checkPasswordFormat = await userDataValidator.validatePassword(userNewData.password);
+      if (!checkPasswordFormat) throw new _AppError.default('A senha deve ter no mínimo 6 caracteres');
+      const hashedPassword = await this.hashUser.generateHash(userNewData.password);
+      user.password = hashedPassword;
+    }
+
+    if (userNewData.phone) {
+      user.phone = userNewData.phone;
+    }
+
+    if (userNewData.cpf) {
+      const checkCpfFormat = await userDataValidator.validateCpf(userNewData.cpf);
+      if (!checkCpfFormat) throw new _AppError.default('CPF inválido');
+      user.cpf = userNewData.cpf;
+    }
+
+    const userUpdated = await this.userRepository.update(user);
+
+    switch (userUpdated) {
+      case null:
+        throw new _AppError.default('Cadastro não atualizado', 404);
+
+      default:
+    }
+
+    return userUpdated;
+  }
+
+}) || _class) || _class) || _class) || _class) || _class);
+var _default = UpdateUserService;
+exports.default = _default;

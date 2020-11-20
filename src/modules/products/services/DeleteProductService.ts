@@ -15,7 +15,7 @@ class DeleteProductService {
   ) {}
 
   public async execute({ id }: Request): Promise<void> {
-    const product = await this.productRepository.findById(id);
+    const product = await this.productRepository.findProductById(id);
 
     switch (product) {
       case null:
@@ -27,7 +27,7 @@ class DeleteProductService {
 
     // const fileUploaded = new DiskStorageProvider();
     // await fileUploaded.deleteFile(product.image);
-    await this.productRepository.delete(product);
+    await this.productRepository.deleteProduct(product);
   }
 }
 

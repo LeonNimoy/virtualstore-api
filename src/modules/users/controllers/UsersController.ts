@@ -1,6 +1,8 @@
 import { Request, Response } from 'express';
 import { container } from 'tsyringe';
 
+import CreateCartService from '@modules/purchase/services/Cart/CreateCartService';
+import DeleteCartService from '@modules/purchase/services/Cart/DeleteCartService';
 import UsersRepository from '../repositories/UsersRepository';
 import CreateUserService from '../services/User/CreateUserService/CreateUserService';
 import UpdateUserService from '../services/User/UpdateUserService/UpdateUserService';
@@ -38,6 +40,11 @@ export default class UsersController {
       password,
     });
 
+    const createUserCart = container.resolve(CreateCartService);
+    await createUserCart.execute({
+      user_id: userId,
+    });
+
     return res.status(201).json({ id: userId });
   }
 
@@ -62,6 +69,9 @@ export default class UsersController {
 
     const userDeleted = container.resolve(DeleteUserService);
     await userDeleted.execute({ id });
+
+    const deleteUserCart = container.resolve(DeleteCartService);
+    await deleteUserCart.execute(id);
 
     return res.status(200).json({ message: 'Cadastro removido!' });
   }

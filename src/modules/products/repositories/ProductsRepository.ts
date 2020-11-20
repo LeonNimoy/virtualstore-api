@@ -7,13 +7,15 @@ import IProductDTO from '../dtos/IProductDTO';
 import IProductsProvider from '../providers/IProductsProvider';
 
 export default class ProductsRepository implements IProductsProvider {
-  public async findById(id: string): Promise<Product | null | undefined> {
-    const findProductId = await ProductSchema.findById(id);
+  public async findProductById(product_id: string): Promise<Product | null> {
+    const findProduct = await ProductSchema.findById(product_id);
 
-    return findProductId;
+    return findProduct;
   }
 
-  public async checkName(newProductName: string): Promise<boolean> {
+  public async checkExistentNameProduct(
+    newProductName: string,
+  ): Promise<boolean> {
     const notAvailableName = await ProductSchema.findOne({
       name: newProductName,
     });
@@ -25,11 +27,11 @@ export default class ProductsRepository implements IProductsProvider {
     return false;
   }
 
-  public async save({
+  public async saveProduct({
     description,
     image,
-    name,
     price,
+    name,
     quantity,
     tags,
   }: IProductDTO): Promise<Product> {
@@ -50,7 +52,7 @@ export default class ProductsRepository implements IProductsProvider {
     return productCreated;
   }
 
-  public async update({
+  public async updateProduct({
     description,
     image,
     name,
@@ -80,7 +82,27 @@ export default class ProductsRepository implements IProductsProvider {
     return productUpdated;
   }
 
-  public async delete(product: IProductDTO): Promise<void | null> {
+  public async decreaseProductQuantity(
+    product_id: string,
+    product_quantity: number,
+  ): Promise<void> {
+    const newDate = new Date();
+    const timeZone = 'America/Sao_Paulo';
+    const dateWithTimeZone = utcToZonedTime(newDate, timeZone);
+    const findProduct = await ProductSchema.findById(product_id);
+
+    const productQuantity = findProduct!.quantity;
+
+    await ProductSchema.findByIdAndUpdate(
+      { _id: product_id },
+      {
+        quantity: productQuantity - product_quantity,
+        updated_at: format(dateWithTimeZone, "dd/MM/yyyy '-' HH'h'mm'm'ss's'"),
+      },
+    );
+  }
+
+  public async deleteProduct(product: IProductDTO): Promise<void | null> {
     await ProductSchema.findByIdAndDelete(product.id);
   }
 }

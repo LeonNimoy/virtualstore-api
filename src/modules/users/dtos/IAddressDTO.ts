@@ -4,6 +4,7 @@ export default interface IAddressDTO {
   address_id?: string;
   cep: string;
   address: string;
+  address_number: number;
   address_complement: string;
   neighborhood: string;
   city: string;
