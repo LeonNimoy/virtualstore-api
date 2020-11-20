@@ -6,6 +6,8 @@ import IAddressesProvider from '@modules/users/providers/IAddressesProvider';
 import IUsersProvider from '@modules/users/providers/IUsersProvider';
 import AppError from '@shared/errors/AppError';
 import ITransactionProvider from '@modules/purchase/providers/ITransactionProvider';
+import ICartProvider from '@modules/purchase/providers/ICartProvider';
+import IProductsProvider from '@modules/products/providers/IProductsProvider';
 import IPaymentProvider from '../../providers/PaymentProvider/entities/IPaymentProvider';
 import ICheckoutDTO from '../../dtos/ICheckoutDTO';
 
@@ -23,6 +25,12 @@ class CreateCheckoutService {
 
     @inject('TransactionsRepository')
     private transactionRepository: ITransactionProvider,
+
+    @inject('CartsRepository')
+    private cartRepository: ICartProvider,
+
+    @inject('ProductsRepository')
+    private productRepository: IProductsProvider,
   ) {}
 
   public async execute({
@@ -32,6 +40,8 @@ class CreateCheckoutService {
     cardHash,
     customer_id,
   }: ICheckoutDTO): Promise<void> {
+    if (!customer_id) throw new AppError('Usuário não identificado');
+
     const userData = await this.userRepository.findById(customer_id);
 
     switch (userData) {
@@ -91,6 +101,25 @@ class CreateCheckoutService {
     const transactionCreated = await this.transactionRepository.saveTransaction(
       checkoutCreated,
     );
+
+    if (transactionCreated) {
+      const userCart = await this.cartRepository.findCartByUserId(customer_id);
+
+      switch (userCart) {
+        case undefined:
+          throw new AppError('Produtos inválidos para contabilização');
+        case null:
+          throw new AppError('Produtos inválidos para o registro no estoque');
+        default:
+          userCart.products!.map(product =>
+            this.productRepository.decreaseProductQuantity(
+              product.id,
+              product.quantity,
+            ),
+          );
+      }
+      await this.cartRepository.emptyUserCart(customer_id);
+    }
 
     if (!transactionCreated) throw new AppError('Compra não registrada');
   }

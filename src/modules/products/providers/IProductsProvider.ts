@@ -8,5 +8,9 @@ export default interface IProductProvider {
   checkExistentNameProduct(productName: string): Promise<boolean>;
   saveProduct(productData: IProductDTO): Promise<Product>;
   updateProduct(newProductData: IProductDTO): Promise<Product | null>;
+  decreaseProductQuantity(
+    product_id: string,
+    product_quantity: number,
+  ): Promise<void>;
   deleteProduct(product: IProductDTO): Promise<void | null>;
 }

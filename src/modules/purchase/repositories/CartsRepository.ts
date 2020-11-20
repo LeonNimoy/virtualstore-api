@@ -1,3 +1,4 @@
+/* eslint-disable no-multi-assign */
 import { format } from 'date-fns';
 import { utcToZonedTime } from 'date-fns-tz';
 
@@ -47,6 +48,20 @@ export default class CartsRepository implements ICartProvider {
     );
 
     return cartUpdated;
+  }
+
+  public async emptyUserCart(user_id: string): Promise<void> {
+    const newDate = new Date();
+    const timeZone = 'America/Sao_Paulo';
+    const dateWithTimeZone = utcToZonedTime(newDate, timeZone);
+
+    await CartSchema.findOneAndUpdate(
+      { user_id },
+      {
+        products: undefined,
+        updated_at: format(dateWithTimeZone, "dd/MM/yyyy '-' HH'h'mm'm'ss's'"),
+      },
+    );
   }
 
   public async deleteCart(user_id: string): Promise<void> {

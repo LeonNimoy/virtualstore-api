@@ -7,5 +7,6 @@ export default interface ICartProvider {
   findProductsByUserId(user_id: string | undefined): Promise<Cart | null>;
   createACart(user_id: string | User): Promise<void>;
   updateCartProducts(newProductsData: ICartDTO): Promise<Cart | null>;
+  emptyUserCart(user_id: string | User): Promise<void>;
   deleteCart(user_id: string): Promise<void>;
 }

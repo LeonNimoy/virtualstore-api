@@ -43,6 +43,13 @@ class FakeProductsRepository implements IProductProvider {
     return Object.assign(newProductData);
   }
 
+  public async decreaseProductQuantity(
+    product_id: string,
+    product_quantity: number,
+  ): Promise<void> {
+    console.log(product_id, product_quantity);
+  }
+
   public async deleteProduct(
     productToDelete: IProductDTO,
   ): Promise<void | null> {

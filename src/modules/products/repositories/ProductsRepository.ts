@@ -82,6 +82,26 @@ export default class ProductsRepository implements IProductsProvider {
     return productUpdated;
   }
 
+  public async decreaseProductQuantity(
+    product_id: string,
+    product_quantity: number,
+  ): Promise<void> {
+    const newDate = new Date();
+    const timeZone = 'America/Sao_Paulo';
+    const dateWithTimeZone = utcToZonedTime(newDate, timeZone);
+    const findProduct = await ProductSchema.findById(product_id);
+
+    const productQuantity = findProduct!.quantity;
+
+    await ProductSchema.findByIdAndUpdate(
+      { _id: product_id },
+      {
+        quantity: productQuantity - product_quantity,
+        updated_at: format(dateWithTimeZone, "dd/MM/yyyy '-' HH'h'mm'm'ss's'"),
+      },
+    );
+  }
+
   public async deleteProduct(product: IProductDTO): Promise<void | null> {
     await ProductSchema.findByIdAndDelete(product.id);
   }
