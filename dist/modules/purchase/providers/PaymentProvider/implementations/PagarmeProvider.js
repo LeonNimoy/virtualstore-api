@@ -17,7 +17,7 @@ class PagarmeProvider {
     cardHash,
     userData,
     addressData,
-    products
+    productsWithValidFormat
   }) {
     const client = await _pagarme.default.client.connect({
       api_key: process.env.PAGARME_API_KEY
@@ -26,7 +26,7 @@ class PagarmeProvider {
     if (userData === undefined) throw new _AppError.default('Usuário inválido para transação');
     if (addressData === undefined) throw new _AppError.default('Endereço inválido para transação');
     if (cardHash === undefined) throw new _AppError.default('Dados do cartão inválidos para transação');
-    if (products === undefined) throw new _AppError.default('Dados do carrinho inválidos para transação');
+    if (productsWithValidFormat === undefined) throw new _AppError.default('Dados do carrinho inválidos para transação');
     const pagarmeTransaction = await client.transactions.create({
       amount,
       card_hash: cardHash,
@@ -40,7 +40,7 @@ class PagarmeProvider {
           type: 'cpf',
           number: String(userData.cpf)
         }],
-        phone_numbers: [`+5531${userData.phone}`]
+        phone_numbers: [`+55${userData.phone}`]
       },
       billing: {
         name: userData.name,
@@ -71,9 +71,10 @@ class PagarmeProvider {
           zipcode: addressData.cep
         }
       },
-      items: products
+      items: productsWithValidFormat
     });
     console.log(pagarmeTransaction);
+    return pagarmeTransaction;
   }
 
 }

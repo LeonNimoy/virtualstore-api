@@ -14,6 +14,8 @@ var _UsersRepository = _interopRequireDefault(require("../../modules/users/repos
 
 var _AddressesRepository = _interopRequireDefault(require("../../modules/users/repositories/AddressesRepository"));
 
+var _TransactionsRepository = _interopRequireDefault(require("../../modules/purchase/repositories/TransactionsRepository"));
+
 var _S3StorageProvider = _interopRequireDefault(require("./providers/StorageProvider/implementations/S3StorageProvider"));
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
@@ -30,7 +32,6 @@ _tsyringe.container.registerSingleton('S3StorageProvider', _S3StorageProvider.de
 
 _tsyringe.container.registerSingleton('PagarmeProvider', _PagarmeProvider.default);
 
-_tsyringe.container.registerSingleton('CartsRepository', _CartsRepository.default); // container.registerSingleton<ICheckoutProvider>(
-//   'CheckoutsRepository',
-//   CheckoutsRepository,
-// );
+_tsyringe.container.registerSingleton('CartsRepository', _CartsRepository.default);
+
+_tsyringe.container.registerSingleton('TransactionsRepository', _TransactionsRepository.default);

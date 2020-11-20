@@ -9,6 +9,8 @@ require("reflect-metadata");
 
 var _tsyringe = require("tsyringe");
 
+var _AddressDataValidatorProvider = _interopRequireDefault(require("../../../providers/Validations/AddressDataValidatorProvider"));
+
 var _AppError = _interopRequireDefault(require("../../../../../shared/errors/AppError"));
 
 var _IAddressesProvider = _interopRequireDefault(require("../../../providers/IAddressesProvider"));
@@ -49,14 +51,13 @@ let CreateAddressService = (_dec = (0, _tsyringe.injectable)(), _dec2 = function
         throw new _AppError.default('Cadastro não encontrado', 400);
 
       default:
-    } // const addressDataValidator = new AddressDataValidatorProvider();
-    // const checkAddressNumberFormat = await addressDataValidator.validateAddressNumber(
-    //   address_number,
-    // );
-    // if (!checkAddressNumberFormat)
-    //   throw new AppError('Número de endereço inválido');
+    }
 
-
+    const addressDataValidator = new _AddressDataValidatorProvider.default();
+    const checkAddressNumberFormat = await addressDataValidator.validateAddressNumber(address_number);
+    if (!checkAddressNumberFormat) throw new _AppError.default('Número de endereço inválido');
+    const checkCepFormat = await addressDataValidator.validateCep(cep);
+    if (!checkCepFormat) throw new _AppError.default('Cep de endereço inválido');
     const addressCreated = await this.addressesRepository.saveAddress({
       id,
       cep,
