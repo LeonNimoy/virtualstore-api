@@ -32,8 +32,7 @@ const schema = new _mongoose.default.Schema({
   },
   quantity: {
     type: Number,
-    required: true,
-    min: [1, 'Minimum of one unit']
+    required: true
   },
   created_at: {
     type: String

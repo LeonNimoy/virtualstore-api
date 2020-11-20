@@ -41,6 +41,10 @@ class FakeProductsRepository {
     return Object.assign(newProductData);
   }
 
+  async decreaseProductQuantity(product_id, product_quantity) {
+    console.log(product_id, product_quantity);
+  }
+
   async deleteProduct(productToDelete) {
     const findProduct = this.products.map(product => productToDelete.id === product.id);
 

@@ -17,9 +17,13 @@ var _AppError = _interopRequireDefault(require("../../../../shared/errors/AppErr
 
 var _ITransactionProvider = _interopRequireDefault(require("../../providers/ITransactionProvider"));
 
+var _ICartProvider = _interopRequireDefault(require("../../providers/ICartProvider"));
+
+var _IProductsProvider = _interopRequireDefault(require("../../../products/providers/IProductsProvider"));
+
 var _IPaymentProvider = _interopRequireDefault(require("../../providers/PaymentProvider/entities/IPaymentProvider"));
 
-var _dec, _dec2, _dec3, _dec4, _dec5, _dec6, _dec7, _class;
+var _dec, _dec2, _dec3, _dec4, _dec5, _dec6, _dec7, _dec8, _dec9, _class;
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -31,12 +35,18 @@ let CreateCheckoutService = (_dec = (0, _tsyringe.injectable)(), _dec2 = functio
   return (0, _tsyringe.inject)('AddressesRepository')(target, undefined, 2);
 }, _dec5 = function (target, key) {
   return (0, _tsyringe.inject)('TransactionsRepository')(target, undefined, 3);
-}, _dec6 = Reflect.metadata("design:type", Function), _dec7 = Reflect.metadata("design:paramtypes", [typeof _IPaymentProvider.default === "undefined" ? Object : _IPaymentProvider.default, typeof _IUsersProvider.default === "undefined" ? Object : _IUsersProvider.default, typeof _IAddressesProvider.default === "undefined" ? Object : _IAddressesProvider.default, typeof _ITransactionProvider.default === "undefined" ? Object : _ITransactionProvider.default]), _dec(_class = _dec2(_class = _dec3(_class = _dec4(_class = _dec5(_class = _dec6(_class = _dec7(_class = class CreateCheckoutService {
-  constructor(pagarmeProvider, userRepository, addressRepository, transactionRepository) {
+}, _dec6 = function (target, key) {
+  return (0, _tsyringe.inject)('CartsRepository')(target, undefined, 4);
+}, _dec7 = function (target, key) {
+  return (0, _tsyringe.inject)('ProductsRepository')(target, undefined, 5);
+}, _dec8 = Reflect.metadata("design:type", Function), _dec9 = Reflect.metadata("design:paramtypes", [typeof _IPaymentProvider.default === "undefined" ? Object : _IPaymentProvider.default, typeof _IUsersProvider.default === "undefined" ? Object : _IUsersProvider.default, typeof _IAddressesProvider.default === "undefined" ? Object : _IAddressesProvider.default, typeof _ITransactionProvider.default === "undefined" ? Object : _ITransactionProvider.default, typeof _ICartProvider.default === "undefined" ? Object : _ICartProvider.default, typeof _IProductsProvider.default === "undefined" ? Object : _IProductsProvider.default]), _dec(_class = _dec2(_class = _dec3(_class = _dec4(_class = _dec5(_class = _dec6(_class = _dec7(_class = _dec8(_class = _dec9(_class = class CreateCheckoutService {
+  constructor(pagarmeProvider, userRepository, addressRepository, transactionRepository, cartRepository, productRepository) {
     this.pagarmeProvider = pagarmeProvider;
     this.userRepository = userRepository;
     this.addressRepository = addressRepository;
     this.transactionRepository = transactionRepository;
+    this.cartRepository = cartRepository;
+    this.productRepository = productRepository;
   }
 
   async execute({
@@ -46,6 +56,7 @@ let CreateCheckoutService = (_dec = (0, _tsyringe.injectable)(), _dec2 = functio
     cardHash,
     customer_id
   }) {
+    if (!customer_id) throw new _AppError.default('Usuário não identificado');
     const userData = await this.userRepository.findById(customer_id);
 
     switch (userData) {
@@ -94,9 +105,27 @@ let CreateCheckoutService = (_dec = (0, _tsyringe.injectable)(), _dec2 = functio
       addressData
     });
     const transactionCreated = await this.transactionRepository.saveTransaction(checkoutCreated);
+
+    if (transactionCreated) {
+      const userCart = await this.cartRepository.findCartByUserId(customer_id);
+
+      switch (userCart) {
+        case undefined:
+          throw new _AppError.default('Produtos inválidos para contabilização');
+
+        case null:
+          throw new _AppError.default('Produtos inválidos para o registro no estoque');
+
+        default:
+          userCart.products.map(product => this.productRepository.decreaseProductQuantity(product.id, product.quantity));
+      }
+
+      await this.cartRepository.emptyUserCart(customer_id);
+    }
+
     if (!transactionCreated) throw new _AppError.default('Compra não registrada');
   }
 
-}) || _class) || _class) || _class) || _class) || _class) || _class) || _class);
+}) || _class) || _class) || _class) || _class) || _class) || _class) || _class) || _class) || _class);
 var _default = CreateCheckoutService;
 exports.default = _default;

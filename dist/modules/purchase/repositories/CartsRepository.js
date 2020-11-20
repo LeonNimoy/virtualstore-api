@@ -13,6 +13,7 @@ var _CartSchema = _interopRequireDefault(require("../infra/databases/mongoose/sc
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
+/* eslint-disable no-multi-assign */
 class CartsRepository {
   async findCartByUserId(user_id) {
     const userCart = await _CartSchema.default.findOne({
@@ -50,6 +51,18 @@ class CartsRepository {
       updated_at: (0, _dateFns.format)(dateWithTimeZone, "dd/MM/yyyy '-' HH'h'mm'm'ss's'")
     });
     return cartUpdated;
+  }
+
+  async emptyUserCart(user_id) {
+    const newDate = new Date();
+    const timeZone = 'America/Sao_Paulo';
+    const dateWithTimeZone = (0, _dateFnsTz.utcToZonedTime)(newDate, timeZone);
+    await _CartSchema.default.findOneAndUpdate({
+      user_id
+    }, {
+      products: undefined,
+      updated_at: (0, _dateFns.format)(dateWithTimeZone, "dd/MM/yyyy '-' HH'h'mm'm'ss's'")
+    });
   }
 
   async deleteCart(user_id) {

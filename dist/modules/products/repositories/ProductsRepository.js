@@ -81,6 +81,20 @@ class ProductsRepository {
     return productUpdated;
   }
 
+  async decreaseProductQuantity(product_id, product_quantity) {
+    const newDate = new Date();
+    const timeZone = 'America/Sao_Paulo';
+    const dateWithTimeZone = (0, _dateFnsTz.utcToZonedTime)(newDate, timeZone);
+    const findProduct = await _ProductSchema.default.findById(product_id);
+    const productQuantity = findProduct.quantity;
+    await _ProductSchema.default.findByIdAndUpdate({
+      _id: product_id
+    }, {
+      quantity: productQuantity - product_quantity,
+      updated_at: (0, _dateFns.format)(dateWithTimeZone, "dd/MM/yyyy '-' HH'h'mm'm'ss's'")
+    });
+  }
+
   async deleteProduct(product) {
     await _ProductSchema.default.findByIdAndDelete(product.id);
   }
