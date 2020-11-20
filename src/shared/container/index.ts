@@ -19,6 +19,10 @@ import IUsersProvider from '@modules/users/providers/IUsersProvider';
 
 import AddressesRepository from '@modules/users/repositories/AddressesRepository';
 import IAddressesProvider from '@modules/users/providers/IAddressesProvider';
+
+import ITransactionProvider from '@modules/purchase/providers/ITransactionProvider';
+import TransactionsRepository from '@modules/purchase/repositories/TransactionsRepository';
+
 import S3StorageProvider from './providers/StorageProvider/implementations/S3StorageProvider';
 import IStorageProvider from './providers/StorageProvider/entities/IStorageProvider';
 
@@ -46,7 +50,7 @@ container.registerSingleton<IPaymentProvider>(
 
 container.registerSingleton<ICartProvider>('CartsRepository', CartsRepository);
 
-// container.registerSingleton<ICheckoutProvider>(
-//   'CheckoutsRepository',
-//   CheckoutsRepository,
-// );
+container.registerSingleton<ITransactionProvider>(
+  'TransactionsRepository',
+  TransactionsRepository,
+);

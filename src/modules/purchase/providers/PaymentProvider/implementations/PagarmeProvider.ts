@@ -1,5 +1,6 @@
 import pagarme from 'pagarme';
 
+import Transaction from '@modules/purchase/infra/databases/entities/Transaction';
 import ICheckoutDTO from '@modules/purchase/dtos/ICheckoutDTO';
 import AppError from '@shared/errors/AppError';
 import IPaymentProvider from '../entities/IPaymentProvider';
@@ -10,8 +11,8 @@ class PagarmeProvider implements IPaymentProvider {
     cardHash,
     userData,
     addressData,
-    products,
-  }: ICheckoutDTO): Promise<void> {
+    productsWithValidFormat,
+  }: ICheckoutDTO): Promise<Transaction> {
     const client = await pagarme.client.connect({
       api_key: process.env.PAGARME_API_KEY,
     });
@@ -24,7 +25,7 @@ class PagarmeProvider implements IPaymentProvider {
       throw new AppError('Endereço inválido para transação');
     if (cardHash === undefined)
       throw new AppError('Dados do cartão inválidos para transação');
-    if (products === undefined)
+    if (productsWithValidFormat === undefined)
       throw new AppError('Dados do carrinho inválidos para transação');
 
     const pagarmeTransaction = await client.transactions.create({
@@ -42,7 +43,7 @@ class PagarmeProvider implements IPaymentProvider {
             number: String(userData.cpf),
           },
         ],
-        phone_numbers: [`+5531${userData.phone}`],
+        phone_numbers: [`+55${userData.phone}`],
       },
       billing: {
         name: userData.name,
@@ -73,10 +74,12 @@ class PagarmeProvider implements IPaymentProvider {
           zipcode: addressData.cep,
         },
       },
-      items: products,
+      items: productsWithValidFormat,
     });
 
     console.log(pagarmeTransaction);
+
+    return pagarmeTransaction;
   }
 }
 

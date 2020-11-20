@@ -1,11 +1,11 @@
+/* eslint-disable no-plusplus */
 import 'reflect-metadata';
 import { inject, injectable } from 'tsyringe';
 
-import ICartProvider from '@modules/purchase/providers/ICartProvider';
 import IAddressesProvider from '@modules/users/providers/IAddressesProvider';
 import IUsersProvider from '@modules/users/providers/IUsersProvider';
 import AppError from '@shared/errors/AppError';
-import IProductsProvider from '@modules/products/providers/IProductsProvider';
+import ITransactionProvider from '@modules/purchase/providers/ITransactionProvider';
 import IPaymentProvider from '../../providers/PaymentProvider/entities/IPaymentProvider';
 import ICheckoutDTO from '../../dtos/ICheckoutDTO';
 
@@ -21,11 +21,8 @@ class CreateCheckoutService {
     @inject('AddressesRepository')
     private addressRepository: IAddressesProvider,
 
-    @inject('CartsRepository')
-    private cartRepository: ICartProvider,
-
-    @inject('ProductsRepository')
-    private productRepository: IProductsProvider,
+    @inject('TransactionsRepository')
+    private transactionRepository: ITransactionProvider,
   ) {}
 
   public async execute({
@@ -69,14 +66,33 @@ class CreateCheckoutService {
     if (purchaseAmount <= 0)
       throw new AppError('Valor da compra inválido', 403);
 
-    if (purchaseAmount)
-      await this.pagarmeProvider.createTransaction({
-        amount: purchaseAmount * 100,
-        cardHash,
-        products,
-        userData,
-        addressData,
-      });
+    if (products === undefined)
+      throw new AppError('Produtos do carrinho inválidos');
+
+    const productsWithValidFormat = products.map(
+      ({ id, quantity, tangible, title, unit_price }) =>
+        true && {
+          id,
+          quantity,
+          tangible,
+          title,
+          unit_price: Math.round(unit_price * 100),
+        },
+    );
+
+    const checkoutCreated = await this.pagarmeProvider.createTransaction({
+      amount: purchaseAmount * 100,
+      cardHash,
+      productsWithValidFormat,
+      userData,
+      addressData,
+    });
+
+    const transactionCreated = await this.transactionRepository.saveTransaction(
+      checkoutCreated,
+    );
+
+    if (!transactionCreated) throw new AppError('Compra não registrada');
   }
 }
 

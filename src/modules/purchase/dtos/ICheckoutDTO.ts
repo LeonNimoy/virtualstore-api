@@ -15,7 +15,7 @@ export default interface ICheckoutDTO {
   cartData?: Cart;
   userData?: User;
   addressData?: Address;
-  products: [
+  products?: [
     {
       id: string;
       title: string;
@@ -24,5 +24,12 @@ export default interface ICheckoutDTO {
       tangible: boolean;
     },
   ];
+  productsWithValidFormat?: {
+    id: string;
+    title: string;
+    unit_price: number;
+    quantity: number;
+    tangible: boolean;
+  }[];
   productData?: Product;
 }

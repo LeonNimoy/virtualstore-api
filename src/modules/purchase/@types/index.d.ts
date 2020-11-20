@@ -918,7 +918,7 @@ declare module 'pagarme' {
     | 'analyzing'
     | 'pending_review';
 
-  interface Transaction {
+  export interface Transaction {
     /** Nome do tipo do objeto criado/modificado. */
     object: 'transaction';
     /** Representa o estado da transação. A cada atualização no processamento da transação, esta propriedade é alterada e, caso você esteja usando uma postback_url, os seus servidores são notificados desses updates. */
