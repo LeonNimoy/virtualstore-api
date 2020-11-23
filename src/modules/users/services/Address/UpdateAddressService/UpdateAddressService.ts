@@ -16,18 +16,22 @@ class UpdateAddressService {
   public async execute(addressNewData: IAddressDTO): Promise<void> {
     const addressDataValidator = new AddressDataValidatorProvider();
 
-    const checkAddressNumberFormat = await addressDataValidator.validateAddressNumber(
-      addressNewData.address_number,
-    );
+    if (addressNewData.address_number) {
+      const checkAddressNumberFormat = await addressDataValidator.validateAddressNumber(
+        addressNewData.address_number,
+      );
 
-    if (!checkAddressNumberFormat)
-      throw new AppError('Número de endereço inválido');
+      if (!checkAddressNumberFormat)
+        throw new AppError('Número de endereço inválido');
+    }
 
-    const checkCepFormat = await addressDataValidator.validateCep(
-      addressNewData.cep,
-    );
+    if (addressNewData.cep) {
+      const checkCepFormat = await addressDataValidator.validateCep(
+        addressNewData.cep,
+      );
 
-    if (!checkCepFormat) throw new AppError('Cep de endereço inválido');
+      if (!checkCepFormat) throw new AppError('Cep de endereço inválido');
+    }
 
     await this.addressesRepository.updateUserAddress(addressNewData);
   }
