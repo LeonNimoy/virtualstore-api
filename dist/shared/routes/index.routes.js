@@ -21,6 +21,8 @@ var _cart = _interopRequireDefault(require("../../modules/purchase/infra/routes/
 
 var _transaction = _interopRequireDefault(require("../../modules/purchase/infra/routes/transaction.routes"));
 
+var _frete = _interopRequireDefault(require("../../modules/products/infra/routes/frete.routes"));
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 const routes = (0, _express.Router)();
@@ -31,6 +33,7 @@ routes.use('/addresses', _addresses.default);
 routes.use('/checkouts', _checkout.default);
 routes.use('/carts', _cart.default);
 routes.use('/transactions', _transaction.default);
+routes.use('/fretes', _frete.default);
 routes.use('/', async (req, res) => {
   try {
     res.status(200).send('API is working!!!');
