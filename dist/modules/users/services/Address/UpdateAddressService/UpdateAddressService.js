@@ -28,10 +28,17 @@ let UpdateAddressService = (_dec = (0, _tsyringe.injectable)(), _dec2 = function
 
   async execute(addressNewData) {
     const addressDataValidator = new _AddressDataValidatorProvider.default();
-    const checkAddressNumberFormat = await addressDataValidator.validateAddressNumber(addressNewData.address_number);
-    if (!checkAddressNumberFormat) throw new _AppError.default('Número de endereço inválido');
-    const checkCepFormat = await addressDataValidator.validateCep(addressNewData.cep);
-    if (!checkCepFormat) throw new _AppError.default('Cep de endereço inválido');
+
+    if (addressNewData.address_number) {
+      const checkAddressNumberFormat = await addressDataValidator.validateAddressNumber(addressNewData.address_number);
+      if (!checkAddressNumberFormat) throw new _AppError.default('Número de endereço inválido');
+    }
+
+    if (addressNewData.cep) {
+      const checkCepFormat = await addressDataValidator.validateCep(addressNewData.cep);
+      if (!checkCepFormat) throw new _AppError.default('Cep de endereço inválido');
+    }
+
     await this.addressesRepository.updateUserAddress(addressNewData);
   }
 
