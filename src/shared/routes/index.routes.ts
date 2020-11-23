@@ -7,7 +7,6 @@ import addressesRouter from '@modules/users/infra/routes/addresses.routes';
 import checkoutsRouter from '@modules/purchase/infra/routes/checkout.routes';
 import cartsRouter from '@modules/purchase/infra/routes/cart.routes';
 import transactionsRouter from '@modules/purchase/infra/routes/transaction.routes';
-import fretesRouter from '@modules/products/infra/routes/frete.routes';
 
 const routes = Router();
 
@@ -18,7 +17,6 @@ routes.use('/addresses', addressesRouter);
 routes.use('/checkouts', checkoutsRouter);
 routes.use('/carts', cartsRouter);
 routes.use('/transactions', transactionsRouter);
-routes.use('/fretes', fretesRouter);
 
 routes.use('/', async (req, res) => {
   try {

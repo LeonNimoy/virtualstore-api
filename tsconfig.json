@@ -12,12 +12,10 @@
             "@shared/*": ["shared/*"]
         },
     "esModuleInterop": true,
-    "allowJs": true,
 		"experimentalDecorators": true,
     "emitDecoratorMetadata": true,
 		"skipLibCheck": true,
 		"forceConsistentCasingInFileNames": true
   },
-  "file": "./src/modules/purchase/@types/index.d.ts",
-  "file": "./src/modules/products/@types/index.d.ts"
+  "file": "./src/modules/purchase/@types/index.d.ts"
 }

@@ -7,7 +7,6 @@ exports.default = void 0;
 
 var _correiosBrasil = require("correios-brasil");
 
-/* eslint-disable prettier/prettier */
 class FretesController {
   async search(req, res) {
     const args = {
@@ -19,7 +18,7 @@ class FretesController {
       nVlComprimento: '20',
       nVlAltura: '20',
       nVlLargura: '20',
-      nCdServico: ['04510'],
+      nCdServico: ['04014', '04510'],
       // Array com os códigos de serviço
       nVlDiametro: '0'
     };
