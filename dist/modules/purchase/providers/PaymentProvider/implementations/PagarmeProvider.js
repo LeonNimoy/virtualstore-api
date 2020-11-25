@@ -51,7 +51,7 @@ class PagarmeProvider {
           neighborhood: addressData.neighborhood,
           street: addressData.address,
           street_number: String(addressData.address_number),
-          complementary: addressData.address_complement,
+          complementary: `- ${addressData.address_complement}`,
           zipcode: addressData.cep
         }
       },
@@ -67,7 +67,7 @@ class PagarmeProvider {
           neighborhood: addressData.neighborhood,
           street: addressData.address,
           street_number: String(addressData.address_number),
-          complementary: addressData.address_complement,
+          complementary: `- ${addressData.address_complement}`,
           zipcode: addressData.cep
         }
       },
