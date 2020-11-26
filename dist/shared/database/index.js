@@ -12,7 +12,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 _mongoose.default.set('runValidators', true); // production: MONGODB_URL - test: MONGODB_TEST
 
 
-const connect = async () => _mongoose.default.connect(process.env.MONGODB_URL, {
+const connect = async () => _mongoose.default.connect(process.env.mongodb_url, {
   useCreateIndex: true,
   useNewUrlParser: true,
   useUnifiedTopology: true,
