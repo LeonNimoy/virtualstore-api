@@ -4,7 +4,7 @@ mongoose.set('runValidators', true);
 
 // production: MONGODB_URL - test: MONGODB_TEST
 export const connect = async (): Promise<Mongoose> =>
-  mongoose.connect(process.env.mongodb_url!, {
+  mongoose.connect(process.env.MONGODB_URL!, {
     useCreateIndex: true,
     useNewUrlParser: true,
     useUnifiedTopology: true,
