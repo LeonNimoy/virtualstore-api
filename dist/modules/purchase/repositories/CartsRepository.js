@@ -60,7 +60,7 @@ class CartsRepository {
     await _CartSchema.default.findOneAndUpdate({
       user_id
     }, {
-      products: undefined,
+      products: [],
       updated_at: (0, _dateFns.format)(dateWithTimeZone, "dd/MM/yyyy '-' HH'h'mm'm'ss's'")
     });
   }

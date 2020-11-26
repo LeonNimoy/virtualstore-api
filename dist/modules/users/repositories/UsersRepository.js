@@ -59,23 +59,12 @@ class UsersRepository {
     return userCreated.id;
   }
 
-  async update({
-    email,
-    name,
-    password,
-    cpf,
-    id,
-    phone
-  }) {
+  async update(newUserData) {
     const newDate = new Date();
     const timeZone = 'America/Sao_Paulo';
     const dateWithTimeZone = (0, _dateFnsTz.utcToZonedTime)(newDate, timeZone);
-    const userUpdated = await _UserSchema.UserSchema.findByIdAndUpdate(id, {
-      phone,
-      email,
-      name,
-      password,
-      cpf,
+    const userUpdated = await _UserSchema.UserSchema.findByIdAndUpdate(newUserData.id, {
+      $set: newUserData,
       updated_at: (0, _dateFns.format)(dateWithTimeZone, "dd/MM/yyyy '-' HH'h'mm'm'ss's'")
     }, {
       new: true

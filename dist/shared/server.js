@@ -53,7 +53,7 @@ class SetupServer extends _core.Server {
       console.error(err);
       return res.status(500).json({
         status: 'error',
-        message: 'Internal Serve Error!'
+        message: 'Internal Server Error!'
       });
     });
   }

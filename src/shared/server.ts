@@ -34,7 +34,7 @@ export default class SetupServer extends Server {
 
       return res.status(500).json({
         status: 'error',
-        message: 'Internal Serve Error!',
+        message: 'Internal Server Error!',
       });
     });
   }
