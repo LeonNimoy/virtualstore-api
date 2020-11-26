@@ -55,25 +55,14 @@ export default class UsersRepository implements IUsersProvider {
     return userCreated.id;
   }
 
-  public async update({
-    email,
-    name,
-    password,
-    cpf,
-    id,
-    phone,
-  }: IUserDTO): Promise<User | null> {
+  public async update(newUserData: IUserDTO): Promise<User | null> {
     const newDate = new Date();
     const timeZone = 'America/Sao_Paulo';
     const dateWithTimeZone = utcToZonedTime(newDate, timeZone);
     const userUpdated = await UserSchema.findByIdAndUpdate(
-      id,
+      newUserData.id,
       {
-        phone,
-        email,
-        name,
-        password,
-        cpf,
+        $set: newUserData,
         updated_at: format(dateWithTimeZone, "dd/MM/yyyy '-' HH'h'mm'm'ss's'"),
       },
       {
