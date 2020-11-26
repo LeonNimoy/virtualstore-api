@@ -58,7 +58,7 @@ export default class CartsRepository implements ICartProvider {
     await CartSchema.findOneAndUpdate(
       { user_id },
       {
-        products: undefined,
+        products: [],
         updated_at: format(dateWithTimeZone, "dd/MM/yyyy '-' HH'h'mm'm'ss's'"),
       },
     );
