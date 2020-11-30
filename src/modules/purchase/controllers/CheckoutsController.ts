@@ -6,17 +6,18 @@ import CreateCheckoutService from '../services/Checkout/CreateCheckoutService';
 export default class CheckoutsController {
   public async store(req: Request, res: Response): Promise<Response> {
     const { id } = req.params;
-    const { cardHash, purchaseAmount, address_id, products } = req.body;
+    const { token, payment_method, amount } = req.body;
 
     const createCheckout = container.resolve(CreateCheckoutService);
     await createCheckout.execute({
       customer_id: id,
-      cardHash,
-      purchaseAmount,
-      address_id,
-      products,
+      payment_token: token,
+      payment_method,
+      amount,
     });
 
-    return res.status(200).json({ message: 'Compra realizada com sucesso' });
+    return res.status(200).json({
+      message: 'Sua compra foi concluída com sucesso .',
+    });
   }
 }

@@ -1224,6 +1224,9 @@ declare module 'pagarme' {
   interface CaptureArgs {
     /** Id ou o token da transação a ser capturada */
     id: string;
+    /** método de pagamento */
+    payment_method: string,
+
     /** Valor a ser capturado. Deve ser passado em centavos. Ex: R$ 10.00 = 1000. */
     amount: number;
     /** Regras de divisão da transação */
