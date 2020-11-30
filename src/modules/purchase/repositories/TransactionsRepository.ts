@@ -5,10 +5,10 @@ import ITransactionProvider from '../providers/ITransactionProvider';
 
 export default class TransactionsRepository implements ITransactionProvider {
   public async listTransactions(
-    customer_id: string,
+    customer_email: string,
   ): Promise<Transaction[] | null> {
     const userTransactions = await TransactionSchema.find({
-      'customer.external_id': customer_id,
+      'customer.external_id': customer_email,
     });
 
     return userTransactions;

@@ -4,16 +4,18 @@ import TransactionsRepository from '@modules/purchase/repositories/TransactionsR
 
 export default class TransactionsController {
   public async list(req: Request, res: Response): Promise<Response> {
-    const { id } = req.params;
-    const { transaction_id } = req.query;
+    const { transaction_id, user_email } = req.query;
 
     const transactionIdAsString = String(transaction_id);
+    const transactionEmailAsString = String(user_email);
 
     const transactionRepository = new TransactionsRepository();
     let userTransaction;
 
-    !transaction_id
-      ? (userTransaction = await transactionRepository.listTransactions(id))
+    user_email
+      ? (userTransaction = await transactionRepository.listTransactions(
+          transactionEmailAsString,
+        ))
       : (userTransaction = await transactionRepository.listOneTransaction(
           transactionIdAsString,
         ));

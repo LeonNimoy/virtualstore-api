@@ -2,7 +2,6 @@
 import 'reflect-metadata';
 import { inject, injectable } from 'tsyringe';
 
-import IAddressesProvider from '@modules/users/providers/IAddressesProvider';
 import IUsersProvider from '@modules/users/providers/IUsersProvider';
 import AppError from '@shared/errors/AppError';
 import ITransactionProvider from '@modules/purchase/providers/ITransactionProvider';
@@ -20,9 +19,6 @@ class CreateCheckoutService {
     @inject('UsersRepository')
     private userRepository: IUsersProvider,
 
-    @inject('AddressesRepository')
-    private addressRepository: IAddressesProvider,
-
     @inject('TransactionsRepository')
     private transactionRepository: ITransactionProvider,
 
@@ -34,10 +30,9 @@ class CreateCheckoutService {
   ) {}
 
   public async execute({
-    address_id,
-    purchaseAmount,
-    products,
-    cardHash,
+    payment_method,
+    amount,
+    payment_token,
     customer_id,
   }: ICheckoutDTO): Promise<void> {
     if (!customer_id) throw new AppError('Usuário não identificado');
@@ -55,48 +50,20 @@ class CreateCheckoutService {
       default:
     }
 
-    const addressData = await this.addressRepository.findAddressById(
-      address_id,
-    );
+    if (amount === undefined) throw new AppError('Valor da compra inválido');
 
-    switch (addressData) {
-      case null:
-        throw new AppError(
-          'Endereço não identificado para realizar a compra',
-          404,
-        );
-      case undefined:
-        throw new AppError('Endereço inválido para realizar a compra', 400);
-      default:
-    }
-
-    if (purchaseAmount === undefined)
-      throw new AppError('Valor da compra inválido');
-
-    if (purchaseAmount <= 0)
-      throw new AppError('Valor da compra inválido', 403);
-
-    if (products === undefined)
-      throw new AppError('Produtos do carrinho inválidos');
-
-    const productsWithValidFormat = products.map(
-      ({ id, quantity, tangible, title, unit_price }) =>
-        true && {
-          id,
-          quantity,
-          tangible,
-          title,
-          unit_price: Math.round(unit_price * 100),
-        },
-    );
+    if (amount <= 0) throw new AppError('Valor da compra inválido', 403);
 
     const checkoutCreated = await this.pagarmeProvider.createTransaction({
-      amount: purchaseAmount * 100,
-      cardHash,
-      productsWithValidFormat,
-      userData,
-      addressData,
+      amount,
+      payment_method,
+      payment_token,
     });
+
+    if (!checkoutCreated)
+      throw new AppError(
+        'Não foi possível concluir a sua compra. Divergência nos dados enviados.',
+      );
 
     const transactionCreated = await this.transactionRepository.saveTransaction(
       checkoutCreated,
@@ -106,15 +73,13 @@ class CreateCheckoutService {
       const userCart = await this.cartRepository.findCartByUserId(customer_id);
 
       switch (userCart) {
-        case undefined:
-          throw new AppError('Produtos inválidos para contabilização');
         case null:
           throw new AppError('Produtos inválidos para o registro no estoque');
         default:
-          userCart.products!.map(product =>
+          userCart!.products!.map(product =>
             this.productRepository.decreaseProductQuantity(
-              product.id,
-              product.quantity,
+              product.id!,
+              product.quantity!,
             ),
           );
       }

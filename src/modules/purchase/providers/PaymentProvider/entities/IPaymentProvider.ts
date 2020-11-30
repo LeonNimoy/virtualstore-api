@@ -4,10 +4,8 @@ import Transaction from '@modules/purchase/infra/databases/entities/Transaction'
 export default interface IPaymentProvider {
   createTransaction({
     amount,
-    cardHash,
     userData,
-    addressData,
     productData,
-  }: ICheckoutDTO): Promise<Transaction>;
+  }: ICheckoutDTO): Promise<Transaction | void>;
   // refundTransaction(transactionId: string): Promise<void>;
 }
