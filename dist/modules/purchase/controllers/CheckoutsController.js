@@ -17,23 +17,21 @@ class CheckoutsController {
       id
     } = req.params;
     const {
-      cardHash,
-      purchaseAmount,
-      address_id,
-      products
+      token,
+      payment_method,
+      amount
     } = req.body;
 
     const createCheckout = _tsyringe.container.resolve(_CreateCheckoutService.default);
 
     await createCheckout.execute({
       customer_id: id,
-      cardHash,
-      purchaseAmount,
-      address_id,
-      products
+      payment_token: token,
+      payment_method,
+      amount
     });
     return res.status(200).json({
-      message: 'Compra realizada com sucesso'
+      message: 'Sua compra foi concluída com sucesso .'
     });
   }
 

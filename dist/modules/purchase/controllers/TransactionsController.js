@@ -12,15 +12,14 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 class TransactionsController {
   async list(req, res) {
     const {
-      id
-    } = req.params;
-    const {
-      transaction_id
+      transaction_id,
+      user_email
     } = req.query;
     const transactionIdAsString = String(transaction_id);
+    const transactionEmailAsString = String(user_email);
     const transactionRepository = new _TransactionsRepository.default();
     let userTransaction;
-    !transaction_id ? userTransaction = await transactionRepository.listTransactions(id) : userTransaction = await transactionRepository.listOneTransaction(transactionIdAsString);
+    user_email ? userTransaction = await transactionRepository.listTransactions(transactionEmailAsString) : userTransaction = await transactionRepository.listOneTransaction(transactionIdAsString);
     return res.status(200).json(userTransaction);
   }
 
