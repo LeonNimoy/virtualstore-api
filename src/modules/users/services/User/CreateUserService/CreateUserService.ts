@@ -18,7 +18,13 @@ class CreateUserService {
     private hashUser: IHashUser,
   ) {}
 
-  public async execute({ name, email, password }: IUserDTO): Promise<User> {
+  public async execute({
+    name,
+    email,
+    password,
+    phone,
+    cpf,
+  }: IUserDTO): Promise<User> {
     const userDataValidator = new UserDataValidatorProvider();
 
     const checkEmailFormat = await userDataValidator.validateEmail(email);
@@ -32,6 +38,14 @@ class CreateUserService {
     if (!checkPasswordFormat)
       throw new AppError('A senha deve ter no mínimo 6 caracteres');
 
+    const checkCpfFormat = await userDataValidator.validateCpf(cpf);
+
+    if (!checkCpfFormat) throw new AppError('CPF inválido');
+
+    const checkPhoneFormat = await userDataValidator.validatePhone(phone);
+
+    if (!checkPhoneFormat) throw new AppError('Telefone inválido');
+
     const checkEmailExistence = await this.userRepository.checkEmail(email);
 
     if (checkEmailExistence) {
@@ -40,6 +54,8 @@ class CreateUserService {
       const user = await this.userRepository.save({
         name,
         email,
+        phone,
+        cpf,
         password: hashedPassword,
       });
 

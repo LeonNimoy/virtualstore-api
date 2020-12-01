@@ -15,10 +15,10 @@ const schema = new mongoose.Schema(
       type: String,
     },
     phone: {
-      type: Number,
+      type: String,
     },
     cpf: {
-      type: Number,
+      type: String,
     },
 
     created_at: {

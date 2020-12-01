@@ -60,6 +60,12 @@ class UpdateUserService {
     }
 
     if (userNewData.phone) {
+      const checkPhoneFormat = await userDataValidator.validatePhone(
+        userNewData.phone,
+      );
+
+      if (!checkPhoneFormat) throw new AppError('Telefone inválido');
+
       user.phone = userNewData.phone;
     }
 

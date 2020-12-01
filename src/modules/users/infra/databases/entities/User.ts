@@ -3,6 +3,6 @@ export default interface User {
   name: string;
   email: string;
   password: string;
-  phone: number;
-  cpf: number;
+  phone: string;
+  cpf: string;
 }
