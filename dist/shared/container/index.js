@@ -4,6 +4,8 @@ var _tsyringe = require("tsyringe");
 
 require("../../modules/users/providers");
 
+var _GuestCartsRepository = _interopRequireDefault(require("../../modules/purchase/repositories/GuestCartsRepository"));
+
 var _CartsRepository = _interopRequireDefault(require("../../modules/purchase/repositories/CartsRepository"));
 
 var _PagarmeProvider = _interopRequireDefault(require("../../modules/purchase/providers/PaymentProvider/implementations/PagarmeProvider"));
@@ -20,8 +22,6 @@ var _S3StorageProvider = _interopRequireDefault(require("./providers/StorageProv
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-// import CheckoutsRepository from '@modules/purchase/repositories/CheckoutsRepository';
-// import ICheckoutProvider from '@modules/purchase/providers/ICheckoutProvider';
 _tsyringe.container.registerSingleton('ProductsRepository', _ProductsRepository.default);
 
 _tsyringe.container.registerSingleton('UsersRepository', _UsersRepository.default);
@@ -35,3 +35,5 @@ _tsyringe.container.registerSingleton('PagarmeProvider', _PagarmeProvider.defaul
 _tsyringe.container.registerSingleton('CartsRepository', _CartsRepository.default);
 
 _tsyringe.container.registerSingleton('TransactionsRepository', _TransactionsRepository.default);
+
+_tsyringe.container.registerSingleton('GuestCartsRepository', _GuestCartsRepository.default);

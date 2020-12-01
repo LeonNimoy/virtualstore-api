@@ -2,8 +2,8 @@ import { container } from 'tsyringe';
 
 import '../../modules/users/providers';
 
-// import CheckoutsRepository from '@modules/purchase/repositories/CheckoutsRepository';
-// import ICheckoutProvider from '@modules/purchase/providers/ICheckoutProvider';
+import GuestCartsRepository from '@modules/purchase/repositories/GuestCartsRepository';
+import IGuestCartProvider from '@modules/purchase/providers/IGuestCartProvider';
 
 import CartsRepository from '@modules/purchase/repositories/CartsRepository';
 import ICartProvider from '@modules/purchase/providers/ICartProvider';
@@ -53,4 +53,9 @@ container.registerSingleton<ICartProvider>('CartsRepository', CartsRepository);
 container.registerSingleton<ITransactionProvider>(
   'TransactionsRepository',
   TransactionsRepository,
+);
+
+container.registerSingleton<IGuestCartProvider>(
+  'GuestCartsRepository',
+  GuestCartsRepository,
 );
