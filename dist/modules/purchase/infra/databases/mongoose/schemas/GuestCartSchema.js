@@ -31,11 +31,6 @@ const schema = new _mongoose.default.Schema({
   },
   updated_at: {
     type: String
-  },
-  expire_at: {
-    type: Date,
-    default: Date.now,
-    expires: 432000
   }
 }, {
   toJSON: {
