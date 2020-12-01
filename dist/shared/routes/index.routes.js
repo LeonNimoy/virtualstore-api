@@ -32,7 +32,7 @@ routes.use('/sessions', _sessions.default);
 routes.use('/addresses', _addresses.default);
 routes.use('/checkouts', _checkout.default);
 routes.use('/carts', _cart.default);
-routes.use('/guest_carts', _guest_cart.default);
+routes.use('/guestsCarts', _guest_cart.default);
 routes.use('/transactions', _transaction.default);
 routes.use('/', async (req, res) => {
   try {
