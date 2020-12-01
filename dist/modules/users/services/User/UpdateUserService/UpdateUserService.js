@@ -64,6 +64,8 @@ let UpdateUserService = (_dec = (0, _tsyringe.injectable)(), _dec2 = function (t
     }
 
     if (userNewData.phone) {
+      const checkPhoneFormat = await userDataValidator.validatePhone(userNewData.phone);
+      if (!checkPhoneFormat) throw new _AppError.default('Telefone inválido');
       user.phone = userNewData.phone;
     }
 

@@ -23,7 +23,9 @@ describe('DeleteUser', () => {
     const userData = await createUser.execute({
       name: 'John Doe',
       email: 'john@gmail.com',
-      password: '123456'
+      password: '123456',
+      phone: '33994567890',
+      cpf: '387.189.725-60'
     });
     const deleteUser = new _DeleteUserService.default(fakeUserRepository, fakeAddressRepository);
     expect(await deleteUser.execute({

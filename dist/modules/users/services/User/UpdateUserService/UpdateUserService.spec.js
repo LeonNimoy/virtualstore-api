@@ -27,15 +27,17 @@ describe('UpdateUser', () => {
     const oldUserData = await createUser.execute({
       name: 'John Doe',
       email: 'john@gmail.com',
-      password: '123456'
+      password: '123456',
+      phone: '33994567890',
+      cpf: '387.189.725-60'
     });
     const userUpdated = await updateUser.execute({
       id: oldUserData.id,
       name: 'John Doe1',
       email: 'john1@gmail.com',
       password: '123456',
-      phone: 1134354676,
-      cpf: 23423434576
+      phone: '11994567890',
+      cpf: '335.189.725-60'
     });
     expect(userUpdated).toEqual(expect.objectContaining(userUpdated));
   });
@@ -44,20 +46,26 @@ describe('UpdateUser', () => {
       id: undefined,
       name: 'John Doe',
       email: 'john@gmail.com',
-      password: '123456'
+      password: '123456',
+      phone: '33994567890',
+      cpf: '387.189.725-60'
     })).rejects.toBeInstanceOf(_AppError.default);
   });
   it('should not be able o change the property name, if the input is empty', async () => {
     const oldUserData = await createUser.execute({
       name: 'John Doe',
       email: 'john@gmail.com',
-      password: '123456'
+      password: '123456',
+      phone: '33994567890',
+      cpf: '387.189.725-60'
     });
     const userUpdated = await updateUser.execute({
       id: oldUserData.id,
       name: '',
       email: 'john@gmail.com',
-      password: '123456'
+      password: '123456',
+      phone: '33994567890',
+      cpf: '387.189.725-60'
     });
     expect(userUpdated.name).toEqual('John Doe');
   });
@@ -65,13 +73,17 @@ describe('UpdateUser', () => {
     const oldUserData = await createUser.execute({
       name: 'John Doe',
       email: 'john@gmail.com',
-      password: '123456'
+      password: '123456',
+      phone: '33994567890',
+      cpf: '387.189.725-60'
     });
     const userUpdated = await updateUser.execute({
       id: oldUserData.id,
       name: 'John Doe',
       email: 'john@gmail.com',
-      password: ''
+      password: '',
+      phone: '33994567890',
+      cpf: '387.189.725-60'
     });
     expect(userUpdated.password).toEqual('123456');
   });
@@ -79,55 +91,68 @@ describe('UpdateUser', () => {
     const oldUserData = await createUser.execute({
       name: 'John Doe',
       email: 'john@gmail.com',
-      password: '123456'
+      password: '123456',
+      phone: '33994567890',
+      cpf: '387.189.725-60'
     });
     expect(updateUser.execute({
       id: oldUserData.id,
       name: 'John Doe',
       email: 'john@',
-      password: '123456'
+      password: '123456',
+      phone: '33994567890',
+      cpf: '387.189.725-60'
     })).rejects.toBeInstanceOf(_AppError.default);
   });
   it('should not be able o change the property password, if the input have an invalid format', async () => {
     const oldUserData = await createUser.execute({
       name: 'John Doe',
       email: 'john@gmail.com',
-      password: '123456'
+      password: '123456',
+      phone: '33994567890',
+      cpf: '387.189.725-60'
     });
     expect(updateUser.execute({
       id: oldUserData.id,
       name: 'John Doe',
       email: 'john@gmail.com',
-      password: '12345'
+      password: '12345',
+      phone: '33994567890',
+      cpf: '387.189.725-60'
     })).rejects.toBeInstanceOf(_AppError.default);
   });
-  it('should not be able o change the property cpf, if the input have an invalid format', async () => {
+  it('should not be able o change the property cpf, if the input has an invalid format', async () => {
     const oldUserData = await createUser.execute({
       name: 'John Doe',
       email: 'john@gmail.com',
-      password: '123456'
+      password: '123456',
+      phone: '33994567890',
+      cpf: '387.189.725-60'
     });
     expect(updateUser.execute({
       id: oldUserData.id,
       name: 'John Doe',
       email: 'john@gmail.com',
       password: '123123',
-      cpf: 1231231235
+      phone: '33994567890',
+      cpf: '123123123544444444'
     })).rejects.toBeInstanceOf(_AppError.default);
   });
-  it('should not be able o change the property phone, if the input is empty', async () => {
+  it('should not be able o change the property phone, if the input has an invalid format', async () => {
     const oldUserData = await createUser.execute({
       name: 'John Doe',
       email: 'john@gmail.com',
-      password: '123456'
+      password: '123456',
+      phone: '33994567890',
+      cpf: '387.189.725-60'
     });
-    const userUpdated = await updateUser.execute({
+    expect(updateUser.execute({
       id: oldUserData.id,
       name: 'John Doe',
       email: 'john@gmail.com',
       password: '123456',
-      phone: 0
-    });
-    expect(userUpdated.phone).toEqual(undefined);
+      phone: '00994567890',
+      cpf: '387.189.725-60'
+    })).rejects.toBeInstanceOf(_AppError.default);
   });
 });

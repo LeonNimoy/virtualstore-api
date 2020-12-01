@@ -34,13 +34,19 @@ let CreateUserService = (_dec = (0, _tsyringe.injectable)(), _dec2 = function (t
   async execute({
     name,
     email,
-    password
+    password,
+    phone,
+    cpf
   }) {
     const userDataValidator = new _UserDataValidatorProvider.default();
     const checkEmailFormat = await userDataValidator.validateEmail(email);
     if (!checkEmailFormat) throw new _AppError.default('Email inválido');
     const checkPasswordFormat = await userDataValidator.validatePassword(password);
     if (!checkPasswordFormat) throw new _AppError.default('A senha deve ter no mínimo 6 caracteres');
+    const checkCpfFormat = await userDataValidator.validateCpf(cpf);
+    if (!checkCpfFormat) throw new _AppError.default('CPF inválido');
+    const checkPhoneFormat = await userDataValidator.validatePhone(phone);
+    if (!checkPhoneFormat) throw new _AppError.default('Telefone inválido');
     const checkEmailExistence = await this.userRepository.checkEmail(email);
 
     if (checkEmailExistence) {
@@ -48,6 +54,8 @@ let CreateUserService = (_dec = (0, _tsyringe.injectable)(), _dec2 = function (t
       const user = await this.userRepository.save({
         name,
         email,
+        phone,
+        cpf,
         password: hashedPassword
       });
       return user;

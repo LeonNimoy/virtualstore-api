@@ -44,7 +44,9 @@ class UsersRepository {
   async save({
     email,
     name,
-    password
+    password,
+    phone,
+    cpf
   }) {
     const newDate = new Date();
     const timeZone = 'America/Sao_Paulo';
@@ -53,6 +55,8 @@ class UsersRepository {
       email,
       name,
       password,
+      phone,
+      cpf,
       created_at: (0, _dateFns.format)(dateWithTimeZone, "dd/MM/yyyy '-' HH'h'mm'm'ss's'")
     });
     await userCreated.save();
