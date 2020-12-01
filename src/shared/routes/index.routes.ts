@@ -17,7 +17,7 @@ routes.use('/sessions', sessionsRouter);
 routes.use('/addresses', addressesRouter);
 routes.use('/checkouts', checkoutsRouter);
 routes.use('/carts', cartsRouter);
-routes.use('/guest_carts', guests_cartsRouter);
+routes.use('/guestsCarts', guests_cartsRouter);
 routes.use('/transactions', transactionsRouter);
 
 routes.use('/', async (req, res) => {
