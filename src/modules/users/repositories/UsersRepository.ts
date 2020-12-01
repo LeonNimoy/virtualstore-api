@@ -41,7 +41,13 @@ export default class UsersRepository implements IUsersProvider {
     return findUser;
   }
 
-  public async save({ email, name, password }: IUserDTO): Promise<User> {
+  public async save({
+    email,
+    name,
+    password,
+    phone,
+    cpf,
+  }: IUserDTO): Promise<User> {
     const newDate = new Date();
     const timeZone = 'America/Sao_Paulo';
     const dateWithTimeZone = utcToZonedTime(newDate, timeZone);
@@ -49,6 +55,8 @@ export default class UsersRepository implements IUsersProvider {
       email,
       name,
       password,
+      phone,
+      cpf,
       created_at: format(dateWithTimeZone, "dd/MM/yyyy '-' HH'h'mm'm'ss's'"),
     });
     await userCreated.save();

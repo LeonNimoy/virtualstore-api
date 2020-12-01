@@ -20,7 +20,9 @@ describe('AuthenticateUser', () => {
     const user = await createUser.execute({
       name: 'John Doe',
       email: 'john@gmail.com',
-      password: '123456'
+      password: '123456',
+      phone: '33994567890',
+      cpf: '387.189.725-60'
     });
     const authenticateUser = new _AuthenticateUserService.default(fakeUserRepository, hashPassword);
     const response = await authenticateUser.execute({
@@ -46,7 +48,9 @@ describe('AuthenticateUser', () => {
     await createUser.execute({
       name: 'John Doe',
       email: 'john@gmail.com',
-      password: '123456'
+      password: '123456',
+      phone: '33994567890',
+      cpf: '387.189.725-60'
     });
     const authenticateUser = new _AuthenticateUserService.default(fakeUserRepository, hashPassword);
     expect(authenticateUser.execute({

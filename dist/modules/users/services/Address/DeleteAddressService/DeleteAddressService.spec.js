@@ -35,7 +35,9 @@ describe('DeleteProduct', () => {
     const user = await createUserService.execute({
       name: 'John Doe',
       email: 'john@gmail.com',
-      password: '123456'
+      password: '123456',
+      phone: '33994567890',
+      cpf: '387.189.725-60'
     });
     const addressCreated = await createAddressService.execute({
       id: user.id,

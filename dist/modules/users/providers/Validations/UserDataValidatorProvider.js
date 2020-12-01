@@ -23,10 +23,15 @@ class UserDataValidatorProvider {
   }
 
   async validateCpf(cpf) {
-    const cpfValidator = new RegExp(/^.{11,11}$/);
-    const stringifyCPF = cpf.toString();
-    const checkCpfFormat = cpfValidator.test(stringifyCPF);
+    const cpfValidator = new RegExp(/^\d{3}\.\d{3}\.\d{3}-\d{2}$/);
+    const checkCpfFormat = cpfValidator.test(cpf);
     return checkCpfFormat;
+  }
+
+  async validatePhone(phone) {
+    const phoneValidator = new RegExp(/^(?:(?:\+|00)?(55)\s?)?(?:\(?([1-9][0-9])\)?\s?)?(?:((?:9\d|[2-9])\d{3})-?(\d{4}))$/);
+    const checkPhoneFormat = phoneValidator.test(phone);
+    return checkPhoneFormat;
   }
 
 }

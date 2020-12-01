@@ -48,7 +48,9 @@ class UsersController {
     const {
       name,
       email,
-      password
+      password,
+      phone,
+      cpf
     } = req.body;
 
     const createUser = _tsyringe.container.resolve(_CreateUserService.default);
@@ -56,7 +58,9 @@ class UsersController {
     const userId = await createUser.execute({
       name,
       email,
-      password
+      password,
+      phone,
+      cpf
     });
 
     const createUserCart = _tsyringe.container.resolve(_CreateCartService.default);
