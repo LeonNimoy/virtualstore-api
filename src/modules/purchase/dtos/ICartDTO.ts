@@ -2,6 +2,7 @@ import User from '@modules/users/infra/databases/entities/User';
 
 export default interface ICartDTO {
   user_id?: string | User;
+  guestToken?: string;
   products?: [
     {
       id: string;
