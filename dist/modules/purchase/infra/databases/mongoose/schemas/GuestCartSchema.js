@@ -26,11 +26,10 @@ const schema = new _mongoose.default.Schema({
   status: {
     type: String
   },
-  created_at: {
-    type: String
-  },
-  updated_at: {
-    type: String
+  createdAt: {
+    type: Date,
+    expires: '1d',
+    default: Date.now
   }
 }, {
   toJSON: {
