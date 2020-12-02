@@ -22,11 +22,10 @@ const schema = new mongoose.Schema(
     status: {
       type: String,
     },
-    created_at: {
-      type: String,
-    },
-    updated_at: {
-      type: String,
+    createdAt: {
+      type: Date,
+      expires: '1d',
+      default: Date.now,
     },
   },
   {
